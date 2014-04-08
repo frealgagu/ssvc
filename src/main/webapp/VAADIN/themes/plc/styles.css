@@ -1,0 +1,44 @@
+@import "../reindeer/styles.css";
+
+
+.v-table-cell-content,
+.v-table-cell-content-red,
+.v-table-cell-content.red,
+.v-table.v-table-cell-content,
+.v-table.v-table-cell-content-red,
+.v-table.v-table-cell-content.red,
+.v-table-red.v-table-cell-content,
+.v-table-red.v-table-cell-content-red,
+.v-table-red.v-table-cell-content.red,
+.v-table-cell,
+.v-table-cell-red,
+.v-table-cell.v-table-cell-red,
+.v-table-cell.v-table-cell-content,
+.v-table-cell.v-table-cell-content-red,
+.v-table-cell.v-table-cell-content.v-table-cell-content-red,
+.v-table.v-table-cell-content-red,
+.v-table.v-table-cell-red,
+.plc,
+.v-table-plc,
+.v-table-plc.v-table-cell,
+.v-table-plc.v-table-cell-red,
+.v-table-plc.v-table-cell-content,
+.v-table-plc.v-table-cell-content-plc,
+.v-table-plc.v-table-cell-content-red, {
+	background-color: red;
+    background: gray;
+    color: blue;
+}
+.v-button-settingsicon {
+	outline: none;
+    background: transparent url(img/settings-icon.png) no-repeat !important;
+    border: 0px;
+    width: 128px;
+    height: 128px;
+    caption-side: bottom; 	
+}
+.v-select-optiongroup-horizontal .v-select-option {
+	display: inline-block;
+	white-space: nowrap;
+	padding-right: 10px;
+}
