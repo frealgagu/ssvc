@@ -1,4 +1,4 @@
-package co.edu.udistrital.view;
+package co.edu.udistrital.view.configuration;
 
 import co.edu.udistrital.domain.plc.DataBits;
 import co.edu.udistrital.domain.plc.Encoding;

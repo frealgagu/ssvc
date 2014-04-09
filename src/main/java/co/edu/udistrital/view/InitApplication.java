@@ -1,5 +1,10 @@
 package co.edu.udistrital.view;
 
+import co.edu.udistrital.view.configuration.ConfigurationWindow;
+import co.edu.udistrital.view.control.ControlWindow;
+import co.edu.udistrital.view.memory.MemoryMapWindow;
+import co.edu.udistrital.view.status.CurrentStatusWindow;
+import co.edu.udistrital.view.status.LastRecordsWindow;
 import com.vaadin.Application;
 import com.vaadin.ui.*;
 
@@ -16,8 +21,9 @@ public class InitApplication extends Application {
 	private VerticalLayout mainLayout;
 
 	private LoginWindow loginWindow;
-	private CurrentStatusWindow currentStatusWindow;
+	private ControlWindow controlWindow;
 	private ConfigurationWindow configurationWindow;
+	private CurrentStatusWindow currentStatusWindow;
 	private LastRecordsWindow lastRecordsWindow;
 	private MemoryMapWindow memoryMapWindow;
 	
@@ -40,13 +46,13 @@ public class InitApplication extends Application {
 		mainLayout.setComponentAlignment(loginWindow, Alignment.MIDDLE_CENTER);
 	}
 	
-	public void showCurrentStatusWindow() {
+	public void showControlWindow() {
 		mainLayout.removeAllComponents();
-		if(currentStatusWindow == null) {
-			currentStatusWindow = new CurrentStatusWindow(this);
+		if(controlWindow == null) {
+			controlWindow = new ControlWindow(this);
 		}
-		mainLayout.addComponent(currentStatusWindow);
-		mainLayout.setComponentAlignment(currentStatusWindow, Alignment.TOP_CENTER);
+		mainLayout.addComponent(controlWindow);
+		mainLayout.setComponentAlignment(controlWindow, Alignment.TOP_CENTER);
 	}
 	
 	public void showConfigurationWindow() {
@@ -57,6 +63,15 @@ public class InitApplication extends Application {
 		mainLayout.addComponent(configurationWindow);
 		mainLayout.setComponentAlignment(configurationWindow, Alignment.TOP_CENTER);
 	}
+	
+	public void showCurrentStatusWindow() {
+		mainLayout.removeAllComponents();
+		if(currentStatusWindow == null) {
+			currentStatusWindow = new CurrentStatusWindow(this);
+		}
+		mainLayout.addComponent(currentStatusWindow);
+		mainLayout.setComponentAlignment(currentStatusWindow, Alignment.TOP_CENTER);
+	}	
 	
 	public void showLastRecordsWindow() {
 		mainLayout.removeAllComponents();
