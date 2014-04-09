@@ -53,10 +53,10 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
 	protected static final String NOTIFICATION_ADVICE_TIME_BEFORE_REPLY = "notification.advice.time.before.reply";
 	protected static final String NOTIFICATION_ALARM_TIME_BEFORE_REPLY = "notification.alarm.time.before.reply";
 
-	protected static final String NOTIFICATION_EMAIL_ON_ADVICE = "notification.email.on.advice";
-	protected static final String NOTIFICATION_EMAIL_ON_ALARM = "notification.email.on.alarm";
-	protected static final String NOTIFICATION_SMS_ON_ADVICE = "notification.sms.on.advice";
-	protected static final String NOTIFICATION_SMS_ON_ALARM = "notification.sms.on.alarm";
+	protected static final String NOTIFICATION_EMAIL_ON_ADVICE = "notification.send.email.on.advice";
+	protected static final String NOTIFICATION_EMAIL_ON_ALARM = "notification.send.email.on.alarm";
+	protected static final String NOTIFICATION_SMS_ON_ADVICE = "notification.send.sms.on.advice";
+	protected static final String NOTIFICATION_SMS_ON_ALARM = "notification.send.sms.on.alarm";
 	
 	
 	protected static final String TABLE_NAME = "configuration";
