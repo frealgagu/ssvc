@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import net.wimpi.modbus.util.SerialParameters;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
@@ -17,14 +18,12 @@ import co.edu.udistrital.plc.connection.PLCConnection;
 import co.edu.udistrital.plc.connection.PLCConnectionFactory;
 
 @Repository("plcConnectionFactory")
-@PropertySource("classpath:configuration.properties")
 public class PLCConnectionFactoryImpl implements PLCConnectionFactory {
 
 	private static final String DUMMY_CONNECTION_TYPE = "dummy";
 	private static final String SERIAL_CONNECTION_TYPE = "serial";
 	
-	@Autowired
-	private Environment env;
+    @Value("plc.connection.type")
 	private String connectionType;
 	
 	//Dummy Connection
@@ -36,7 +35,6 @@ public class PLCConnectionFactoryImpl implements PLCConnectionFactory {
 
 	@PostConstruct
 	public void loadConfiguration() {
-		connectionType = env.getProperty("plc.connection.type");
 		switch (connectionType) {
 			case DUMMY_CONNECTION_TYPE:
 				loadDummyConfiguration();

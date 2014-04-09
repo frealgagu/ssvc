@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
 
 <!-- ===================================================================== -->
 <!--                                                                       -->
@@ -69,7 +69,6 @@
         <appender-ref ref="FILE"/>
         <!--
         <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="SMTP"/>
         -->
     </appender>
 
@@ -87,6 +86,9 @@
         <param name="Append" value="true"/>
         <!-- Rollover at midnight each day -->
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p {%t} [%c] %m%n"/>
+        </layout>
     </appender>
 
     <!-- ================ -->
@@ -108,10 +110,6 @@
     <!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
     <category name="org.apache">
         <priority value="INFO"/>
-    </category>
-
-    <category name="*">
-        <priority value="ALL"/>
     </category>
 
     <!-- ======================= -->

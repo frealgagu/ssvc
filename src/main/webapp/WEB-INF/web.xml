@@ -21,22 +21,22 @@
         <param-value>2000</param-value>
     </context-param>
 
-	<listener>
-    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-	<listener>
-    	<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-	</listener>
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
 	<listener>
-		<listener-class>co.edu.udistrital.listener.ApplicationServicesListener</listener-class>
+    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	<listener>
-		<listener-class>co.edu.udistrital.listener.ControlListener</listener-class>
-	</listener>	
-	
+    <listener>
+        <listener-class>co.edu.udistrital.listener.ApplicationServicesListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>co.edu.udistrital.listener.ControlListener</listener-class>
+    </listener>
+
 	<servlet>
 		<servlet-name>ssvc</servlet-name>
 		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>

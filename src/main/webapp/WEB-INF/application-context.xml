@@ -22,7 +22,7 @@
     <!-- Turn on AspectJ @Configurable support -->
     <context:spring-configured />
     <context:annotation-config/>
+    <context:property-placeholder location="WEB-INF/configuration.properties"/>
     <context:component-scan base-package="co.edu.udistrital.*"/>
-    <!--<context:property-placeholder properties-ref="configProperties"/>-->
 
 </beans>

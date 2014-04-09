@@ -2,6 +2,7 @@ package co.edu.udistrital.datasource;
 
 import org.apache.commons.dbcp.datasources.SharedPoolDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -10,30 +11,54 @@ import org.springframework.core.env.Environment;
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 
 @Configuration
-@PropertySource("classpath:configuration.properties")
+//***@PropertySource("../../../../../webapp/WEB-INF/configuration.properties")
 public class DataSourceConfiguration {
 
 	@Autowired
 	private Environment env;
+
+    @Value("${database.host}")
+    private String host;
+    @Value("${database.port}")
+    private int port;
+    @Value("${database.name}")
+    private String databaseName;
+    @Value("${database.username}")
+    private String username;
+    @Value("${database.password}")
+    private String password;
+
+    @Value("${max.active}")
+    private int maxActive;
+    @Value("${max.idle}")
+    private int maxIdle;
+    @Value("${max.wait}")
+    private int maxWait;
+    @Value("${test.on.borrow}")
+    private boolean testOnBorrow;
+    @Value("${test.on.return}")
+    private boolean testOnReturn;
+    @Value("${test.while.idle}")
+    private boolean testWhileIdle;
 	
 	@Bean
 	public SharedPoolDataSource dataSource() {
 		SharedPoolDataSource dataSource = new SharedPoolDataSource();
-		
+
 		MysqlConnectionPoolDataSource poolDataSource = new MysqlConnectionPoolDataSource();
-		poolDataSource.setServerName(env.getProperty("database.host"));
-		poolDataSource.setPortNumber(env.getProperty("database.port", Integer.class));
-		poolDataSource.setDatabaseName(env.getProperty("database.name"));
-		poolDataSource.setUser(env.getProperty("database.username"));
-		poolDataSource.setPassword(env.getProperty("database.password"));
+		poolDataSource.setServerName(host);
+		poolDataSource.setPortNumber(port);
+		poolDataSource.setDatabaseName(databaseName);
+		poolDataSource.setUser(username);
+		poolDataSource.setPassword(password);
 		dataSource.setConnectionPoolDataSource(poolDataSource);
 		
-		dataSource.setMaxActive(env.getProperty("max.active", Integer.class, 20));
-		dataSource.setMaxIdle(env.getProperty("max.idle", Integer.class, 10));
-		dataSource.setMaxWait(env.getProperty("max.wait", Integer.class, 5000));
-		dataSource.setTestOnBorrow(env.getProperty("test.on.borrow", Boolean.class, true));
-		dataSource.setTestOnReturn(env.getProperty("test.on.return", Boolean.class, true));
-		dataSource.setTestWhileIdle(env.getProperty("test.while.idle", Boolean.class, true));
+		dataSource.setMaxActive(maxActive);
+		dataSource.setMaxIdle(maxIdle);
+		dataSource.setMaxWait(maxWait);
+		dataSource.setTestOnBorrow(testOnBorrow);
+		dataSource.setTestOnReturn(testOnReturn);
+		dataSource.setTestWhileIdle(testWhileIdle);
 		return dataSource;
 	}
 }
