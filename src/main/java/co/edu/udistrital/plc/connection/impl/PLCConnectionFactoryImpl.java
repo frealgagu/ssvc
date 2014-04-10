@@ -23,7 +23,7 @@ public class PLCConnectionFactoryImpl implements PLCConnectionFactory {
 	private static final String DUMMY_CONNECTION_TYPE = "dummy";
 	private static final String SERIAL_CONNECTION_TYPE = "serial";
 	
-    @Value("plc.connection.type")
+    @Value("${plc.connection.type}")
 	private String connectionType;
 	
 	//Dummy Connection

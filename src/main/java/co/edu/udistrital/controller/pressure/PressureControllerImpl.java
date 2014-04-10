@@ -1,5 +1,6 @@
 package co.edu.udistrital.controller.pressure;
 
+import co.edu.udistrital.notification.NotificationSender;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,9 +35,19 @@ public class PressureControllerImpl implements MeassureController {
 	@Autowired
 	@Qualifier("pressureHoursMeassure")
 	protected Meassure hoursMeassure;
+
+    @Autowired
+    @Qualifier("emailNotificationSender")
+    protected NotificationSender emailNotificationSender;
 	
 	protected boolean monitoring;
 	protected boolean communicationError;
+
+    protected DateTime startAdviceThresholdExceeded = null;
+    protected DateTime lastAdviceSend = null;
+
+    protected DateTime startAlarmThresholdExceeded = null;
+    protected DateTime lastAlarmSend = null;
 	
 	@Scheduled(fixedRate = 500)
 	public void process() {
@@ -47,32 +58,84 @@ public class PressureControllerImpl implements MeassureController {
 				secondsMeassure.appendValue(register);
 				minutesMeassure.appendValue(register);
 				hoursMeassure.appendValue(register);
+                writeNotification(register);
 				logCommunicationStablished();
 			} catch (PLCCommunicationException ex) {
-				logCommunicationMissed();
+				logCommunicationMissed(ex);
 			}
 		}
 	}
-	
-	public void startMonitoring() {
-		monitoring = true;
-	}
-	
-	public void stopMonitoring() {
-		monitoring = false;
-	}
-	
-	protected void logCommunicationStablished() {
-		if(communicationError) {
-			communicationError = false;
-			logger.error("Communication with PLC stablished at " + new DateTime());
-		}
-	}
-	
-	protected void logCommunicationMissed() {
-		if(!communicationError) {
-			communicationError = true;
-			logger.error("Communication with PLC missed at " + new DateTime());
-		}
-	}
+
+    public void startMonitoring() {
+        monitoring = true;
+    }
+
+    public void stopMonitoring() {
+        monitoring = false;
+    }
+
+    protected void writeNotification(int register) {
+        int adviceThreshold = configurationService.getPressureAdviceThreshold();
+        if (register >= adviceThreshold) {
+            if (startAdviceThresholdExceeded == null) {
+                startAdviceThresholdExceeded = DateTime.now();
+            } else {
+                int secondsBeforeSend = configurationService.getAdviceTimeBeforeSending();
+                if (startAdviceThresholdExceeded.plusSeconds(secondsBeforeSend).isBeforeNow()) {
+                    if (lastAdviceSend == null) {
+                        String emailOnAdvice = configurationService.getEmailOnAdvice();
+                        emailNotificationSender.sendNotification(emailOnAdvice);
+                        lastAdviceSend = DateTime.now();
+                    } else {
+                        int secondsBeforeReplay = configurationService.getAdviceTimeBeforeReply();
+                        if(lastAdviceSend.plusSeconds(secondsBeforeReplay).isBeforeNow()) {
+                            String emailOnAdvice = configurationService.getEmailOnAdvice();
+                            emailNotificationSender.sendNotification(emailOnAdvice);
+                        }
+                    }
+                }
+            }
+        } else {
+            startAdviceThresholdExceeded = null;
+            lastAdviceSend = null;
+        }
+        int alarmThreshold = configurationService.getPressureAlarmThreshold();
+        if (register >= alarmThreshold) {
+            if (startAlarmThresholdExceeded == null) {
+                startAlarmThresholdExceeded = DateTime.now();
+            } else {
+                int secondsBeforeSend = configurationService.getAlarmTimeBeforeSending();
+                if (startAlarmThresholdExceeded.plusSeconds(secondsBeforeSend).isBeforeNow()) {
+                    if (lastAlarmSend == null) {
+                        String emailOnAlarm = configurationService.getEmailOnAlarm();
+                        emailNotificationSender.sendNotification(emailOnAlarm);
+                        lastAlarmSend = DateTime.now();
+                    } else {
+                        int secondsBeforeReplay = configurationService.getAlarmTimeBeforeReply();
+                        if(lastAlarmSend.plusSeconds(secondsBeforeReplay).isBeforeNow()) {
+                            String emailOnAlarm = configurationService.getEmailOnAlarm();
+                            emailNotificationSender.sendNotification(emailOnAlarm);
+                        }
+                    }
+                }
+            }
+        } else {
+            startAlarmThresholdExceeded = null;
+            lastAlarmSend = null;
+        }
+    }
+
+    protected void logCommunicationStablished() {
+        if(communicationError) {
+            communicationError = false;
+            logger.error("Communication with PLC established at " + new DateTime());
+        }
+    }
+
+    protected void logCommunicationMissed(Exception ex) {
+        if(!communicationError) {
+            communicationError = true;
+            logger.error("Communication with PLC missed at " + new DateTime(), ex);
+        }
+    }
 }

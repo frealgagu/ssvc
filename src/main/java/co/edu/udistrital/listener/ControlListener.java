@@ -4,6 +4,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import co.edu.udistrital.controller.MeassureController;
+import co.edu.udistrital.plc.connection.impl.DummyPLCConnection;
 import co.edu.udistrital.service.ApplicationServices;
 
 public class ControlListener implements ServletContextListener {
@@ -16,6 +17,7 @@ public class ControlListener implements ServletContextListener {
 	
 	@Override
     public void contextInitialized(ServletContextEvent event) {
+        DummyPLCConnection.startRandom();
 		pressionController = ApplicationServices.getBean(PRESSION_CONTROLLER_BEAN);
 		pressionController.startMonitoring();
 		temperatureController = ApplicationServices.getBean(TEMPERATURE_CONTROLLER_BEAN);
@@ -24,6 +26,7 @@ public class ControlListener implements ServletContextListener {
 
 	@Override
     public void contextDestroyed(ServletContextEvent sce) {
+        DummyPLCConnection.stopRandom();
 		pressionController.stopMonitoring();
 		temperatureController.stopMonitoring();
     }

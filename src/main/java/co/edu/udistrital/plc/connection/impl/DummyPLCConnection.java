@@ -13,6 +13,7 @@ import net.wimpi.modbus.procimg.SimpleProcessImage;
 import net.wimpi.modbus.procimg.SimpleRegister;
 import co.edu.udistrital.exception.PLCConnectionException;
 import co.edu.udistrital.plc.connection.PLCConnection;
+import org.joda.time.DateTime;
 
 public class DummyPLCConnection implements PLCConnection {
 
@@ -85,7 +86,17 @@ public class DummyPLCConnection implements PLCConnection {
 			response = request.createResponse();
 		}
 	}
-	
+
+    public static boolean randomizing = false;
+
+    public static void startRandom() {
+        randomizing = true;
+    }
+
+    public static void stopRandom() {
+        randomizing = false;
+    }
+
 	public static class DummyProcessImage extends SimpleProcessImage {
 		
 		public DummyProcessImage() {
@@ -103,19 +114,25 @@ public class DummyPLCConnection implements PLCConnection {
 
 				@Override
 				public void run() {
-					while(true) {
+					while(randomizing) {
 						try{
 							Thread.sleep(100);
 							int register;
-							//Pression register
-							register = createRandom(70, 110);
+							//Pressure register
+                            if(System.currentTimeMillis() % 60000 < 30000)
+							    register = createRandom(70, 90);
+                            else
+                                register = createRandom(90, 110);
 							setInputRegister(4000, new SimpleInputRegister(register));
 							setRegister(4000, new SimpleRegister(register));
 							//Temperature register
-							register = createRandom(110, 150);
+                            if(System.currentTimeMillis() % 60000 < 30000)
+							    register = createRandom(110, 130);
+                            else
+                                register = createRandom(130, 150);
 							setInputRegister(3000, new SimpleInputRegister(register));
 							setRegister(3000, new SimpleRegister(register));
-						} catch (InterruptedException ex) {
+						} catch (InterruptedException ignore) {
 						}
 					}
 				}

@@ -1,5 +1,6 @@
 package co.edu.udistrital.controller.temperature;
 
+import co.edu.udistrital.notification.NotificationSender;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,10 +35,20 @@ public class TemperatureControllerImpl implements MeassureController {
 	@Autowired
 	@Qualifier("temperatureHoursMeassure")
 	protected Meassure hoursMeassure;
-	
+
+    @Autowired
+    @Qualifier("emailNotificationSender")
+    protected NotificationSender emailNotificationSender;
+
 	protected boolean monitoring;
 	protected boolean communicationError;
-	
+
+    protected DateTime startAdviceThresholdExceeded = null;
+    protected DateTime lastAdviceSend = null;
+
+    protected DateTime startAlarmThresholdExceeded = null;
+    protected DateTime lastAlarmSend = null;
+
 	@Scheduled(fixedRate = 500)
 	public void process() {
 		if(monitoring) {
@@ -47,13 +58,14 @@ public class TemperatureControllerImpl implements MeassureController {
 				secondsMeassure.appendValue(register);
 				minutesMeassure.appendValue(register);
 				hoursMeassure.appendValue(register);
+                writeNotification(register);
 				logCommunicationStablished();
 			} catch (PLCCommunicationException ex) {
-				logCommunicationMissed();
+				logCommunicationMissed(ex);
 			}
 		}
 	}
-	
+
 	public void startMonitoring() {
 		monitoring = true;
 	}
@@ -61,18 +73,69 @@ public class TemperatureControllerImpl implements MeassureController {
 	public void stopMonitoring() {
 		monitoring = false;
 	}
+
+    protected void writeNotification(int register) {
+        int adviceThreshold = configurationService.getTemperatureAdviceThreshold();
+        if (register >= adviceThreshold) {
+            if (startAdviceThresholdExceeded == null) {
+                startAdviceThresholdExceeded = DateTime.now();
+            } else {
+                int secondsBeforeSend = configurationService.getAdviceTimeBeforeSending();
+                if (startAdviceThresholdExceeded.plusSeconds(secondsBeforeSend).isBeforeNow()) {
+                    if (lastAdviceSend == null) {
+                        String emailOnAdvice = configurationService.getEmailOnAdvice();
+                        emailNotificationSender.sendNotification(emailOnAdvice);
+                        lastAdviceSend = DateTime.now();
+                    } else {
+                        int secondsBeforeReplay = configurationService.getAdviceTimeBeforeReply();
+                        if(lastAdviceSend.plusSeconds(secondsBeforeReplay).isBeforeNow()) {
+                            String emailOnAdvice = configurationService.getEmailOnAdvice();
+                            emailNotificationSender.sendNotification(emailOnAdvice);
+                        }
+                    }
+                }
+            }
+        } else {
+            startAdviceThresholdExceeded = null;
+            lastAdviceSend = null;
+        }
+        int alarmThreshold = configurationService.getTemperatureAlarmThreshold();
+        if (register >= alarmThreshold) {
+            if (startAlarmThresholdExceeded == null) {
+                startAlarmThresholdExceeded = DateTime.now();
+            } else {
+                int secondsBeforeSend = configurationService.getAlarmTimeBeforeSending();
+                if (startAlarmThresholdExceeded.plusSeconds(secondsBeforeSend).isBeforeNow()) {
+                    if (lastAlarmSend == null) {
+                        String emailOnAlarm = configurationService.getEmailOnAlarm();
+                        emailNotificationSender.sendNotification(emailOnAlarm);
+                        lastAlarmSend = DateTime.now();
+                    } else {
+                        int secondsBeforeReplay = configurationService.getAlarmTimeBeforeReply();
+                        if(lastAlarmSend.plusSeconds(secondsBeforeReplay).isBeforeNow()) {
+                            String emailOnAlarm = configurationService.getEmailOnAlarm();
+                            emailNotificationSender.sendNotification(emailOnAlarm);
+                        }
+                    }
+                }
+            }
+        } else {
+            startAlarmThresholdExceeded = null;
+            lastAlarmSend = null;
+        }
+    }
 	
 	protected void logCommunicationStablished() {
 		if(communicationError) {
 			communicationError = false;
-			logger.error("Communication with PLC stablished at " + new DateTime());
+			logger.error("Communication with PLC established at " + new DateTime());
 		}
 	}
 	
-	protected void logCommunicationMissed() {
+	protected void logCommunicationMissed(Exception ex) {
 		if(!communicationError) {
 			communicationError = true;
-			logger.error("Communication with PLC missed at " + new DateTime());
+			logger.error("Communication with PLC missed at " + new DateTime(), ex);
 		}
 	}
 }
