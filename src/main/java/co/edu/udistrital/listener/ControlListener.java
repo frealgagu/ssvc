@@ -3,7 +3,7 @@ package co.edu.udistrital.listener;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import co.edu.udistrital.controller.MeassureController;
+import co.edu.udistrital.controller.MeasureController;
 import co.edu.udistrital.plc.connection.impl.DummyPLCConnection;
 import co.edu.udistrital.service.ApplicationServices;
 
@@ -12,8 +12,8 @@ public class ControlListener implements ServletContextListener {
 	private static final String PRESSION_CONTROLLER_BEAN = "pressionController";
 	private static final String TEMPERATURE_CONTROLLER_BEAN = "temperatureController";
 	
-	private MeassureController pressionController;
-	private MeassureController temperatureController;
+	private MeasureController pressionController;
+	private MeasureController temperatureController;
 	
 	@Override
     public void contextInitialized(ServletContextEvent event) {

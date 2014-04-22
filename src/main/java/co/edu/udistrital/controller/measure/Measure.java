@@ -1,13 +1,13 @@
-package co.edu.udistrital.controller.meassure;
+package co.edu.udistrital.controller.measure;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
 
-import co.edu.udistrital.domain.meassure.Interval;
+import co.edu.udistrital.domain.measure.Interval;
 import co.edu.udistrital.exception.IntervalNotFoundException;
 
-public interface Meassure {
+public interface Measure {
 
 	Interval retrieveLastInterval() throws IntervalNotFoundException;
 	

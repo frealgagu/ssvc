@@ -1,4 +1,4 @@
-package co.edu.udistrital.domain.meassure;
+package co.edu.udistrital.domain.measure;
 
 import org.joda.time.DateTime;
 

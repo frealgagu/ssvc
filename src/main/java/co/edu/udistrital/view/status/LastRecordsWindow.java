@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import co.edu.udistrital.domain.meassure.Interval;
+import co.edu.udistrital.domain.measure.Interval;
 import co.edu.udistrital.service.ApplicationServices;
 import co.edu.udistrital.service.ConfigurationService;
-import co.edu.udistrital.service.MeassureService;
+import co.edu.udistrital.service.MeasureService;
 
 import co.edu.udistrital.view.InitApplication;
 import com.github.wolfie.refresher.Refresher;
@@ -143,14 +143,14 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 	public void refresh(Refresher source) {
 		if(isVisible()) {
 			source.attach();
-			MeassureService meassureService = ApplicationServices.getMeassureService();
+			MeasureService measureService = ApplicationServices.getMeasureService();
 			try {
-				int pressureRegister = meassureService.retrieveLastPressureSecondInterval().getValue();
+				int pressureRegister = measureService.retrieveLastPressureSecondInterval().getValue();
 				checkPressureAlert(pressureRegister);
-				int temperatureRegister = meassureService.retrieveLastTemperatureSecondInterval().getValue();
+				int temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
 				checkTemperatureAlert(temperatureRegister);
 				
-				List<Interval> pressureIntervals = new ArrayList<Interval>(meassureService.retrieveLastPressureSecondIntervals(5));
+				List<Interval> pressureIntervals = new ArrayList<Interval>(measureService.retrieveLastPressureSecondIntervals(5));
 				Collections.reverse(pressureIntervals);
 
 				if(pressureIntervals.size() > 0) {
@@ -183,7 +183,7 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 					}
 				}
 				
-				List<Interval> temperatureIntervals = new ArrayList<Interval>(meassureService.retrieveLastTemperatureSecondIntervals(5));
+				List<Interval> temperatureIntervals = new ArrayList<Interval>(measureService.retrieveLastTemperatureSecondIntervals(5));
 				Collections.reverse(temperatureIntervals);
 
 				if(temperatureIntervals.size() > 0) {
@@ -290,10 +290,10 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
         legend.setY(100d);
         legend.setBorderWidth(0);
 		
-		MeassureService meassureService = ApplicationServices.getMeassureService();
-		List<Interval> pressureIntervals = new ArrayList<Interval>(meassureService.retrieveLastPressureSecondIntervals(5));
+		MeasureService measureService = ApplicationServices.getMeasureService();
+		List<Interval> pressureIntervals = new ArrayList<Interval>(measureService.retrieveLastPressureSecondIntervals(5));
 		Collections.reverse(pressureIntervals);
-		List<Interval> temperatureIntervals = new ArrayList<Interval>(meassureService.retrieveLastTemperatureSecondIntervals(5));
+		List<Interval> temperatureIntervals = new ArrayList<Interval>(measureService.retrieveLastTemperatureSecondIntervals(5));
 		Collections.reverse(temperatureIntervals);
 		pressureSeries = new DataSeries();
 		pressureSeries.setName("Presi\u00F3n");

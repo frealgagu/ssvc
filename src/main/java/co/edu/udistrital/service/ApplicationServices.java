@@ -43,7 +43,7 @@ public class ApplicationServices {
 		return getBean(PLCService.class);
 	}
 	
-	public static MeassureService getMeassureService() {
-		return getBean(MeassureService.class);
+	public static MeasureService getMeasureService() {
+		return getBean(MeasureService.class);
 	}
 }

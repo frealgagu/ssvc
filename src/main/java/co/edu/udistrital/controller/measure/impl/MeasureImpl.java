@@ -1,23 +1,23 @@
-package co.edu.udistrital.controller.meassure.impl;
+package co.edu.udistrital.controller.measure.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.udistrital.controller.measure.Measure;
 import org.joda.time.DateTime;
 
-import co.edu.udistrital.controller.meassure.Meassure;
-import co.edu.udistrital.controller.meassure.MeassureIntervalType;
-import co.edu.udistrital.domain.meassure.Interval;
+import co.edu.udistrital.controller.measure.MeasureIntervalType;
+import co.edu.udistrital.domain.measure.Interval;
 import co.edu.udistrital.exception.IntervalNotFoundException;
 
-public class MeassureImpl implements Meassure {
+public class MeasureImpl implements Measure {
 	
-	private final MeassureIntervalType meassureIntervalType;
+	private final MeasureIntervalType measureIntervalType;
 	private final int recordsQuantity;
 	private final List<Interval> intervals;
 	
-	public MeassureImpl(MeassureIntervalType meassureIntervalType, int recordsQuantity) {
-		this.meassureIntervalType = meassureIntervalType;
+	public MeasureImpl(MeasureIntervalType measureIntervalType, int recordsQuantity) {
+		this.measureIntervalType = measureIntervalType;
 		this.recordsQuantity = recordsQuantity;
 		this.intervals = new ArrayList<>(recordsQuantity);
 	}
@@ -66,7 +66,7 @@ public class MeassureImpl implements Meassure {
 	
 	private DateTime fixDateTime(DateTime dateTime) {
 		DateTime fixedDateTime = dateTime;
-		switch(meassureIntervalType) {
+		switch(measureIntervalType) {
 			case YEAR:
 				fixedDateTime = fixedDateTime.withMonthOfYear(1);
 			case MONTH:
@@ -82,7 +82,7 @@ public class MeassureImpl implements Meassure {
 				fixedDateTime = fixedDateTime.withMillisOfSecond(0);
 				break;
 			default:
-				throw new IllegalArgumentException("Unknown Meassure Interval");
+				throw new IllegalArgumentException("Unknown Measure Interval");
 		}
 		return fixedDateTime;
 	}	

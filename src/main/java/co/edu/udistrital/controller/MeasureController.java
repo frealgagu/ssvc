@@ -1,6 +1,6 @@
 package co.edu.udistrital.controller;
 
-public interface MeassureController {
+public interface MeasureController {
 
 	void process();
 	

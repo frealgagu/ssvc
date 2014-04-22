@@ -6,95 +6,95 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import co.edu.udistrital.controller.meassure.Meassure;
-import co.edu.udistrital.domain.meassure.Interval;
+import co.edu.udistrital.controller.measure.Measure;
+import co.edu.udistrital.domain.measure.Interval;
 import co.edu.udistrital.exception.IntervalNotFoundException;
-import co.edu.udistrital.service.MeassureService;
+import co.edu.udistrital.service.MeasureService;
 
 @Service
-public class MeassureServiceImpl implements MeassureService {
+public class MeasureServiceImpl implements MeasureService {
 
 	@Autowired
-	@Qualifier("pressureSecondsMeassure")
-	protected Meassure pressureSecondsMeassure;
+	@Qualifier("pressureSecondsMeasure")
+	protected Measure pressureSecondsMeasure;
 	@Autowired
-	@Qualifier("pressureMinutesMeassure")
-	protected Meassure pressureMinutesMeassure;
+	@Qualifier("pressureMinutesMeasure")
+	protected Measure pressureMinutesMeasure;
 	@Autowired
-	@Qualifier("pressureHoursMeassure")
-	protected Meassure pressureHoursMeassure;
+	@Qualifier("pressureHoursMeasure")
+	protected Measure pressureHoursMeasure;
 	
 	@Autowired
-	@Qualifier("temperatureSecondsMeassure")
-	protected Meassure temperatureSecondsMeassure;
+	@Qualifier("temperatureSecondsMeasure")
+	protected Measure temperatureSecondsMeasure;
 	@Autowired
-	@Qualifier("temperatureMinutesMeassure")
-	protected Meassure temperatureMinutesMeassure;
+	@Qualifier("temperatureMinutesMeasure")
+	protected Measure temperatureMinutesMeasure;
 	@Autowired
-	@Qualifier("temperatureHoursMeassure")
-	protected Meassure temperatureHoursMeassure;
+	@Qualifier("temperatureHoursMeasure")
+	protected Measure temperatureHoursMeasure;
 
 	//Pressure Intervals
 	
 	@Override
 	public Interval retrieveLastPressureSecondInterval() throws IntervalNotFoundException {
-		return pressureSecondsMeassure.retrieveLastInterval();
+		return pressureSecondsMeasure.retrieveLastInterval();
 	}
 
 	@Override
 	public Interval retrieveLastPressureMinuteInterval() throws IntervalNotFoundException {
-		return pressureMinutesMeassure.retrieveLastInterval();
+		return pressureMinutesMeasure.retrieveLastInterval();
 	}
 
 	@Override
 	public Interval retrieveLastPressureHourInterval() throws IntervalNotFoundException {
-		return pressureHoursMeassure.retrieveLastInterval();
+		return pressureHoursMeasure.retrieveLastInterval();
 	}
 
 	@Override
 	public List<Interval> retrieveLastPressureSecondIntervals(int secondsQuantity) {
-		return pressureSecondsMeassure.retrieveLastIntervals(secondsQuantity);
+		return pressureSecondsMeasure.retrieveLastIntervals(secondsQuantity);
 	}
 
 	@Override
 	public List<Interval> retrieveLastPressureMinuteIntervals(int minutesQuantity) {
-		return pressureMinutesMeassure.retrieveLastIntervals(minutesQuantity);
+		return pressureMinutesMeasure.retrieveLastIntervals(minutesQuantity);
 	}
 
 	@Override
 	public List<Interval> retrieveLastPressureHourIntervals(int hoursQuantity) {
-		return pressureHoursMeassure.retrieveLastIntervals(hoursQuantity);
+		return pressureHoursMeasure.retrieveLastIntervals(hoursQuantity);
 	}
 
 	//Temperature Intervals
 	
 	@Override
 	public Interval retrieveLastTemperatureSecondInterval() throws IntervalNotFoundException {
-		return temperatureSecondsMeassure.retrieveLastInterval();
+		return temperatureSecondsMeasure.retrieveLastInterval();
 	}
 
 	@Override
 	public Interval retrieveLastTemperatureMinuteInterval() throws IntervalNotFoundException {
-		return temperatureMinutesMeassure.retrieveLastInterval();
+		return temperatureMinutesMeasure.retrieveLastInterval();
 	}
 
 	@Override
 	public Interval retrieveLastTemperatureHourInterval() throws IntervalNotFoundException {
-		return temperatureHoursMeassure.retrieveLastInterval();
+		return temperatureHoursMeasure.retrieveLastInterval();
 	}
 
 	@Override
 	public List<Interval> retrieveLastTemperatureSecondIntervals(int secondsQuantity) {
-		return temperatureSecondsMeassure.retrieveLastIntervals(secondsQuantity);
+		return temperatureSecondsMeasure.retrieveLastIntervals(secondsQuantity);
 	}
 
 	@Override
 	public List<Interval> retrieveLastTemperatureMinuteIntervals(int minutesQuantity) {
-		return temperatureMinutesMeassure.retrieveLastIntervals(minutesQuantity);
+		return temperatureMinutesMeasure.retrieveLastIntervals(minutesQuantity);
 	}
 
 	@Override
 	public List<Interval> retrieveLastTemperatureHourIntervals(int hoursQuantity) {
-		return temperatureHoursMeassure.retrieveLastIntervals(hoursQuantity);
+		return temperatureHoursMeasure.retrieveLastIntervals(hoursQuantity);
 	}
 }

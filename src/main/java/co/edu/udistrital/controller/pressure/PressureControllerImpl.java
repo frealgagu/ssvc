@@ -1,5 +1,7 @@
 package co.edu.udistrital.controller.pressure;
 
+import co.edu.udistrital.controller.MeasureController;
+import co.edu.udistrital.controller.measure.Measure;
 import co.edu.udistrital.notification.NotificationSender;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +11,12 @@ import org.springframework.stereotype.Controller;
 
 import com.spinn3r.log5j.Logger;
 
-import co.edu.udistrital.controller.MeassureController;
-import co.edu.udistrital.controller.meassure.Meassure;
 import co.edu.udistrital.exception.PLCCommunicationException;
 import co.edu.udistrital.service.ConfigurationService;
 import co.edu.udistrital.service.PLCService;
 
 @Controller("pressionController")
-public class PressureControllerImpl implements MeassureController {
+public class PressureControllerImpl implements MeasureController {
 
 	protected static final Logger logger = Logger.getLogger();
 	
@@ -27,14 +27,14 @@ public class PressureControllerImpl implements MeassureController {
 	@Autowired
 	protected PLCService plcService;
 	@Autowired
-	@Qualifier("pressureSecondsMeassure")
-	protected Meassure secondsMeassure;
+	@Qualifier("pressureSecondsMeasure")
+	protected Measure secondsMeasure;
 	@Autowired
-	@Qualifier("pressureMinutesMeassure")
-	protected Meassure minutesMeassure;
+	@Qualifier("pressureMinutesMeasure")
+	protected Measure minutesMeasure;
 	@Autowired
-	@Qualifier("pressureHoursMeassure")
-	protected Meassure hoursMeassure;
+	@Qualifier("pressureHoursMeasure")
+	protected Measure hoursMeasure;
 
     @Autowired
     @Qualifier("emailNotificationSender")
@@ -55,9 +55,9 @@ public class PressureControllerImpl implements MeassureController {
 			int registerNumber = configurationService.getPressureRegisterNumber();
 			try {
 				int register = plcService.readRegister(registerNumber, UNIT_ID);
-				secondsMeassure.appendValue(register);
-				minutesMeassure.appendValue(register);
-				hoursMeassure.appendValue(register);
+				secondsMeasure.appendValue(register);
+				minutesMeasure.appendValue(register);
+				hoursMeasure.appendValue(register);
                 writeNotification(register);
 				logCommunicationStablished();
 			} catch (PLCCommunicationException ex) {

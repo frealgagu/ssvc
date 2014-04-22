@@ -3,7 +3,7 @@ package co.edu.udistrital.view.status;
 import co.edu.udistrital.exception.IntervalNotFoundException;
 import co.edu.udistrital.service.ApplicationServices;
 import co.edu.udistrital.service.ConfigurationService;
-import co.edu.udistrital.service.MeassureService;
+import co.edu.udistrital.service.MeasureService;
 
 import co.edu.udistrital.view.InitApplication;
 import com.github.wolfie.refresher.Refresher;
@@ -129,12 +129,12 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
     public void refresh(Refresher source) {
 		if(isVisible()) {
 			source.attach();
-			MeassureService meassureService = ApplicationServices.getMeassureService();
+			MeasureService measureService = ApplicationServices.getMeasureService();
 			try {
-				int pressureRegister = meassureService.retrieveLastPressureSecondInterval().getValue();
+				int pressureRegister = measureService.retrieveLastPressureSecondInterval().getValue();
 				pressionListSeries.updatePoint(0, pressureRegister);
 				checkPressureAlert(pressureRegister);
-				int temperatureRegister = meassureService.retrieveLastTemperatureSecondInterval().getValue();
+				int temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
 				temperatureListSeries.updatePoint(0, temperatureRegister);
 				checkTemperatureAlert(temperatureRegister);
 			} catch (IntervalNotFoundException ex) {

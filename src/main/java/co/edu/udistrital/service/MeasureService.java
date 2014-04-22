@@ -2,10 +2,10 @@ package co.edu.udistrital.service;
 
 import java.util.List;
 
-import co.edu.udistrital.domain.meassure.Interval;
+import co.edu.udistrital.domain.measure.Interval;
 import co.edu.udistrital.exception.IntervalNotFoundException;
 
-public interface MeassureService {
+public interface MeasureService {
 
 	//Pressure intervals
 	

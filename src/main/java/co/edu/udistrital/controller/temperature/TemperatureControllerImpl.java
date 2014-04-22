@@ -1,5 +1,7 @@
 package co.edu.udistrital.controller.temperature;
 
+import co.edu.udistrital.controller.MeasureController;
+import co.edu.udistrital.controller.measure.Measure;
 import co.edu.udistrital.notification.NotificationSender;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
-import co.edu.udistrital.controller.MeassureController;
-import co.edu.udistrital.controller.meassure.Meassure;
 import co.edu.udistrital.exception.PLCCommunicationException;
 import co.edu.udistrital.service.ConfigurationService;
 import co.edu.udistrital.service.PLCService;
@@ -16,7 +16,7 @@ import co.edu.udistrital.service.PLCService;
 import com.spinn3r.log5j.Logger;
 
 @Controller("temperatureController")
-public class TemperatureControllerImpl implements MeassureController {
+public class TemperatureControllerImpl implements MeasureController {
 	
 	protected static final Logger logger = Logger.getLogger();
 	
@@ -27,14 +27,14 @@ public class TemperatureControllerImpl implements MeassureController {
 	@Autowired
 	protected PLCService plcService;
 	@Autowired
-	@Qualifier("temperatureSecondsMeassure")
-	protected Meassure secondsMeassure;
+	@Qualifier("temperatureSecondsMeasure")
+	protected Measure secondsMeasure;
 	@Autowired
-	@Qualifier("temperatureMinutesMeassure")
-	protected Meassure minutesMeassure;
+	@Qualifier("temperatureMinutesMeasure")
+	protected Measure minutesMeasure;
 	@Autowired
-	@Qualifier("temperatureHoursMeassure")
-	protected Meassure hoursMeassure;
+	@Qualifier("temperatureHoursMeasure")
+	protected Measure hoursMeasure;
 
     @Autowired
     @Qualifier("emailNotificationSender")
@@ -55,9 +55,9 @@ public class TemperatureControllerImpl implements MeassureController {
 			int registerNumber = configurationService.getTemperatureRegisterNumber();
 			try {
 				int register = plcService.readRegister(registerNumber, UNIT_ID);
-				secondsMeassure.appendValue(register);
-				minutesMeassure.appendValue(register);
-				hoursMeassure.appendValue(register);
+				secondsMeasure.appendValue(register);
+				minutesMeasure.appendValue(register);
+				hoursMeasure.appendValue(register);
                 writeNotification(register);
 				logCommunicationStablished();
 			} catch (PLCCommunicationException ex) {
