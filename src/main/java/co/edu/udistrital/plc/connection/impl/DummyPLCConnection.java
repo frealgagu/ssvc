@@ -13,7 +13,6 @@ import net.wimpi.modbus.procimg.SimpleProcessImage;
 import net.wimpi.modbus.procimg.SimpleRegister;
 import co.edu.udistrital.exception.PLCConnectionException;
 import co.edu.udistrital.plc.connection.PLCConnection;
-import org.joda.time.DateTime;
 
 public class DummyPLCConnection implements PLCConnection {
 

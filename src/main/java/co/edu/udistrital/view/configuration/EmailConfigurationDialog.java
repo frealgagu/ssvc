@@ -256,7 +256,6 @@ public class EmailConfigurationDialog extends CustomComponent {
 		
 		// checkStartTLS
 		checkStartTLS = new CheckBox();
-		checkStartTLS.setCaption("CheckBox");
 		checkStartTLS.setImmediate(false);
 		checkStartTLS.setWidth("100.0%");
 		checkStartTLS.setHeight("25px");
@@ -265,7 +264,6 @@ public class EmailConfigurationDialog extends CustomComponent {
 		
 		// checkAuth
 		checkAuth = new CheckBox();
-		checkAuth.setCaption("CheckBox");
 		checkAuth.setImmediate(false);
 		checkAuth.setWidth("100.0%");
 		checkAuth.setHeight("25px");
