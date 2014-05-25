@@ -14,9 +14,12 @@ import net.wimpi.modbus.procimg.SimpleRegister;
 import co.edu.udistrital.exception.PLCConnectionException;
 import co.edu.udistrital.plc.connection.PLCConnection;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class DummyPLCConnection implements PLCConnection {
 
-	protected static final ProcessImage PROCESS_IMAGE = new DummyProcessImage(); 
+	protected static final DummyProcessImage PROCESS_IMAGE = new DummyProcessImage();
 	
 	@Override
 	public void open() throws PLCConnectionException {
@@ -86,61 +89,66 @@ public class DummyPLCConnection implements PLCConnection {
 		}
 	}
 
-    public static boolean randomizing = false;
+    private static boolean readingData;
+    private static JFrame frame;
+    private static JSpinner pressureSpinner;
+    private static JSpinner temperatureSpinner;
 
-    public static void startRandom() {
-        randomizing = true;
+    public static void startReadingData() {
+        stopReadingData();
+        readingData = true;
+        frame = new JFrame();
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(250, 70));
+        frame.setSize(new Dimension(450, 70));
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setLayout(new GridLayout(2, 2));
+        pressureSpinner = new JSpinner(new SpinnerNumberModel());
+        temperatureSpinner = new JSpinner(new SpinnerNumberModel());
+        frame.add(new JLabel("Nivel de Presi\u00F3n:"), "1");
+        frame.add(pressureSpinner, "2");
+        frame.add(new JLabel("Nivel de Temperatura"), "3");
+        frame.add(temperatureSpinner, "4");
+        frame.setVisible(true);
+        PROCESS_IMAGE.fillData();
     }
 
-    public static void stopRandom() {
-        randomizing = false;
+    public static void stopReadingData() {
+        readingData = false;
+        if(frame != null) {
+            frame.dispose();
+        }
     }
 
 	public static class DummyProcessImage extends SimpleProcessImage {
-		
+
 		public DummyProcessImage() {
-			 fillData();
+            for(int i = 0; i < 100000; i++) {
+                addDigitalIn(new SimpleDigitalIn(false));
+                addDigitalOut(new SimpleDigitalOut(false));
+                addInputRegister(new SimpleInputRegister(0));
+                addRegister(new SimpleRegister(0));
+            }
 		}
 		
 		protected void fillData() {
-			for(int i = 0; i < 100000; i++) {
-				addDigitalIn(new SimpleDigitalIn(false));
-				addDigitalOut(new SimpleDigitalOut(false));
-				addInputRegister(new SimpleInputRegister(0));
-				addRegister(new SimpleRegister(0));
-			}
+
 			new Thread(new Runnable(){
 
 				@Override
 				public void run() {
-					while(randomizing) {
-						try{
-							Thread.sleep(100);
-							int register;
-							//Pressure register
-                            if(System.currentTimeMillis() % 60000 < 30000)
-							    register = createRandom(70, 90);
-                            else
-                                register = createRandom(90, 110);
-							setInputRegister(4000, new SimpleInputRegister(register));
-							setRegister(4000, new SimpleRegister(register));
-							//Temperature register
-                            if(System.currentTimeMillis() % 60000 < 30000)
-							    register = createRandom(110, 130);
-                            else
-                                register = createRandom(130, 150);
-							setInputRegister(3000, new SimpleInputRegister(register));
-							setRegister(3000, new SimpleRegister(register));
-						} catch (InterruptedException ignore) {
-						}
+					while(readingData) {
+                        int pressureRegister = (Integer) pressureSpinner.getValue();
+                        int temperatureRegister = (Integer) temperatureSpinner.getValue();
+                        setInputRegister(4000, new SimpleInputRegister(pressureRegister));
+                        setRegister(4000, new SimpleRegister(pressureRegister));
+                        setInputRegister(3000, new SimpleInputRegister(temperatureRegister));
+                        setRegister(3000, new SimpleRegister(temperatureRegister));
 					}
 				}
 				
 			}).start();
 		}
-	}
-	
-	public static int createRandom(int minValue, int maxValue) {
-		return (int)((Math.random() * (maxValue - minValue)) + minValue);
 	}
 }

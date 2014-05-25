@@ -65,7 +65,7 @@ public interface ConfigurationService {
 
 	/**
 	 * Sets PLC communication stop bits
-	 * @param stopbits PLC communication stop bits
+	 * @param stopBits PLC communication stop bits
 	 */
 	void setStopBits(StopBits stopBits);
 	
@@ -259,5 +259,15 @@ public interface ConfigurationService {
 	
 	String getEmailSenderAuth();
 	
-	void setEmailSenderAuth(String auth);	
+	void setEmailSenderAuth(String auth);
+
+    //SMS Sender
+
+    String getSMSSenderUsername();
+
+    void setSMSSenderUsername(String username);
+
+    String getSMSSenderPassword();
+
+    void getSMSSenderPassword(String password);
 }

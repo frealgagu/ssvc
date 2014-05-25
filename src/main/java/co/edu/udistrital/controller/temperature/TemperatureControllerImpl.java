@@ -39,15 +39,20 @@ public class TemperatureControllerImpl implements MeasureController {
     @Autowired
     @Qualifier("emailNotificationSender")
     protected NotificationSender emailNotificationSender;
+    @Autowired
+    @Qualifier("smsNotificationSender")
+    protected NotificationSender smsNotificationSender;
 
 	protected boolean monitoring;
 	protected boolean communicationError;
 
     protected DateTime startAdviceThresholdExceeded = null;
     protected DateTime lastAdviceSend = null;
+    protected boolean adviceReplied = false;
 
     protected DateTime startAlarmThresholdExceeded = null;
     protected DateTime lastAlarmSend = null;
+    protected boolean alarmReplied;
 
 	@Scheduled(fixedRate = 500)
 	public void process() {
@@ -75,30 +80,6 @@ public class TemperatureControllerImpl implements MeasureController {
 	}
 
     protected void writeNotification(int register) {
-        int adviceThreshold = configurationService.getTemperatureAdviceThreshold();
-        if (register >= adviceThreshold) {
-            if (startAdviceThresholdExceeded == null) {
-                startAdviceThresholdExceeded = DateTime.now();
-            } else {
-                int secondsBeforeSend = configurationService.getAdviceTimeBeforeSending();
-                if (startAdviceThresholdExceeded.plusSeconds(secondsBeforeSend).isBeforeNow()) {
-                    if (lastAdviceSend == null) {
-                        String emailOnAdvice = configurationService.getEmailOnAdvice();
-                        emailNotificationSender.sendNotification(emailOnAdvice);
-                        lastAdviceSend = DateTime.now();
-                    } else {
-                        int secondsBeforeReplay = configurationService.getAdviceTimeBeforeReply();
-                        if(lastAdviceSend.plusSeconds(secondsBeforeReplay).isBeforeNow()) {
-                            String emailOnAdvice = configurationService.getEmailOnAdvice();
-                            emailNotificationSender.sendNotification(emailOnAdvice);
-                        }
-                    }
-                }
-            }
-        } else {
-            startAdviceThresholdExceeded = null;
-            lastAdviceSend = null;
-        }
         int alarmThreshold = configurationService.getTemperatureAlarmThreshold();
         if (register >= alarmThreshold) {
             if (startAlarmThresholdExceeded == null) {
@@ -107,14 +88,26 @@ public class TemperatureControllerImpl implements MeasureController {
                 int secondsBeforeSend = configurationService.getAlarmTimeBeforeSending();
                 if (startAlarmThresholdExceeded.plusSeconds(secondsBeforeSend).isBeforeNow()) {
                     if (lastAlarmSend == null) {
+                        String subject = "La temperatura ha superado el l\u00EDmite de alarma";
+                        String message = "La temperatura ha superado el l\u00EDmite de alarma";
                         String emailOnAlarm = configurationService.getEmailOnAlarm();
-                        emailNotificationSender.sendNotification(emailOnAlarm);
+                        String smsOnAlarm = configurationService.getSmsOnAlarm();
+                        emailNotificationSender.sendNotification(subject, message, emailOnAlarm);
+                        smsNotificationSender.sendNotification(subject, message, smsOnAlarm);
                         lastAlarmSend = DateTime.now();
                     } else {
                         int secondsBeforeReplay = configurationService.getAlarmTimeBeforeReply();
                         if(lastAlarmSend.plusSeconds(secondsBeforeReplay).isBeforeNow()) {
-                            String emailOnAlarm = configurationService.getEmailOnAlarm();
-                            emailNotificationSender.sendNotification(emailOnAlarm);
+                            if(!alarmReplied) {
+                                String subject = "La temperatura ha superado el l\u00EDmite de alarma y no se ha corregido";
+                                String message = "La temperatura ha superado el l\u00EDmite de alarma y no se ha corregido";
+                                String emailOnAlarm = configurationService.getEmailOnAlarm();
+                                String smsOnAlarm = configurationService.getSmsOnAlarm();
+                                emailNotificationSender.sendNotification(subject, message, emailOnAlarm);
+                                smsNotificationSender.sendNotification(subject, message, smsOnAlarm);
+                                lastAlarmSend = DateTime.now();
+                                alarmReplied = true;
+                            }
                         }
                     }
                 }
@@ -122,6 +115,45 @@ public class TemperatureControllerImpl implements MeasureController {
         } else {
             startAlarmThresholdExceeded = null;
             lastAlarmSend = null;
+            alarmReplied = false;
+
+            int adviceThreshold = configurationService.getTemperatureAdviceThreshold();
+            if (register >= adviceThreshold) {
+                if (startAdviceThresholdExceeded == null) {
+                    startAdviceThresholdExceeded = DateTime.now();
+                } else {
+                    int secondsBeforeSend = configurationService.getAdviceTimeBeforeSending();
+                    if (startAdviceThresholdExceeded.plusSeconds(secondsBeforeSend).isBeforeNow()) {
+                        if (lastAdviceSend == null) {
+                            String subject = "La temperatura ha superado el l\u00EDmite de advertencia";
+                            String message = "La temperatura ha superado el l\u00EDmite de advertencia";
+                            String emailOnAdvice = configurationService.getEmailOnAdvice();
+                            String smsOnAdvice = configurationService.getSmsOnAdvice();
+                            emailNotificationSender.sendNotification(subject, message, emailOnAdvice);
+                            smsNotificationSender.sendNotification(subject, message, smsOnAdvice);
+                            lastAdviceSend = DateTime.now();
+                        } else {
+                            int secondsBeforeReplay = configurationService.getAdviceTimeBeforeReply();
+                            if(lastAdviceSend.plusSeconds(secondsBeforeReplay).isBeforeNow()) {
+                                if(!adviceReplied) {
+                                    String subject = "La temperatura ha superado el l\u00EDmite de advertencia y no se ha corregido";
+                                    String message = "La temperatura ha superado el l\u00EDmite de advertencia y no se ha corregido";
+                                    String emailOnAdvice = configurationService.getEmailOnAdvice();
+                                    String smsOnAdvice = configurationService.getSmsOnAdvice();
+                                    emailNotificationSender.sendNotification(subject, message, emailOnAdvice);
+                                    smsNotificationSender.sendNotification(subject, message, smsOnAdvice);
+                                    lastAdviceSend = DateTime.now();
+                                    adviceReplied = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                adviceReplied = false;
+                startAdviceThresholdExceeded = null;
+                lastAdviceSend = null;
+            }
         }
     }
 	

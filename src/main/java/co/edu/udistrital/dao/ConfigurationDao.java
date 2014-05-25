@@ -291,5 +291,15 @@ public interface ConfigurationDao {
 	
 	String getEmailSenderAuth();
 	
-	void setEmailSenderAuth(String auth);	
+	void setEmailSenderAuth(String auth);
+
+    //SMS Sender
+
+    String getSMSSenderUsername();
+
+    void setSMSSenderUsername(String username);
+
+    String getSMSSenderPassword();
+
+    void setSMSSenderPassword(String password);
 }

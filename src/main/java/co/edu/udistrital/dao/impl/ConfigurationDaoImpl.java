@@ -36,12 +36,13 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
 	protected static final String MAIL_SMTP_HOST = "mail.smtp.host";
 	protected static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
 	protected static final String MAIL_SMTP_PORT = "mail.smtp.port";
-	protected static final String MAIL_SMTP_USER = "mail.smtp.user";
 	protected static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
 	protected static final String MAIL_SMTP_FROM = "mail.smtp.from";
 	protected static final String MAIL_SMTP_USERNAME = "mail.smtp.username";
-	protected static final String MAIL_SMTP_PASSWORD = "mail.smtp.password";	
-	
+	protected static final String MAIL_SMTP_PASSWORD = "mail.smtp.password";
+
+    protected static final String SMS_USERNAME = "sms.username";
+    protected static final String SMS_PASSWORD = "sms.password";
 
 	protected static final String NOTIFICATION_PRESSURE_ADVICE_THRESHOLD = "notification.pressure.advice.threshold";
 	protected static final String NOTIFICATION_PRESSURE_ALARM_THRESHOLD = "notification.pressure.alarm.threshold";
@@ -356,9 +357,29 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
 	@Override
     public void setEmailSenderAuth(String auth) {
 		setProperty(MAIL_SMTP_AUTH, auth);
-    }	
-	
-	protected <T> T getProperty(String propertyName, Class<T> clazz) {
+    }
+
+    @Override
+    public String getSMSSenderUsername() {
+        return getProperty(SMS_USERNAME, String.class);
+    }
+
+    @Override
+    public void setSMSSenderUsername(String username) {
+        setProperty(SMS_USERNAME, username);
+    }
+
+    @Override
+    public String getSMSSenderPassword() {
+        return getProperty(SMS_PASSWORD, String.class);
+    }
+
+    @Override
+    public void setSMSSenderPassword(String password) {
+        setProperty(SMS_PASSWORD, password);
+    }
+
+    protected <T> T getProperty(String propertyName, Class<T> clazz) {
 		return getJdbcTemplate().queryForObject(
 				SELECT_PROPERTY,
 				createRowMapper(clazz),

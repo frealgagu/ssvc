@@ -256,5 +256,25 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	@Override
     public void setEmailSenderAuth(String auth) {
 		configurationDao.setEmailSenderAuth(auth);	    
-    }	
+    }
+
+    @Override
+    public String getSMSSenderUsername() {
+        return configurationDao.getSMSSenderUsername();
+    }
+
+    @Override
+    public void setSMSSenderUsername(String username) {
+        configurationDao.setSMSSenderUsername(username);
+    }
+
+    @Override
+    public String getSMSSenderPassword() {
+        return configurationDao.getSMSSenderPassword();
+    }
+
+    @Override
+    public void getSMSSenderPassword(String password) {
+        configurationDao.setSMSSenderPassword(password);
+    }
 }

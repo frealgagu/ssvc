@@ -105,11 +105,21 @@
     <!-- Spring Framework -->
     <category name="org.springframework">
         <priority value="INFO"/>
+        <appender-ref ref="ASYNC"/>
+        <appender-ref ref="CONSOLE"/>
     </category>
 
     <!-- Limit the org.apache category to INFO as its DEBUG is verbose -->
     <category name="org.apache">
         <priority value="INFO"/>
+        <appender-ref ref="ASYNC"/>
+        <appender-ref ref="CONSOLE"/>
+    </category>
+
+    <category name="">
+        <priority value="INFO"/>
+        <appender-ref ref="ASYNC"/>
+        <appender-ref ref="CONSOLE"/>
     </category>
 
     <!-- ======================= -->

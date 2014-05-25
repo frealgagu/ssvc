@@ -9,25 +9,25 @@ import co.edu.udistrital.service.ApplicationServices;
 
 public class ControlListener implements ServletContextListener {
 
-	private static final String PRESSION_CONTROLLER_BEAN = "pressionController";
+	private static final String PRESSURE_CONTROLLER_BEAN = "pressureController";
 	private static final String TEMPERATURE_CONTROLLER_BEAN = "temperatureController";
 	
-	private MeasureController pressionController;
+	private MeasureController pressureController;
 	private MeasureController temperatureController;
 	
 	@Override
     public void contextInitialized(ServletContextEvent event) {
-        DummyPLCConnection.startRandom();
-		pressionController = ApplicationServices.getBean(PRESSION_CONTROLLER_BEAN);
-		pressionController.startMonitoring();
+        DummyPLCConnection.startReadingData();
+		pressureController = ApplicationServices.getBean(PRESSURE_CONTROLLER_BEAN);
+		pressureController.startMonitoring();
 		temperatureController = ApplicationServices.getBean(TEMPERATURE_CONTROLLER_BEAN);
 		temperatureController.startMonitoring();
     }
 
 	@Override
     public void contextDestroyed(ServletContextEvent sce) {
-        DummyPLCConnection.stopRandom();
-		pressionController.stopMonitoring();
+        DummyPLCConnection.stopReadingData();
+		pressureController.stopMonitoring();
 		temperatureController.stopMonitoring();
     }
 }
