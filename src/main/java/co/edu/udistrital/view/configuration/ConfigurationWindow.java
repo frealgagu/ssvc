@@ -170,8 +170,7 @@ public class ConfigurationWindow extends CustomComponent {
 		// btnPLCConfiguration
 		btnPLCConfiguration = new NativeButton();
 		btnPLCConfiguration.setCaption("Configuración del PLC");
-		btnPLCConfiguration.setIcon(new ThemeResource(
-				"img/plc-settings-Icon-72x72.png"));
+		btnPLCConfiguration.setIcon(new ThemeResource("img/plc-settings-Icon-72x72.png"));
 		btnPLCConfiguration.setImmediate(true);
 		btnPLCConfiguration.setWidth("86px");
 		btnPLCConfiguration.setHeight("86px");
@@ -180,42 +179,34 @@ public class ConfigurationWindow extends CustomComponent {
 		// btnEmailConfiguration
 		btnEmailConfiguration = new NativeButton();
 		btnEmailConfiguration.setCaption("Configuración de Correo");
-		btnEmailConfiguration.setIcon(new ThemeResource(
-				"img/mail-settings-icon-72x72.png"));
+		btnEmailConfiguration.setIcon(new ThemeResource("img/mail-settings-icon-72x72.png"));
 		btnEmailConfiguration.setImmediate(true);
 		btnEmailConfiguration.setWidth("86px");
 		btnEmailConfiguration.setHeight("86px");
-		mainLayout.addComponent(btnEmailConfiguration,
-				"top:97.0px;right:320.0px;");
+		mainLayout.addComponent(btnEmailConfiguration, "top:97.0px;right:320.0px;");
 		
 		// btnNotificationConfiguration
 		btnNotificationConfiguration = new NativeButton();
-		btnNotificationConfiguration
-				.setCaption("Configuración de Notificaciones");
-		btnNotificationConfiguration.setIcon(new ThemeResource(
-				"img/alert-settings-icon-72x72.png"));
+		btnNotificationConfiguration.setCaption("Configuración de Notificaciones");
+		btnNotificationConfiguration.setIcon(new ThemeResource("img/alert-settings-icon-72x72.png"));
 		btnNotificationConfiguration.setImmediate(true);
 		btnNotificationConfiguration.setWidth("86px");
 		btnNotificationConfiguration.setHeight("86px");
-		mainLayout.addComponent(btnNotificationConfiguration,
-				"top:97.0px;left:320.0px;");
+		mainLayout.addComponent(btnNotificationConfiguration, "top:97.0px;left:320.0px;");
 		
 		// btnUserConfiguration
 		btnUserConfiguration = new NativeButton();
 		btnUserConfiguration.setCaption("Configuración del PLC");
-		btnUserConfiguration.setIcon(new ThemeResource(
-				"img/user-administration-icon-72x72.png"));
+		btnUserConfiguration.setIcon(new ThemeResource("img/user-administration-icon-72x72.png"));
 		btnUserConfiguration.setImmediate(true);
 		btnUserConfiguration.setWidth("86px");
 		btnUserConfiguration.setHeight("86px");
-		mainLayout.addComponent(btnUserConfiguration,
-				"top:97.0px;right:40.0px;");
+		//mainLayout.addComponent(btnUserConfiguration, "top:97.0px;right:40.0px;");
 		
 		// btnControl
 		btnControl = new NativeButton();
 		btnControl.setCaption("Control PLC");
-		btnControl
-				.setIcon(new ThemeResource("img/plc-settings-Icon-72x72.png"));
+		btnControl.setIcon(new ThemeResource("img/plc-settings-Icon-72x72.png"));
 		btnControl.setImmediate(true);
 		btnControl.setWidth("86px");
 		btnControl.setHeight("86px");
@@ -224,8 +215,7 @@ public class ConfigurationWindow extends CustomComponent {
 		// btnCurrentStatus
 		btnCurrentStatus = new NativeButton();
 		btnCurrentStatus.setCaption("Estado actual");
-		btnCurrentStatus.setIcon(new ThemeResource(
-				"img/current-status-icon-72x72.png"));
+		btnCurrentStatus.setIcon(new ThemeResource("img/current-status-icon-72x72.png"));
 		btnCurrentStatus.setImmediate(true);
 		btnCurrentStatus.setWidth("86px");
 		btnCurrentStatus.setHeight("86px");
@@ -234,8 +224,7 @@ public class ConfigurationWindow extends CustomComponent {
 		// btnLastRecords
 		btnLastRecords = new NativeButton();
 		btnLastRecords.setCaption("Últimos Registros");
-		btnLastRecords.setIcon(new ThemeResource(
-				"img/last-records-icon-72x72.png"));
+		btnLastRecords.setIcon(new ThemeResource("img/last-records-icon-72x72.png"));
 		btnLastRecords.setImmediate(true);
 		btnLastRecords.setWidth("86px");
 		btnLastRecords.setHeight("86px");
@@ -244,8 +233,7 @@ public class ConfigurationWindow extends CustomComponent {
 		// btnMemoryMap
 		btnMemoryMap = new NativeButton();
 		btnMemoryMap.setCaption("Mapa de memoria");
-		btnMemoryMap
-				.setIcon(new ThemeResource("img/memory-map-icon-72x72.png"));
+		btnMemoryMap.setIcon(new ThemeResource("img/memory-map-icon-72x72.png"));
 		btnMemoryMap.setImmediate(true);
 		btnMemoryMap.setWidth("86px");
 		btnMemoryMap.setHeight("86px");

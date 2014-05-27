@@ -181,7 +181,7 @@ public class PLCConfigurationDialog extends CustomComponent {
 	    // top-level component properties
 	    setWidth("360px");
 	    setHeight("340px");
-	    
+
 	    // lblPortName
 	    lblPortName = new Label();
 	    lblPortName.setImmediate(false);

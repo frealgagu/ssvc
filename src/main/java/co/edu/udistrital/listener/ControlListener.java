@@ -17,7 +17,6 @@ public class ControlListener implements ServletContextListener {
 	
 	@Override
     public void contextInitialized(ServletContextEvent event) {
-        DummyPLCConnection.startReadingData();
 		pressureController = ApplicationServices.getBean(PRESSURE_CONTROLLER_BEAN);
 		pressureController.startMonitoring();
 		temperatureController = ApplicationServices.getBean(TEMPERATURE_CONTROLLER_BEAN);
@@ -26,7 +25,6 @@ public class ControlListener implements ServletContextListener {
 
 	@Override
     public void contextDestroyed(ServletContextEvent sce) {
-        DummyPLCConnection.stopReadingData();
 		pressureController.stopMonitoring();
 		temperatureController.stopMonitoring();
     }

@@ -3,6 +3,7 @@ package co.edu.udistrital.plc.connection.impl;
 import gnu.io.RXTXCommDriver;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import net.wimpi.modbus.util.SerialParameters;
 
@@ -32,24 +33,42 @@ public class PLCConnectionFactoryImpl implements PLCConnectionFactory {
 	private SerialParameters serialParameters;
 
 	@PostConstruct
-	public void loadConfiguration() {
+	public void openConfiguration() {
 		switch (connectionType) {
 			case DUMMY_CONNECTION_TYPE:
-				loadDummyConfiguration();
+				openDummyConfiguration();
 				break;
 			case SERIAL_CONNECTION_TYPE:
-				loadSerialConfiguration();
+				openSerialConfiguration();
 				break;
 			default:
 				break;
 		} 
     }
+
+    @PreDestroy
+    public void closeConfiguration() {
+        switch (connectionType) {
+            case DUMMY_CONNECTION_TYPE:
+                closeDummyConfiguration();
+                break;
+            case SERIAL_CONNECTION_TYPE:
+                closeSerialConfiguration();
+                break;
+            default:
+                break;
+        }
+    }
 	
-	private void loadDummyConfiguration() {
-		
+	private void openDummyConfiguration() {
+		DummyPLCConnection.startReadingData();
 	}
+
+    private void closeDummyConfiguration() {
+        DummyPLCConnection.stopReadingData();
+    }
 	
-	private void loadSerialConfiguration() {
+	private void openSerialConfiguration() {
 		RXTXCommDriver driver = new RXTXCommDriver();
 		driver.initialize();		
 		
@@ -63,6 +82,9 @@ public class PLCConnectionFactoryImpl implements PLCConnectionFactory {
 		serialParameters.setReceiveTimeout(configurationDao.getTimeout());
 		serialParameters.setEcho(false);
 	}
+
+    private void closeSerialConfiguration() {
+    }
 	
 	@Override
 	public PLCConnection obtainPLCConnection() throws PLCConnectionException {
