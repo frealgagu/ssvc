@@ -5,7 +5,6 @@ import net.wimpi.modbus.ModbusException;
 import net.wimpi.modbus.io.ModbusTransaction;
 import net.wimpi.modbus.msg.ModbusRequest;
 import net.wimpi.modbus.msg.ModbusResponse;
-import net.wimpi.modbus.procimg.ProcessImage;
 import net.wimpi.modbus.procimg.SimpleDigitalIn;
 import net.wimpi.modbus.procimg.SimpleDigitalOut;
 import net.wimpi.modbus.procimg.SimpleInputRegister;

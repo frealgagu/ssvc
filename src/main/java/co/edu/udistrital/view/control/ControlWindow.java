@@ -152,42 +152,46 @@ public class ControlWindow extends CustomComponent {
 		
 		// btnPressureTurnOn
 		btnPressureTurnOn = new NativeButton();
+		btnPressureTurnOn.setCaption("NativeButton");
 		btnPressureTurnOn.setIcon(new ThemeResource(
 				"img/turn-on-icon-72x72.png"));
-		btnPressureTurnOn.setImmediate(false);
+		btnPressureTurnOn.setImmediate(true);
 		btnPressureTurnOn.setWidth("86px");
 		btnPressureTurnOn.setHeight("86px");
-		mainLayout.addComponent(btnPressureTurnOn, "top:40.0px;left:159.0px;");
+		mainLayout.addComponent(btnPressureTurnOn, "top:40.0px;left:173.0px;");
 		
 		// btnTemperatureTurnOn
 		btnTemperatureTurnOn = new NativeButton();
+		btnTemperatureTurnOn.setCaption("NativeButton");
 		btnTemperatureTurnOn.setIcon(new ThemeResource(
 				"img/turn-on-icon-72x72.png"));
 		btnTemperatureTurnOn.setImmediate(true);
 		btnTemperatureTurnOn.setWidth("86px");
 		btnTemperatureTurnOn.setHeight("86px");
 		mainLayout.addComponent(btnTemperatureTurnOn,
-				"top:40.0px;left:318.0px;");
+				"top:40.0px;left:320.0px;");
 		
 		// btnPressureTurnOff
 		btnPressureTurnOff = new NativeButton();
+		btnPressureTurnOff.setCaption("NativeButton");
 		btnPressureTurnOff.setIcon(new ThemeResource(
 				"img/turn-off-icon-72x72.png"));
 		btnPressureTurnOff.setImmediate(true);
 		btnPressureTurnOff.setWidth("86px");
 		btnPressureTurnOff.setHeight("86px");
 		mainLayout
-				.addComponent(btnPressureTurnOff, "top:140.0px;left:158.0px;");
+				.addComponent(btnPressureTurnOff, "top:140.0px;left:173.0px;");
 		
 		// btnTemperatureTurnOff
 		btnTemperatureTurnOff = new NativeButton();
+		btnTemperatureTurnOff.setCaption("NativeButton");
 		btnTemperatureTurnOff.setIcon(new ThemeResource(
 				"img/turn-off-icon-72x72.png"));
 		btnTemperatureTurnOff.setImmediate(true);
 		btnTemperatureTurnOff.setWidth("86px");
 		btnTemperatureTurnOff.setHeight("86px");
 		mainLayout.addComponent(btnTemperatureTurnOff,
-				"top:140.0px;left:318.0px;");
+				"top:140.0px;left:320.0px;");
 		
 		return mainLayout;
 	}
