@@ -10,6 +10,8 @@ CREATE TABLE users
 );
 
 INSERT INTO users (u_id, u_username, u_password) VALUES (1, 'frealgagu', '123456');
+INSERT INTO users (u_id, u_username, u_password) VALUES (2, 'fredy', '123456');
+INSERT INTO users (u_id, u_username, u_password) VALUES (3, 'diana', '123456');
 
 CREATE TABLE configuration 
 (
@@ -42,8 +44,8 @@ INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notific
 
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.send.email.on.advice', 'frealgagu@gmail.com', '2014-01-01 00:00:00');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.send.email.on.alarm', 'frealgagu@gmail.com', '2014-01-01 00:00:00');
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.send.sms.on.advice', '3012345678', '2014-01-01 00:00:00');
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.send.sms.on.alarm', '3012345678', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.send.sms.on.advice', '3115255543', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.send.sms.on.alarm', '3115255543', '2014-01-01 00:00:00');
 
 
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.host', 'smtp.gmail.com', '2014-01-01 00:00:00');
