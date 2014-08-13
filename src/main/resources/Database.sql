@@ -1,3 +1,5 @@
+use ssvc;
+
 DROP TABLE IF EXISTS configuration;
 DROP TABLE IF EXISTS users;
 
