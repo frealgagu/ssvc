@@ -31,8 +31,10 @@ INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.sto
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.encoding', 'RTU', '2014-01-01 00:00:00');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.receive.timeout', '1000', '2014-01-01 00:00:00');
 
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.pressure.register.number', '4000', '2014-01-01 00:00:00');
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.temperature.register.number', '3000', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.pressure.read.register', '4000', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.pressure.write.register', '3500', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.temperature.read.register', '3000', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.temperature.write.register', '2500', '2014-01-01 00:00:00');
 
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.pressure.advice.threshold', '90', '2014-01-01 00:00:00');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.pressure.alarm.threshold', '100', '2014-01-01 00:00:00');

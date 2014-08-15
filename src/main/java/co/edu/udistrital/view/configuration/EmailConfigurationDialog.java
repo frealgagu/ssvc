@@ -151,11 +151,11 @@ public class EmailConfigurationDialog extends CustomComponent {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("360px");
+		mainLayout.setWidth("440px");
 		mainLayout.setHeight("340px");
 		
 		// top-level component properties
-		setWidth("360px");
+		setWidth("440px");
 		setHeight("340px");
 		
 		// lblHost
@@ -287,7 +287,7 @@ public class EmailConfigurationDialog extends CustomComponent {
 		btnOk.setImmediate(true);
 		btnOk.setWidth("120px");
 		btnOk.setHeight("38px");
-		mainLayout.addComponent(btnOk, "top:280.0px;left:40.0px;");
+		mainLayout.addComponent(btnOk, "top:280.0px;left:80.0px;");
 		
 		// btnCancel
 		btnCancel = new NativeButton();
@@ -295,7 +295,7 @@ public class EmailConfigurationDialog extends CustomComponent {
 		btnCancel.setImmediate(true);
 		btnCancel.setWidth("120px");
 		btnCancel.setHeight("38px");
-		mainLayout.addComponent(btnCancel, "top:282.0px;left:200.0px;");
+		mainLayout.addComponent(btnCancel, "top:282.0px;left:240.0px;");
 		
 		return mainLayout;
 	}

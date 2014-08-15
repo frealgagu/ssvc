@@ -29,10 +29,12 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
 	protected static final String PLC_ENCODING = "plc.encoding";
 	protected static final String PLC_TIMEOUT = "plc.receive.timeout";
 
-	protected static final String PLC_PRESSURE_REGISTER_NUMBER = "plc.pressure.register.number";
-	protected static final String PLC_TEMPERATURE_REGISTER_NUMBER = "plc.temperature.register.number";
+    protected static final String PLC_PRESSURE_READ = "plc.pressure.read.register";
+    protected static final String PLC_PRESSURE_WRITE = "plc.pressure.write.register";
+    protected static final String PLC_TEMPERATURE_READ = "plc.temperature.read.register";
+    protected static final String PLC_TEMPERATURE_WRITE = "plc.temperature.write.register";
 
-	
+
 	protected static final String MAIL_SMTP_HOST = "mail.smtp.host";
 	protected static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
 	protected static final String MAIL_SMTP_PORT = "mail.smtp.port";
@@ -155,27 +157,47 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
 	@Override
     public void setTimeout(int timeout) {
 		setProperty(PLC_TIMEOUT, timeout);
-    }	
-
-	@Override
-    public int getPressureRegisterNumber() {
-		return getProperty(PLC_PRESSURE_REGISTER_NUMBER, Integer.class);
     }
 
-	@Override
-    public void setPressureRegisterNumber(int pressureRegisterNumber) {
-		setProperty(PLC_PRESSURE_REGISTER_NUMBER, pressureRegisterNumber);
-    }
-	
-	@Override
-    public int getTemperatureRegisterNumber() {
-		return getProperty(PLC_TEMPERATURE_REGISTER_NUMBER, Integer.class);
+    @Override
+    public int getPressureRead() {
+        return getProperty(PLC_PRESSURE_READ, Integer.class);
     }
 
-	@Override
-    public void setTemperatureRegisterNumber(int temperatureRegisterNumber) {
-		setProperty(PLC_TEMPERATURE_REGISTER_NUMBER, temperatureRegisterNumber);
-    }	
+    @Override
+    public void setPressureRead(int pressureRead) {
+        setProperty(PLC_PRESSURE_READ, pressureRead);
+    }
+
+    @Override
+    public int getPressureWrite() {
+        return getProperty(PLC_PRESSURE_WRITE, Integer.class);
+    }
+
+    @Override
+    public void setPressureWrite(int pressureWrite) {
+        setProperty(PLC_PRESSURE_WRITE, pressureWrite);
+    }
+
+    @Override
+    public int getTemperatureRead() {
+        return getProperty(PLC_TEMPERATURE_READ, Integer.class);
+    }
+
+    @Override
+    public void setTemperatureRead(int temperatureRead) {
+        setProperty(PLC_TEMPERATURE_READ, temperatureRead);
+    }
+
+    @Override
+    public int getTemperatureWrite() {
+        return getProperty(PLC_TEMPERATURE_WRITE, Integer.class);
+    }
+
+    @Override
+    public void setTemperatureWrite(int temperatureWrite) {
+        setProperty(PLC_TEMPERATURE_WRITE, temperatureWrite);
+    }
 
 	@Override
     public int getPressureAdviceThreshold() {

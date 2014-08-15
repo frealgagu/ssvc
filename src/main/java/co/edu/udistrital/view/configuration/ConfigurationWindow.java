@@ -106,6 +106,8 @@ public class ConfigurationWindow extends CustomComponent {
 				Window container = new Window();
 				container.setModal(true);
 				container.setResizable(false);
+                container.setWidth("380");
+                container.setHeight("380");
 				PLCConfigurationDialog plcConfigurationDialog = new PLCConfigurationDialog();
 				container.setContent(plcConfigurationDialog);				
 				getWindow().addWindow(container);

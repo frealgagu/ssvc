@@ -65,7 +65,7 @@ public interface ConfigurationDao {
 
 	/**
 	 * Sets PLC communication stop bits
-	 * @param stopbits PLC communication stop bits
+	 * @param stopBits PLC communication stop bits
 	 */
 	void setStopBits(StopBits stopBits);
 	
@@ -92,30 +92,54 @@ public interface ConfigurationDao {
 	 * @param timeout PLC communication timeout
 	 */
 	void setTimeout(int timeout);
-	
-	/**
-	 * Returns pressure register number
-	 * @return Pressure register number
-	 */
-	int getPressureRegisterNumber();
-	
-	/**
-	 * Sets pressure register number
-	 * @param pressureRegisterNumber Pressure register number
-	 */
-	void setPressureRegisterNumber(int pressureRegisterNumber);
-	
-	/**
-	 * Returns temperature register number
-	 * @return Temperature register number
-	 */
-	int getTemperatureRegisterNumber();
-	
-	/**
-	 * Sets temperature register number
-	 * @param temperatureRegisterNumber Temperature register number
-	 */
-	void setTemperatureRegisterNumber(int temperatureRegisterNumber);	
+
+    /**
+     * Returns PLC pressure read register number
+     * @return PLC pressure read register number
+     */
+    int getPressureRead();
+
+    /**
+     * Sets PLC pressure read register number
+     * @param pressureRead PLC pressure read register number
+     */
+    void setPressureRead(int pressureRead);
+
+    /**
+     * Returns PLC pressure write register number
+     * @return PLC pressure write register number
+     */
+    int getPressureWrite();
+
+    /**
+     * Sets PLC pressure write register number
+     * @param pressureWrite PLC pressure write register number
+     */
+    void setPressureWrite(int pressureWrite);
+
+    /**
+     * Returns PLC temperature read register number
+     * @return PLC temperature read register number
+     */
+    int getTemperatureRead();
+
+    /**
+     * Sets PLC temperature read register number
+     * @param temperatureRead PLC temperature read register number
+     */
+    void setTemperatureRead(int temperatureRead);
+
+    /**
+     * Returns PLC temperature write register number
+     * @return PLC temperature write register number
+     */
+    int getTemperatureWrite();
+
+    /**
+     * Sets PLC temperature write register number
+     * @param temperatureWrite PLC temperature write register number
+     */
+    void setTemperatureWrite(int temperatureWrite);
 	
 	//Notification
 	

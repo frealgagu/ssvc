@@ -73,24 +73,40 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	public void setTimeout(int timeout) {
 		configurationDao.setTimeout(timeout);
 	}
-	
-	public int getPressureRegisterNumber() {
-		return configurationDao.getPressureRegisterNumber();
-	}
-	
-	public void setPressureRegisterNumber(int pressureRegisterNumber) {
-		configurationDao.setPressureRegisterNumber(pressureRegisterNumber);
-	}
-	
-	public int getTemperatureRegisterNumber() {
-		return configurationDao.getTemperatureRegisterNumber();
-	}
-	
-	public void setTemperatureRegisterNumber(int temperatureRegisterNumber) {
-		configurationDao.setTemperatureRegisterNumber(temperatureRegisterNumber);
-	}
-	
-	//Notification
+
+    public int getPressureRead() {
+        return configurationDao.getPressureRead();
+    }
+
+    public void setPressureRead(int pressureRead) {
+        configurationDao.setPressureRead(pressureRead);
+    }
+
+    public int getPressureWrite() {
+        return configurationDao.getPressureWrite();
+    }
+
+    public void setPressureWrite(int pressureWrite) {
+        configurationDao.setPressureWrite(pressureWrite);
+    }
+
+    public int getTemperatureRead() {
+        return configurationDao.getTemperatureRead();
+    }
+
+    public void setTemperatureRead(int temperatureRead) {
+        configurationDao.setTemperatureRead(temperatureRead);
+    }
+
+    public int getTemperatureWrite() {
+        return configurationDao.getTemperatureWrite();
+    }
+
+    public void setTemperatureWrite(int temperatureWrite) {
+        configurationDao.setTemperatureWrite(temperatureWrite);
+    }
+
+    //Notification
 	
 	public int getPressureAdviceThreshold() {
 		return configurationDao.getPressureAdviceThreshold();

@@ -57,7 +57,7 @@ public class TemperatureControllerImpl implements MeasureController {
 	@Scheduled(fixedRate = 500)
 	public void process() {
 		if(monitoring) {
-			int registerNumber = configurationService.getTemperatureRegisterNumber();
+			int registerNumber = configurationService.getTemperatureRead();
 			try {
 				int register = plcService.readRegister(registerNumber, UNIT_ID);
 				secondsMeasure.appendValue(register);

@@ -104,7 +104,9 @@ public class DummyPLCConnection implements PLCConnection {
         frame.setResizable(false);
         frame.setLayout(new GridLayout(2, 2));
         pressureSpinner = new JSpinner(new SpinnerNumberModel());
+        pressureSpinner.setValue((int)(Math.random() * 20));
         temperatureSpinner = new JSpinner(new SpinnerNumberModel());
+        temperatureSpinner.setValue((int)(Math.random() * 20 + 10));
         frame.add(new JLabel("Nivel de Presi\u00F3n:"), "1");
         frame.add(pressureSpinner, "2");
         frame.add(new JLabel("Nivel de Temperatura"), "3");

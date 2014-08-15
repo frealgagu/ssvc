@@ -57,7 +57,7 @@ public class PressureControllerImpl implements MeasureController {
 	@Scheduled(fixedRate = 500)
 	public void process() {
 		if(monitoring) {
-			int registerNumber = configurationService.getPressureRegisterNumber();
+			int registerNumber = configurationService.getPressureRead();
 			try {
 				int register = plcService.readRegister(registerNumber, UNIT_ID);
 				secondsMeasure.appendValue(register);
