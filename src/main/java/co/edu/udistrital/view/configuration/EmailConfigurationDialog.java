@@ -276,7 +276,7 @@ public class EmailConfigurationDialog extends CustomComponent {
 		lblEmailConfiguration.setWidth("100.0%");
 		lblEmailConfiguration.setHeight("20px");
 		lblEmailConfiguration
-				.setValue("<font size=\"4\"><center><b>Configuración de Correo</b></center>");
+				.setValue("<font size=\"4\"><center><b>Configuraci\u00F3n de Correo</b></center>");
 		lblEmailConfiguration.setContentMode(3);
 		mainLayout.addComponent(lblEmailConfiguration,
 				"top:20.0px;right:20.0px;left:20.0px;");

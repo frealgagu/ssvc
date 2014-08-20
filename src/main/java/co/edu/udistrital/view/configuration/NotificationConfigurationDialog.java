@@ -254,7 +254,7 @@ public class NotificationConfigurationDialog extends CustomComponent {
         lblTitle.setImmediate(false);
         lblTitle.setWidth("100.0%");
         lblTitle.setHeight("20px");
-        lblTitle.setValue("<font size=\"4\"><center><b>Configuración de Notificaciones</b></center>");
+        lblTitle.setValue("<font size=\"4\"><center><b>Configuraci\u00F3n de Notificaciones</b></center>");
         lblTitle.setContentMode(3);
         mainLayout.addComponent(lblTitle, "top:20.0px;right:20.0px;left:20.0px;");
 
@@ -281,7 +281,7 @@ public class NotificationConfigurationDialog extends CustomComponent {
 		lblPressureThreshold.setImmediate(false);
 		lblPressureThreshold.setWidth("160px");
 		lblPressureThreshold.setHeight("25px");
-		lblPressureThreshold.setValue("Umbral de presión:");
+		lblPressureThreshold.setValue("Umbral de presi\u00F3n:");
 		mainLayout.addComponent(lblPressureThreshold, "top:90.0px;left:20.0px;");
 
         // txtPressureThresholdAdvice
@@ -369,7 +369,7 @@ public class NotificationConfigurationDialog extends CustomComponent {
 		lblEmailToSend.setImmediate(false);
 		lblEmailToSend.setWidth("160px");
 		lblEmailToSend.setHeight("25px");
-		lblEmailToSend.setValue("E-mail de notificación:");
+		lblEmailToSend.setValue("E-mail de notificaci\u00F3n:");
 		mainLayout.addComponent(lblEmailToSend, "top:230.0px;left:20.0px;");
 
         // txtEmailToSendAdvice
@@ -391,7 +391,7 @@ public class NotificationConfigurationDialog extends CustomComponent {
 		lblSMSToSend.setImmediate(false);
 		lblSMSToSend.setWidth("160px");
 		lblSMSToSend.setHeight("25px");
-		lblSMSToSend.setValue("SMS de notificación:");
+		lblSMSToSend.setValue("SMS de notificaci\u00F3n:");
 		mainLayout.addComponent(lblSMSToSend, "top:260.0px;left:20.0px;");
 		
 		// txtSMSToSendAdvice

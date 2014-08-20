@@ -251,7 +251,7 @@ public class PLCConfigurationDialog extends CustomComponent {
 	    lblBaudRate.setImmediate(false);
 	    lblBaudRate.setWidth("160px");
 	    lblBaudRate.setHeight("25px");
-	    lblBaudRate.setValue("Velocidad de transmisión:");
+	    lblBaudRate.setValue("Velocidad de transmisi\u00F3n:");
 	    mainLayout.addComponent(lblBaudRate, "top:90.0px;left:20.0px;");
 	    
 	    // lblDataBits
@@ -283,7 +283,7 @@ public class PLCConfigurationDialog extends CustomComponent {
 	    lblEncoding.setImmediate(false);
 	    lblEncoding.setWidth("160px");
 	    lblEncoding.setHeight("25px");
-	    lblEncoding.setValue("Codificación:");
+	    lblEncoding.setValue("Codificaci\u00F3n:");
 	    mainLayout.addComponent(lblEncoding, "top:210.0px;left:20.0px;");
 
         // lblTimeout
@@ -299,7 +299,7 @@ public class PLCConfigurationDialog extends CustomComponent {
         lblPressureRead.setImmediate(false);
         lblPressureRead.setWidth("160px");
         lblPressureRead.setHeight("25px");
-        lblPressureRead.setValue("Lectura de Presión:");
+        lblPressureRead.setValue("Lectura de Presi\u00F3n:");
         mainLayout.addComponent(lblPressureRead, "top:270.0px;left:20.0px;");
 
         // lblPressureWrite
@@ -307,7 +307,7 @@ public class PLCConfigurationDialog extends CustomComponent {
         lblPressureWrite.setImmediate(false);
         lblPressureWrite.setWidth("160px");
         lblPressureWrite.setHeight("25px");
-        lblPressureWrite.setValue("Escritura de Presión:");
+        lblPressureWrite.setValue("Escritura de Presi\u00F3n:");
         mainLayout.addComponent(lblPressureWrite, "top:300.0px;left:20.0px;");
 
         // lblTemperatureRead
@@ -420,7 +420,7 @@ public class PLCConfigurationDialog extends CustomComponent {
 	    lblPLCConfiguration.setWidth("100.0%");
 	    lblPLCConfiguration.setHeight("20px");
 	    lblPLCConfiguration
-	            .setValue("<font size=\"4\"><center><b>Configuración del PLC</b></center>");
+	            .setValue("<font size=\"4\"><center><b>Configuraci\u00F3n del PLC</b></center>");
 	    lblPLCConfiguration.setContentMode(3);
 	    mainLayout.addComponent(lblPLCConfiguration,
 	            "top:20.0px;right:20.0px;left:20.0px;");

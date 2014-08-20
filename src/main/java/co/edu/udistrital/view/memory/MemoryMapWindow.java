@@ -239,7 +239,7 @@ public class MemoryMapWindow extends CustomComponent implements RefreshListener 
 		
 		// btnConfiguration
 		btnConfiguration = new NativeButton();
-		btnConfiguration.setCaption("Configuración");
+		btnConfiguration.setCaption("Configuraci\u00F3n");
 		btnConfiguration.setIcon(new ThemeResource("img/settings-icon-72x72.png"));
 		btnConfiguration.setImmediate(true);
 		btnConfiguration.setWidth("86px");
@@ -257,7 +257,7 @@ public class MemoryMapWindow extends CustomComponent implements RefreshListener 
 		
 		// btnLastRecords
 		btnLastRecords = new NativeButton();
-		btnLastRecords.setCaption("Últimos Registros");
+		btnLastRecords.setCaption("\u00DAltimos Registros");
 		btnLastRecords.setIcon(new ThemeResource("img/last-records-icon-72x72.png"));
 		btnLastRecords.setImmediate(true);
 		btnLastRecords.setWidth("86px");

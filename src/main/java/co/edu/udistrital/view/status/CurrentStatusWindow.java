@@ -137,8 +137,6 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 				int temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
 				temperatureListSeries.updatePoint(0, temperatureRegister);
 				checkTemperatureAlert(temperatureRegister);
-			} catch (IntervalNotFoundException ex) {
-				ex.printStackTrace();
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
@@ -150,13 +148,13 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 	private void checkPressureAlert(int pressureRegister) {
 		ConfigurationService configurationService = ApplicationServices.getConfigurationService();
 		if(pressureRegister >= configurationService.getPressureAlarmThreshold()) {
-			Notification notification = new Notification("La presión ha superado el nivel de alerta");
+			Notification notification = new Notification("La presi\u00F3n ha superado el nivel de alerta");
 			notification.setDelayMsec(500);
 			notification.setStyleName("tray");
 			notification.setPosition(Notification.POSITION_BOTTOM_LEFT);
 			getWindow().showNotification(notification);
 		} else if(pressureRegister >= configurationService.getPressureAdviceThreshold()) {
-			Notification notification = new Notification("La presión ha superado el nivel de advertencia");
+			Notification notification = new Notification("La presi\u00F3n ha superado el nivel de advertencia");
 			notification.setDelayMsec(500);
 			notification.setStyleName("tray");
 			notification.setPosition(Notification.POSITION_BOTTOM_LEFT);
@@ -359,14 +357,7 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 		chartTemperatureGauge.setHeight("260px");
 		mainLayout.addComponent(chartTemperatureGauge,
 				"top:20.0px;right:20.0px;");
-		
-		// refresher
-		refresher = new Refresher();
-		refresher.setImmediate(false);
-		refresher.setWidth("-1px");
-		refresher.setHeight("-1px");
-		mainLayout.addComponent(refresher, "top:0.0px;left:0.0px;");
-		
+
 		// btnControl
 		btnControl = new NativeButton();
 		btnControl.setCaption("Control PLC");
@@ -379,7 +370,7 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 		
 		// btnConfiguration
 		btnConfiguration = new NativeButton();
-		btnConfiguration.setCaption("Configuración");
+		btnConfiguration.setCaption("Configuraci\u00F3n");
 		btnConfiguration.setIcon(new ThemeResource(
 				"img/settings-icon-72x72.png"));
 		btnConfiguration.setImmediate(true);
@@ -389,7 +380,7 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 		
 		// btnLastRecords
 		btnLastRecords = new NativeButton();
-		btnLastRecords.setCaption("Últimos Registros");
+		btnLastRecords.setCaption("\u00DAltimos Registros");
 		btnLastRecords.setIcon(new ThemeResource(
 				"img/last-records-icon-72x72.png"));
 		btnLastRecords.setImmediate(true);
@@ -406,6 +397,13 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 		btnMemoryMap.setWidth("86px");
 		btnMemoryMap.setHeight("86px");
 		mainLayout.addComponent(btnMemoryMap, "top:300.0px;left:469.0px;");
+
+        // refresher
+        refresher = new Refresher();
+        refresher.setImmediate(false);
+        refresher.setWidth("-1px");
+        refresher.setHeight("-1px");
+        mainLayout.addComponent(refresher, "top:0.0px;left:0.0px;");
 		
 		return mainLayout;
 	}

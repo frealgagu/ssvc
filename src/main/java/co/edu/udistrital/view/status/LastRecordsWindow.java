@@ -271,13 +271,13 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 	private void checkPressureAlert(int pressureRegister) {
 		ConfigurationService configurationService = ApplicationServices.getConfigurationService();
 		if(pressureRegister >= configurationService.getPressureAlarmThreshold()) {
-			Notification notification = new Notification("La presión ha superado el nivel de alerta");
+			Notification notification = new Notification("La presi\u00F3n ha superado el nivel de alerta");
 			notification.setDelayMsec(500);
 			notification.setStyleName("tray");
 			notification.setPosition(Notification.POSITION_BOTTOM_LEFT);
 			getWindow().showNotification(notification);
 		} else if(pressureRegister >= configurationService.getPressureAdviceThreshold()) {
-			Notification notification = new Notification("La presión ha superado el nivel de advertencia");
+			Notification notification = new Notification("La presi\u00F3n ha superado el nivel de advertencia");
 			notification.setDelayMsec(500);
 			notification.setStyleName("tray");
 			notification.setPosition(Notification.POSITION_BOTTOM_LEFT);
@@ -400,7 +400,7 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 		
 		// btnConfiguration
 		btnConfiguration = new NativeButton();
-		btnConfiguration.setCaption("Configuración");
+		btnConfiguration.setCaption("Configuraci\u00F3n");
 		btnConfiguration.setIcon(new ThemeResource(
 				"img/settings-icon-72x72.png"));
 		btnConfiguration.setImmediate(true);

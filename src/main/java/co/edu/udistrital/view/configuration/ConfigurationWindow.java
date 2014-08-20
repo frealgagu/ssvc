@@ -171,7 +171,7 @@ public class ConfigurationWindow extends CustomComponent {
 		
 		// btnPLCConfiguration
 		btnPLCConfiguration = new NativeButton();
-		btnPLCConfiguration.setCaption("Configuración del PLC");
+		btnPLCConfiguration.setCaption("Configuraci\u00F3n del PLC");
 		btnPLCConfiguration.setIcon(new ThemeResource("img/plc-settings-Icon-72x72.png"));
 		btnPLCConfiguration.setImmediate(true);
 		btnPLCConfiguration.setWidth("86px");
@@ -180,7 +180,7 @@ public class ConfigurationWindow extends CustomComponent {
 		
 		// btnEmailConfiguration
 		btnEmailConfiguration = new NativeButton();
-		btnEmailConfiguration.setCaption("Configuración de Correo");
+		btnEmailConfiguration.setCaption("Configuraci\u00F3n de Correo");
 		btnEmailConfiguration.setIcon(new ThemeResource("img/mail-settings-icon-72x72.png"));
 		btnEmailConfiguration.setImmediate(true);
 		btnEmailConfiguration.setWidth("86px");
@@ -189,7 +189,7 @@ public class ConfigurationWindow extends CustomComponent {
 		
 		// btnNotificationConfiguration
 		btnNotificationConfiguration = new NativeButton();
-		btnNotificationConfiguration.setCaption("Configuración de Notificaciones");
+		btnNotificationConfiguration.setCaption("Configuraci\u00F3n de Notificaciones");
 		btnNotificationConfiguration.setIcon(new ThemeResource("img/alert-settings-icon-72x72.png"));
 		btnNotificationConfiguration.setImmediate(true);
 		btnNotificationConfiguration.setWidth("86px");
@@ -198,7 +198,7 @@ public class ConfigurationWindow extends CustomComponent {
 		
 		// btnUserConfiguration
 		btnUserConfiguration = new NativeButton();
-		btnUserConfiguration.setCaption("Configuración del PLC");
+		btnUserConfiguration.setCaption("Configuraci\u00F3n del PLC");
 		btnUserConfiguration.setIcon(new ThemeResource("img/user-administration-icon-72x72.png"));
 		btnUserConfiguration.setImmediate(true);
 		btnUserConfiguration.setWidth("86px");
@@ -225,7 +225,7 @@ public class ConfigurationWindow extends CustomComponent {
 		
 		// btnLastRecords
 		btnLastRecords = new NativeButton();
-		btnLastRecords.setCaption("Últimos Registros");
+		btnLastRecords.setCaption("\u00DAltimos Registros");
 		btnLastRecords.setIcon(new ThemeResource("img/last-records-icon-72x72.png"));
 		btnLastRecords.setImmediate(true);
 		btnLastRecords.setWidth("86px");
