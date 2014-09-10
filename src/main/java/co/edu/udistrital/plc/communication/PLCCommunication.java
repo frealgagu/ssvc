@@ -5,12 +5,13 @@ import co.edu.udistrital.exception.PLCConnectionException;
 
 public interface PLCCommunication {
 
+    static final int DEFAULT_UNIT_ID = 1;
+
 	/**
 	 * Read single coil
 	 * @param position
 	 * @param unitID
 	 * @return
-	 * @throws ConfigurationNotLoadedException
 	 * @throws PLCConnectionException
 	 */
 	boolean readCoil(int position, int unitID) throws PLCCommunicationException;
@@ -21,7 +22,6 @@ public interface PLCCommunication {
 	 * @param quantity
 	 * @param unitID
 	 * @return
-	 * @throws ConfigurationNotLoadedException
 	 * @throws PLCConnectionException
 	 */
     boolean[] readCoils(int position, int quantity, int unitID) throws PLCCommunicationException;
@@ -31,7 +31,6 @@ public interface PLCCommunication {
      * @param position
      * @param valueToWrite
      * @param unitID
-     * @throws ConfigurationNotLoadedException
      * @throws PLCConnectionException
      */
 	void writeCoil(int position, boolean valueToWrite, int unitID) throws PLCCommunicationException;
@@ -41,7 +40,6 @@ public interface PLCCommunication {
 	 * @param position
 	 * @param unitID
 	 * @return
-	 * @throws ConfigurationNotLoadedException
 	 * @throws PLCConnectionException
 	 */
 	int readRegister(int position, int unitID) throws PLCCommunicationException;
@@ -51,7 +49,6 @@ public interface PLCCommunication {
 	 * @param position
 	 * @param valueToWrite
 	 * @param unitID
-	 * @throws ConfigurationNotLoadedException
 	 * @throws PLCConnectionException
 	 */
 	void writeRegister(int position, int valueToWrite, int unitID) throws PLCCommunicationException;		

@@ -141,11 +141,17 @@ public class DummyPLCConnection implements PLCConnection {
 				public void run() {
 					while(readingData) {
                         int pressureRegister = (Integer) pressureSpinner.getValue();
+                        int desiredPressureRegister = (int) (pressureRegister * 1.2);
                         int temperatureRegister = (Integer) temperatureSpinner.getValue();
+                        int desiredTemperatureRegister = (int) (temperatureRegister * 1.2);
                         setInputRegister(4000, new SimpleInputRegister(pressureRegister));
                         setRegister(4000, new SimpleRegister(pressureRegister));
+                        setInputRegister(3500, new SimpleInputRegister(desiredPressureRegister));
+                        setRegister(3500, new SimpleRegister(desiredPressureRegister));
                         setInputRegister(3000, new SimpleInputRegister(temperatureRegister));
                         setRegister(3000, new SimpleRegister(temperatureRegister));
+                        setInputRegister(2500, new SimpleInputRegister(desiredTemperatureRegister));
+                        setRegister(2500, new SimpleRegister(desiredTemperatureRegister));
 					}
 				}
 				

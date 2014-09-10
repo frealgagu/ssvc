@@ -6,7 +6,6 @@ import java.util.List;
 
 import co.edu.udistrital.domain.measure.Interval;
 import co.edu.udistrital.service.ApplicationServices;
-import co.edu.udistrital.service.ConfigurationService;
 import co.edu.udistrital.service.MeasureService;
 
 import co.edu.udistrital.view.InitApplication;
@@ -151,11 +150,6 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 			source.attach();
 			MeasureService measureService = ApplicationServices.getMeasureService();
 			try {
-				int pressureRegister = measureService.retrieveLastPressureSecondInterval().getValue();
-				checkPressureAlert(pressureRegister);
-				int temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
-				checkTemperatureAlert(temperatureRegister);
-
                 Integer value = (Integer)radioFrequency.getValue();
 
 				List<Interval> pressureIntervals;
@@ -267,41 +261,7 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 			source.detach();
 		}
 	}
-	
-	private void checkPressureAlert(int pressureRegister) {
-		ConfigurationService configurationService = ApplicationServices.getConfigurationService();
-		if(pressureRegister >= configurationService.getPressureAlarmThreshold()) {
-			Notification notification = new Notification("La presi\u00F3n ha superado el nivel de alerta");
-			notification.setDelayMsec(500);
-			notification.setStyleName("tray");
-			notification.setPosition(Notification.POSITION_BOTTOM_LEFT);
-			getWindow().showNotification(notification);
-		} else if(pressureRegister >= configurationService.getPressureAdviceThreshold()) {
-			Notification notification = new Notification("La presi\u00F3n ha superado el nivel de advertencia");
-			notification.setDelayMsec(500);
-			notification.setStyleName("tray");
-			notification.setPosition(Notification.POSITION_BOTTOM_LEFT);
-			getWindow().showNotification(notification);
-		}
-	}
-	
-	private void checkTemperatureAlert(int temperatureRegister) {
-		ConfigurationService configurationService = ApplicationServices.getConfigurationService();
-		if(temperatureRegister >= configurationService.getTemperatureAlarmThreshold()) {
-			Notification notification = new Notification("La temperatura ha superado el nivel de alerta");
-			notification.setDelayMsec(500);
-			notification.setStyleName("tray");
-			notification.setPosition(Notification.POSITION_BOTTOM_RIGHT);
-			getWindow().showNotification(notification);
-		} else if(temperatureRegister >= configurationService.getTemperatureAdviceThreshold()) {
-			Notification notification = new Notification("La temperatura ha superado el nivel de advertencia");
-			notification.setDelayMsec(500);
-			notification.setStyleName("tray");
-			notification.setPosition(Notification.POSITION_BOTTOM_RIGHT);
-			getWindow().showNotification(notification);
-		}
-	}	
-	
+
 	private Configuration createInitialConfiguration() {
 		Configuration configuration = new Configuration();
         configuration.getChart().setType(ChartType.LINE);
