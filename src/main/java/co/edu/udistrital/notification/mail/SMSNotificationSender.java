@@ -16,6 +16,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service("smsNotificationSender")
@@ -23,13 +24,20 @@ public class SMSNotificationSender implements NotificationSender {
 
     private static final Logger logger = Logger.getLogger();
 
-    private static final String DUMMY_SMS_MODE = "dummy";
-    private static final String PRODUCTION_SMS_MODE = "production";
+    protected static final String DUMMY_SMS_MODE = "dummy";
+    protected static final String DUMMY_ENCODING = "UTF-8";
 
-    protected static final String ACTION = "sendsms";
-    protected static final String FROM = "ssvc";
-    protected static final String ENCODING = "UTF-8";
-    protected static final String ENDPOINT = "http://www.smsglobal.com/http-api.php";
+    protected static final String SMS_GLOBAL_SMS_MODE = "sms_global";
+    protected static final String SMS_GLOBAL_ACTION = "sendsms";
+    protected static final String SMS_GLOBAL_FROM = "ssvc";
+    protected static final String SMS_GLOBAL_ENCODING = "UTF-8";
+    protected static final String SMS_GLOBAL_ENDPOINT = "http://www.smsglobal.com/http-api.php";
+
+    protected static final String RED_OXYGEN_SMS_MODE = "red_oxygen";
+    protected static final String RED_OXYGEN_ACTION = "SendSMS";
+    protected static final String RED_OXYGEN_FROM = "ssvc";
+    protected static final String RED_OXYGEN_ENCODING = "UTF-8";
+    protected static final String RED_OXYGEN_ENDPOINT = "http://www.redoxygen.net/sms.dll";
 
     @Value("${sms.mode}")
     private String smsMode;
@@ -42,44 +50,44 @@ public class SMSNotificationSender implements NotificationSender {
         switch(smsMode) {
             case DUMMY_SMS_MODE:
                 try {
-                    logger.info("Sending message [" + message + "] to destination: " + destination + ". Encoded message: " + URLEncoder.encode(replaceAccents(message), ENCODING));
+                    logger.info("Sending message [" + message + "] to destination: " + destination + ". Encoded message: " + URLEncoder.encode(replaceAccents(message), DUMMY_ENCODING));
                 } catch (IOException ex) {
                     logger.error(ex.getMessage());
                 }
                 break;
-            case PRODUCTION_SMS_MODE:
-                InputStreamReader inputStreamReader = null;
-                BufferedReader bufferedReader = null;
-                StringBuilder urlString = new StringBuilder(50);
+            case SMS_GLOBAL_SMS_MODE:
+                InputStreamReader smsGlobalISR = null;
+                BufferedReader smsGlobalBR = null;
+                StringBuilder smsGlobalSB = new StringBuilder(50);
                 try {
-                    Map<String, String> parameters = new HashMap<>();
-                    parameters.put("action", ACTION);
+                    Map<String, String> parameters = new LinkedHashMap<>();
+                    parameters.put("action", SMS_GLOBAL_ACTION);
                     parameters.put("user", configurationService.getSMSSenderUsername());
                     parameters.put("password", configurationService.getSMSSenderPassword());
-                    parameters.put("from", FROM);
+                    parameters.put("from", SMS_GLOBAL_FROM);
                     parameters.put("to", destination);
-                    parameters.put("text", URLEncoder.encode(replaceAccents(message), ENCODING));
+                    parameters.put("text", URLEncoder.encode(replaceAccents(message), SMS_GLOBAL_ENCODING));
 
                     //SMS Endpoint
-                    urlString.append(ENDPOINT).append('?');
+                    smsGlobalSB.append(SMS_GLOBAL_ENDPOINT).append('?');
                     for(Map.Entry<String, String> entry : parameters.entrySet()) {
-                        urlString.append(entry.getKey()).append('=').append(entry.getValue());
-                        urlString.append('&');
+                        smsGlobalSB.append(entry.getKey()).append('=').append(entry.getValue());
+                        smsGlobalSB.append('&');
                     }
-                    if(urlString.toString().endsWith("&")) {
-                        urlString.deleteCharAt(urlString.lastIndexOf("&"));
+                    if(smsGlobalSB.toString().endsWith("&")) {
+                        smsGlobalSB.deleteCharAt(smsGlobalSB.lastIndexOf("&"));
                     }
 
-                    logger.debug("URL: " + urlString);
+                    logger.debug("URL: " + smsGlobalSB);
 
-                    URL url = new URL(urlString.toString());
+                    URL url = new URL(smsGlobalSB.toString());
                     URLConnection urlConnection = url.openConnection();
-                    inputStreamReader = new InputStreamReader(urlConnection.getInputStream());
-                    bufferedReader = new BufferedReader(inputStreamReader);
+                    smsGlobalISR = new InputStreamReader(urlConnection.getInputStream());
+                    smsGlobalBR = new BufferedReader(smsGlobalISR);
 
                     StringBuilder response = new StringBuilder();
                     String line;
-                    while ((line = bufferedReader.readLine()) != null) {
+                    while ((line = smsGlobalBR.readLine()) != null) {
                         response.append(line);
                     }
                     logger.info("Response message -> " + response);
@@ -90,17 +98,76 @@ public class SMSNotificationSender implements NotificationSender {
                         return ;
                     }
                 } catch (IOException ex) {
-                    logger.error(ex.getMessage() + " " + urlString);
+                    logger.error(ex.getMessage() + " " + smsGlobalSB);
                 } finally {
-                    if(inputStreamReader != null) {
+                    if(smsGlobalISR != null) {
                         try {
-                            inputStreamReader.close();
+                            smsGlobalISR.close();
                         } catch (IOException ignore) {
                         }
                     }
-                    if(bufferedReader != null) {
+                    if(smsGlobalBR != null) {
                         try {
-                            bufferedReader.close();
+                            smsGlobalBR.close();
+                        } catch (IOException ignore) {
+                        }
+                    }
+                }
+                break;
+            case RED_OXYGEN_SMS_MODE:
+                InputStreamReader redOxygenISR = null;
+                BufferedReader redOxygenBR = null;
+                StringBuilder redOxygenSB = new StringBuilder(50);
+                try {
+                    Map<String, String> parameters = new LinkedHashMap<>();
+                    parameters.put("Action", RED_OXYGEN_ACTION);
+                    parameters.put("AccountId", configurationService.getSMSSenderUsername());
+                    parameters.put("Email", configurationService.getEmailSenderFrom());
+                    parameters.put("Password", configurationService.getSMSSenderPassword());
+                    parameters.put("Recipient", destination);
+                    parameters.put("Message", URLEncoder.encode(replaceAccents(message), RED_OXYGEN_ENCODING));
+
+                    //SMS Endpoint
+                    redOxygenSB.append(RED_OXYGEN_ENDPOINT).append('?');
+                    for(Map.Entry<String, String> entry : parameters.entrySet()) {
+                        redOxygenSB.append(entry.getKey()).append('=').append(entry.getValue());
+                        redOxygenSB.append('&');
+                    }
+                    if(redOxygenSB.toString().endsWith("&")) {
+                        redOxygenSB.deleteCharAt(redOxygenSB.lastIndexOf("&"));
+                    }
+
+                    logger.debug("URL: " + redOxygenSB);
+
+                    URL url = new URL(redOxygenSB.toString());
+                    URLConnection urlConnection = url.openConnection();
+                    redOxygenISR = new InputStreamReader(urlConnection.getInputStream());
+                    redOxygenBR = new BufferedReader(redOxygenISR);
+
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = redOxygenBR.readLine()) != null) {
+                        response.append(line);
+                    }
+                    logger.info("Response message -> " + response);
+                    if(response.toString().startsWith("ERR")) {
+                        logger.error("Response error from provider. " + response);
+                    } else {
+                        logger.info("Response from SMS provider: " + response.toString());
+                        return ;
+                    }
+                } catch (IOException ex) {
+                    logger.error(ex.getMessage() + " " + redOxygenSB);
+                } finally {
+                    if(redOxygenISR != null) {
+                        try {
+                            redOxygenISR.close();
+                        } catch (IOException ignore) {
+                        }
+                    }
+                    if(redOxygenBR != null) {
+                        try {
+                            redOxygenBR.close();
                         } catch (IOException ignore) {
                         }
                     }
