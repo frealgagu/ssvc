@@ -55,10 +55,10 @@ INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notific
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.host', 'smtp.gmail.com', '2014-01-01 00:00:00');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.starttls.enable', 'true', '2014-01-01 00:00:00');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.port', '587', '2014-01-01 00:00:00');
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.user', 'ssvc.udistrital@gmail.com', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.user', 'ssvc.notifications@gmail.com', '2014-01-01 00:00:00');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.auth', 'true', '2014-01-01 00:00:00');
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.from', 'ssvc.udistrital@gmail.com', '2014-01-01 00:00:00');
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.username', 'ssvc.udistrital@gmail.com', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.from', 'ssvc.notifications@gmail.com', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.username', 'ssvc.notifications@gmail.com', '2014-01-01 00:00:00');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.password', 'sistema.udistrital', '2014-01-01 00:00:00');
 
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.username', '8ovilzrb', '2014-01-01 00:00:00');

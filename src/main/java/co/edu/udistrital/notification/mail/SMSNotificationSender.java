@@ -3,6 +3,8 @@ package co.edu.udistrital.notification.mail;
 import co.edu.udistrital.notification.NotificationSender;
 import co.edu.udistrital.service.ConfigurationService;
 import com.spinn3r.log5j.Logger;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,11 @@ public class SMSNotificationSender implements NotificationSender {
     public void sendNotification(String subject, String message, String destination) {
         switch(smsMode) {
             case DUMMY_SMS_MODE:
-                logger.info("Sending message [" + message + "] to destination: " + destination);
+                try {
+                    logger.info("Sending message [" + message + "] to destination: " + destination + ". Encoded message: " + URLEncoder.encode(replaceAccents(message), ENCODING));
+                } catch (IOException ex) {
+                    logger.error(ex.getMessage());
+                }
                 break;
             case PRODUCTION_SMS_MODE:
                 InputStreamReader inputStreamReader = null;
@@ -52,7 +58,7 @@ public class SMSNotificationSender implements NotificationSender {
                     parameters.put("password", configurationService.getSMSSenderPassword());
                     parameters.put("from", FROM);
                     parameters.put("to", destination);
-                    parameters.put("text", URLEncoder.encode(message, ENCODING));
+                    parameters.put("text", URLEncoder.encode(replaceAccents(message), ENCODING));
 
                     //SMS Endpoint
                     urlString.append(ENDPOINT).append('?');
@@ -103,5 +109,37 @@ public class SMSNotificationSender implements NotificationSender {
             default:
                 break;
         }
+    }
+
+    private String replaceAccents(String text) {
+        String[] accents = new String[] {
+                "\u00E1",
+                "\u00E9",
+                "\u00ED",
+                "\u00F3",
+                "\u00FA",
+                "\u00F1",
+                "\u00C1",
+                "\u00C9",
+                "\u00CD",
+                "\u00D3",
+                "\u00DA",
+                "\u00D1"
+        };
+        String[] replacements = new String[] {
+                "a",
+                "e",
+                "i",
+                "o",
+                "u",
+                "n",
+                "A",
+                "E",
+                "I",
+                "O",
+                "U",
+                "N"
+        };
+        return StringUtils.replaceEach(text, accents, replacements);
     }
 }
