@@ -61,10 +61,14 @@ INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.sm
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.username', 'ssvc.notifications@gmail.com', '2014-01-01 00:00:00');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('mail.smtp.password', 'sistema.udistrital', '2014-01-01 00:00:00');
 
---GLOBAL SMS
---INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.username', '8ovilzrb', '2014-01-01 00:00:00');
---INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.password', '8ctU8okU', '2014-01-01 00:00:00');
+/*GLOBAL SMS*/
+/*INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.username', '8ovilzrb', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.password', '8ctU8okU', '2014-01-01 00:00:00');*/
 
---RED OXYGEN
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.username', 'CI00135205', '2014-01-01 00:00:00');
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.password', 'ssvc', '2014-01-01 00:00:00');
+/*RED OXYGEN*/
+/*INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.username', 'CI00135205', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.password', 'ssvc', '2014-01-01 00:00:00');*/
+
+/*BULK SMS*/
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.username', 'frealgagu', '2014-01-01 00:00:00');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('sms.password', 'ssvcssvc', '2014-01-01 00:00:00');

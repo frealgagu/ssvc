@@ -3,7 +3,6 @@ package co.edu.udistrital.notification.mail;
 import co.edu.udistrital.notification.NotificationSender;
 import co.edu.udistrital.service.ConfigurationService;
 import com.spinn3r.log5j.Logger;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +14,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -35,9 +33,13 @@ public class SMSNotificationSender implements NotificationSender {
 
     protected static final String RED_OXYGEN_SMS_MODE = "red_oxygen";
     protected static final String RED_OXYGEN_ACTION = "SendSMS";
-    protected static final String RED_OXYGEN_FROM = "ssvc";
     protected static final String RED_OXYGEN_ENCODING = "UTF-8";
     protected static final String RED_OXYGEN_ENDPOINT = "http://www.redoxygen.net/sms.dll";
+
+    protected static final String BULK_SMS_SMS_MODE = "bulk_sms";
+    protected static final String BULK_SMS_FROM = "ssvc";
+    protected static final String BULK_SMS_ENCODING = "UTF-8";
+    protected static final String BULK_SMS_ENDPOINT = "http://bulksms.vsms.net:5567/eapi/submission/send_sms/2/2.0";
 
     @Value("${sms.mode}")
     private String smsMode;
@@ -168,6 +170,66 @@ public class SMSNotificationSender implements NotificationSender {
                     if(redOxygenBR != null) {
                         try {
                             redOxygenBR.close();
+                        } catch (IOException ignore) {
+                        }
+                    }
+                }
+                break;
+            case BULK_SMS_SMS_MODE:
+                InputStreamReader bulkSmsISR = null;
+                BufferedReader bulkSmsBR = null;
+                StringBuilder bulkSmsSB = new StringBuilder(50);
+                try {
+                    Map<String, String> parameters = new LinkedHashMap<>();
+                    parameters.put("username", configurationService.getSMSSenderUsername());
+                    parameters.put("password", configurationService.getSMSSenderPassword());
+                    parameters.put("msisdn", destination);
+                    parameters.put("sender", BULK_SMS_FROM);
+                    parameters.put("repliable", "0");
+                    parameters.put("message", URLEncoder.encode(replaceAccents(message), BULK_SMS_ENCODING));
+                    //parameters.put("test_always_succeed", "1");
+
+                    //SMS Endpoint
+                    bulkSmsSB.append(BULK_SMS_ENDPOINT).append('?');
+                    for(Map.Entry<String, String> entry : parameters.entrySet()) {
+                        bulkSmsSB.append(entry.getKey()).append('=').append(entry.getValue());
+                        bulkSmsSB.append('&');
+                    }
+                    if(bulkSmsSB.toString().endsWith("&")) {
+                        bulkSmsSB.deleteCharAt(bulkSmsSB.lastIndexOf("&"));
+                    }
+
+                    logger.debug("URL: " + bulkSmsSB);
+
+                    URL url = new URL(bulkSmsSB.toString());
+                    URLConnection urlConnection = url.openConnection();
+                    bulkSmsISR = new InputStreamReader(urlConnection.getInputStream());
+                    bulkSmsBR = new BufferedReader(bulkSmsISR);
+
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = bulkSmsBR.readLine()) != null) {
+                        response.append(line);
+                    }
+                    logger.info("Response message -> " + response);
+                    if(response.toString().startsWith("ERR")) {
+                        logger.error("Response error from provider. " + response);
+                    } else {
+                        logger.info("Response from SMS provider: " + response.toString());
+                        return ;
+                    }
+                } catch (IOException ex) {
+                    logger.error(ex.getMessage() + " " + bulkSmsSB);
+                } finally {
+                    if(bulkSmsISR != null) {
+                        try {
+                            bulkSmsISR.close();
+                        } catch (IOException ignore) {
+                        }
+                    }
+                    if(bulkSmsBR != null) {
+                        try {
+                            bulkSmsBR.close();
                         } catch (IOException ignore) {
                         }
                     }
