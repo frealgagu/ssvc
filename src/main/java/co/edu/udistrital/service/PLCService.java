@@ -10,8 +10,7 @@ public interface PLCService {
 	 * @param position
 	 * @param unitID
 	 * @return
-	 * @throws ConfigurationNotLoadedException
-	 * @throws PLCConnectionException
+	 * @throws PLCCommunicationException
 	 */
 	boolean readCoil(int position, int unitID) throws PLCCommunicationException;
 
@@ -21,8 +20,7 @@ public interface PLCService {
 	 * @param quantity
 	 * @param unitID
 	 * @return
-	 * @throws ConfigurationNotLoadedException
-	 * @throws PLCConnectionException
+     * @throws PLCCommunicationException
 	 */
     boolean[] readCoils(int position, int quantity, int unitID) throws PLCCommunicationException;
 
@@ -31,8 +29,7 @@ public interface PLCService {
      * @param position
      * @param valueToWrite
      * @param unitID
-     * @throws ConfigurationNotLoadedException
-     * @throws PLCConnectionException
+     * @throws PLCCommunicationException
      */
 	void writeCoil(int position, boolean valueToWrite, int unitID) throws PLCCommunicationException;
 	
@@ -41,8 +38,7 @@ public interface PLCService {
 	 * @param position
 	 * @param unitID
 	 * @return
-	 * @throws ConfigurationNotLoadedException
-	 * @throws PLCConnectionException
+     * @throws PLCCommunicationException
 	 */
 	int readRegister(int position, int unitID) throws PLCCommunicationException;
 
@@ -51,8 +47,7 @@ public interface PLCService {
 	 * @param position
 	 * @param valueToWrite
 	 * @param unitID
-	 * @throws ConfigurationNotLoadedException
-	 * @throws PLCConnectionException
+     * @throws PLCCommunicationException
 	 */
 	void writeRegister(int position, int valueToWrite, int unitID) throws PLCCommunicationException;
 

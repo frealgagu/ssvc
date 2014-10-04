@@ -1,5 +1,6 @@
 package co.edu.udistrital.view.status;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -190,7 +191,7 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 							pressureItem.setX(pressureInterval.getDateTime().toDate());
 							update = true;
 						}
-						if(pressureInterval.getValue() != pressureItem.getY().intValue()) {
+						if(pressureInterval.getValue().compareTo((BigDecimal)pressureItem.getY()) != 0) {
 							pressureItem.setY(pressureInterval.getValue());
 							update = true;
 						}
@@ -241,7 +242,7 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 							temperatureItem.setX(temperatureInterval.getDateTime().toDate());
 							update = true;
 						}
-						if(temperatureInterval.getValue() != temperatureItem.getY().intValue()) {
+						if(temperatureInterval.getValue().compareTo((BigDecimal)temperatureItem.getY()) != 0) {
 							temperatureItem.setY(temperatureInterval.getValue());
 							update = true;
 						}

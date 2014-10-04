@@ -24,12 +24,13 @@ public class PLCConnectionFactoryImpl implements PLCConnectionFactory {
 	
     @Value("${plc.connection.type}")
 	private String connectionType;
-	
+
+    @Autowired
+    private ConfigurationDao configurationDao;
+
 	//Dummy Connection
 	
 	//Serial Connection
-	@Autowired
-	private ConfigurationDao configurationDao;	
 	private SerialParameters serialParameters;
 
 	@PostConstruct
@@ -61,7 +62,7 @@ public class PLCConnectionFactoryImpl implements PLCConnectionFactory {
     }
 	
 	private void openDummyConfiguration() {
-		DummyPLCConnection.startReadingData();
+		DummyPLCConnection.startReadingData(configurationDao);
 	}
 
     private void closeDummyConfiguration() {

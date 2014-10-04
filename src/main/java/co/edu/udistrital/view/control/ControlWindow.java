@@ -123,6 +123,9 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 				initApplication.showLastRecordsWindow();
 			}
 		});
+
+        final int machineTurnOnOff = ApplicationServices.getConfigurationService().getMachineTurnOnOff();
+
 		btnMemoryMap.addListener(new Button.ClickListener() {
 
             private static final long serialVersionUID = 1362297965791130357L;
@@ -137,7 +140,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 try {
-                    ApplicationServices.getPLCService().writeCoil(1, true, PLCCommunication.DEFAULT_UNIT_ID);
+                    ApplicationServices.getPLCService().writeCoil(machineTurnOnOff, true, PLCCommunication.DEFAULT_UNIT_ID);
                 } catch (PLCCommunicationException ex) {
                     ex.printStackTrace();
                 }
@@ -147,7 +150,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 try {
-                    ApplicationServices.getPLCService().writeCoil(1, false, PLCCommunication.DEFAULT_UNIT_ID);
+                    ApplicationServices.getPLCService().writeCoil(machineTurnOnOff, false, PLCCommunication.DEFAULT_UNIT_ID);
                 } catch (PLCCommunicationException ex) {
                     ex.printStackTrace();
                 }
@@ -157,7 +160,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 try {
-                    ApplicationServices.getPLCService().writeCoil(6, true, PLCCommunication.DEFAULT_UNIT_ID);
+                    ApplicationServices.getPLCService().writeCoil(machineTurnOnOff, true, PLCCommunication.DEFAULT_UNIT_ID);
                 } catch (PLCCommunicationException ex) {
                     ex.printStackTrace();
                 }
@@ -167,7 +170,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
             @Override
             public void buttonClick(ClickEvent clickEvent) {
                 try {
-                    ApplicationServices.getPLCService().writeCoil(6, true, PLCCommunication.DEFAULT_UNIT_ID);
+                    ApplicationServices.getPLCService().writeCoil(machineTurnOnOff, false, PLCCommunication.DEFAULT_UNIT_ID);
                 } catch (PLCCommunicationException ex) {
                     ex.printStackTrace();
                 }
@@ -206,7 +209,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
             }
         });
 
-        refresher.setRefreshInterval(250);
+        refresher.setRefreshInterval(1000);
         refresher.addListener(this);
 	}
 
@@ -215,11 +218,11 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
         if(isVisible()) {
             source.attach();
             try {
-                boolean pressureTurnedOn = ApplicationServices.getPLCService().readCoil(2, PLCCommunication.DEFAULT_UNIT_ID);
+                boolean pressureTurnedOn = ApplicationServices.getPLCService().readCoil(10, PLCCommunication.DEFAULT_UNIT_ID);
                 btnPressureTurnOn.setEnabled(!pressureTurnedOn);
                 btnPressureTurnOff.setEnabled(pressureTurnedOn);
 
-                boolean temperatureTurnedOn = ApplicationServices.getPLCService().readCoil(6, PLCCommunication.DEFAULT_UNIT_ID);
+                boolean temperatureTurnedOn = ApplicationServices.getPLCService().readCoil(10, PLCCommunication.DEFAULT_UNIT_ID);
                 btnTemperatureTurnOn.setEnabled(!temperatureTurnedOn);
                 btnTemperatureTurnOff.setEnabled(temperatureTurnedOn);
             } catch(PLCCommunicationException ex) {

@@ -94,6 +94,18 @@ public interface ConfigurationService {
 	void setTimeout(int timeout);
 
     /**
+     * Returns PLC machine turn on off coil indicator
+     * @return PLC machine turn on off coil indicator
+     */
+    int getMachineTurnOnOff();
+
+    /**
+     * Sets PLC machine turn on off coil indicator
+     * @param machineTurnOnOff PLC machine turn on off coil indicator
+     */
+    void setMachineTurnOnOff(int machineTurnOnOff);
+
+    /**
      * Returns PLC pressure read register number
      * @return PLC pressure read register number
      */
@@ -144,64 +156,28 @@ public interface ConfigurationService {
 	//Notification
 	
 	/**
-	 * Returns pressure advice threshold
-	 * @return Pressure advice threshold
-	 */
-	int getPressureAdviceThreshold();
-	
-	/**
-	 * Sets pressure advice threshold
-	 * @param pressureAdviceThreshold
-	 */
-	void setPressureAdviceThreshold(int pressureAdviceThreshold);
-	
-	/**
 	 * Returns 
 	 * @return
 	 */
-	int getPressureAlarmThreshold();
+	int getPressureAlarmRegister();
 
 	/**
 	 * Sets 
-	 * @param pressureAlarmThreshold
+	 * @param pressureAlarmRegister
 	 */
-	void setPressureAlarmThreshold(int pressureAlarmThreshold);
+	void setPressureAlarmRegister(int pressureAlarmRegister);
 
 	/**
 	 * Returns 
 	 * @return
 	 */
-	int getTemperatureAdviceThreshold();
+	int getTemperatureAlarmRegister();
 
 	/**
 	 * Sets 
-	 * @param temperatureAdviceThreshold
+	 * @param temperatureAlarmRegister
 	 */
-	void setTemperatureAdviceThreshold(int temperatureAdviceThreshold);
-
-	/**
-	 * Returns 
-	 * @return
-	 */
-	int getTemperatureAlarmThreshold();
-
-	/**
-	 * Sets 
-	 * @param temperatureAlarmThreshold
-	 */
-	void setTemperatureAlarmThreshold(int temperatureAlarmThreshold);
-
-	/**
-	 * Returns 
-	 * @return
-	 */
-	int getAdviceTimeBeforeSending();
-
-	/**
-	 * Sets 
-	 * @param adviceTimeBeforeSending
-	 */
-	void setAdviceTimeBeforeSending(int adviceTimeBeforeSending);
+	void setTemperatureAlarmRegister(int temperatureAlarmRegister);
 
 	/**
 	 * Returns 
@@ -219,18 +195,6 @@ public interface ConfigurationService {
 	 * Returns 
 	 * @return
 	 */
-	int getAdviceTimeBeforeReply();
-
-	/**
-	 * Sets 
-	 * @param adviceTimeBeforeReply
-	 */
-	void setAdviceTimeBeforeReply(int adviceTimeBeforeReply);
-
-	/**
-	 * Returns 
-	 * @return
-	 */
 	int getAlarmTimeBeforeReply();
 
 	/**
@@ -239,17 +203,9 @@ public interface ConfigurationService {
 	 */
 	void setAlarmTimeBeforeReply(int alarmTimeBeforeReply);
 
-	String getEmailOnAdvice();
-
-	void setEmailOnAdvice(String emailOnAdvice);
-
 	String getEmailOnAlarm();
 
 	void setEmailOnAlarm(String emailOnAlarm);
-
-	String getSmsOnAdvice();
-
-	void setSmsOnAdvice(String smsOnAdvice);
 
 	String getSmsOnAlarm();
 

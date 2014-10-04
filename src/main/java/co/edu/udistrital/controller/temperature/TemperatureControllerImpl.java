@@ -15,6 +15,8 @@ import co.edu.udistrital.service.PLCService;
 
 import com.spinn3r.log5j.Logger;
 
+import java.math.BigDecimal;
+
 @Controller("temperatureController")
 public class TemperatureControllerImpl implements MeasureController {
 	
@@ -46,10 +48,6 @@ public class TemperatureControllerImpl implements MeasureController {
 	protected boolean monitoring;
 	protected boolean communicationError;
 
-    protected DateTime startAdviceThresholdExceeded = null;
-    protected DateTime lastAdviceSend = null;
-    protected boolean adviceReplied = false;
-
     protected DateTime startAlarmThresholdExceeded = null;
     protected DateTime lastAlarmSend = null;
     protected boolean alarmReplied;
@@ -59,11 +57,12 @@ public class TemperatureControllerImpl implements MeasureController {
 		if(monitoring) {
 			int registerNumber = configurationService.getTemperatureRead();
 			try {
-				int register = plcService.readRegister(registerNumber, UNIT_ID);
-				secondsMeasure.appendValue(register);
-				minutesMeasure.appendValue(register);
-				hoursMeasure.appendValue(register);
-                writeNotification(register);
+				int registerValue = plcService.readRegister(registerNumber, UNIT_ID);
+                BigDecimal temperatureRegisterValue = BigDecimal.valueOf(registerValue).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+				secondsMeasure.appendValue(temperatureRegisterValue);
+				minutesMeasure.appendValue(temperatureRegisterValue);
+				hoursMeasure.appendValue(temperatureRegisterValue);
+                writeNotification(registerValue);
 				logCommunicationStablished();
 			} catch (PLCCommunicationException ex) {
 				logCommunicationMissed(ex);
@@ -79,8 +78,8 @@ public class TemperatureControllerImpl implements MeasureController {
 		monitoring = false;
 	}
 
-    protected void writeNotification(int register) {
-        int alarmThreshold = configurationService.getTemperatureAlarmThreshold();
+    protected void writeNotification(double register) {
+        int alarmThreshold = configurationService.getTemperatureAlarmRegister();
         if (register >= alarmThreshold) {
             if (startAlarmThresholdExceeded == null) {
                 startAlarmThresholdExceeded = DateTime.now();
@@ -116,44 +115,6 @@ public class TemperatureControllerImpl implements MeasureController {
             startAlarmThresholdExceeded = null;
             lastAlarmSend = null;
             alarmReplied = false;
-
-            int adviceThreshold = configurationService.getTemperatureAdviceThreshold();
-            if (register >= adviceThreshold) {
-                if (startAdviceThresholdExceeded == null) {
-                    startAdviceThresholdExceeded = DateTime.now();
-                } else {
-                    int secondsBeforeSend = configurationService.getAdviceTimeBeforeSending();
-                    if (startAdviceThresholdExceeded.plusSeconds(secondsBeforeSend).isBeforeNow()) {
-                        if (lastAdviceSend == null) {
-                            String subject = "La temperatura ha superado el l\u00EDmite de advertencia";
-                            String message = "La temperatura ha superado el l\u00EDmite de advertencia. Por favor ingrese a http://ssvc.frealgagu.com/ssvc/ para corregirlo.";
-                            String emailOnAdvice = configurationService.getEmailOnAdvice();
-                            String smsOnAdvice = configurationService.getSmsOnAdvice();
-                            emailNotificationSender.sendNotification(subject, message, emailOnAdvice);
-                            smsNotificationSender.sendNotification(subject, message, smsOnAdvice);
-                            lastAdviceSend = DateTime.now();
-                        } else {
-                            int secondsBeforeReplay = configurationService.getAdviceTimeBeforeReply();
-                            if(lastAdviceSend.plusSeconds(secondsBeforeReplay).isBeforeNow()) {
-                                if(!adviceReplied) {
-                                    String subject = "La temperatura ha superado el l\u00EDmite de advertencia y no se ha corregido";
-                                    String message = "La temperatura ha superado el l\u00EDmite de advertencia y no se ha corregido. Por favor ingrese a http://ssvc.frealgagu.com/ssvc/ para corregirlo.";
-                                    String emailOnAdvice = configurationService.getEmailOnAdvice();
-                                    String smsOnAdvice = configurationService.getSmsOnAdvice();
-                                    emailNotificationSender.sendNotification(subject, message, emailOnAdvice);
-                                    smsNotificationSender.sendNotification(subject, message, smsOnAdvice);
-                                    lastAdviceSend = DateTime.now();
-                                    adviceReplied = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                adviceReplied = false;
-                startAdviceThresholdExceeded = null;
-                lastAdviceSend = null;
-            }
         }
     }
 	

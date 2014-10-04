@@ -1,5 +1,6 @@
 package co.edu.udistrital.controller.measure.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,11 +49,11 @@ public class MeasureImpl implements Measure {
 		throw new IntervalNotFoundException("Interval for date time " + fixedDateTime + " not found");
 	}
 	
-	public void appendValue(int value) {
+	public void appendValue(BigDecimal value) {
 		appendValue(new DateTime(), value);
 	}
 	
-	public void appendValue(DateTime dateTime, int value) {
+	public void appendValue(DateTime dateTime, BigDecimal value) {
 		DateTime fixedDateTime = fixDateTime(dateTime);
 		try {
 			retrieveInterval(fixedDateTime).appendValue(value);

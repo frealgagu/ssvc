@@ -2,15 +2,17 @@ package co.edu.udistrital.domain.measure;
 
 import org.joda.time.DateTime;
 
+import java.math.BigDecimal;
+
 public class Interval {
 
 	private DateTime dateTime;
-	private int count;
-	private int sum;
+	private BigDecimal count;
+	private BigDecimal sum;
 
-	public Interval(DateTime dateTime, int value) {
+	public Interval(DateTime dateTime, BigDecimal value) {
 		this.dateTime = dateTime;
-		this.count = 1;
+		this.count = BigDecimal.ONE;
 		this.sum = value;
 	}
 
@@ -18,12 +20,12 @@ public class Interval {
 		return dateTime;
 	}
 	
-	public int getValue() {
-		return sum / count; 
+	public BigDecimal getValue() {
+		return sum.divide(count, 1, BigDecimal.ROUND_HALF_UP);
 	}
 	
-	public void appendValue(int value) {
-		count++;
-		sum += value;
+	public void appendValue(BigDecimal value) {
+		count = count.add(BigDecimal.ONE);
+		sum = sum.add(value);
 	}
 }

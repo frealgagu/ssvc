@@ -1,8 +1,10 @@
 package co.edu.udistrital.view;
 
+import co.edu.udistrital.exception.PLCCommunicationException;
 import co.edu.udistrital.service.ApplicationServices;
 import co.edu.udistrital.service.ConfigurationService;
 import co.edu.udistrital.service.MeasureService;
+import co.edu.udistrital.service.PLCService;
 import co.edu.udistrital.view.configuration.ConfigurationWindow;
 import co.edu.udistrital.view.control.ControlWindow;
 import co.edu.udistrital.view.memory.MemoryMapWindow;
@@ -12,6 +14,8 @@ import com.github.wolfie.refresher.Refresher;
 import com.vaadin.Application;
 import com.vaadin.ui.*;
 import org.apache.commons.lang.ObjectUtils;
+
+import java.math.BigDecimal;
 
 /**
  * Main application class.
@@ -61,7 +65,7 @@ public class InitApplication extends Application implements Refresher.RefreshLis
         refresher.setImmediate(false);
         refresher.setWidth("-1px");
         refresher.setHeight("-1px");
-        refresher.setRefreshInterval(500);
+        refresher.setRefreshInterval(2000);
         refresher.addListener(this);
 
         mainLayout.addComponent(refresher);
@@ -122,9 +126,9 @@ public class InitApplication extends Application implements Refresher.RefreshLis
             source.attach();
             MeasureService measureService = ApplicationServices.getMeasureService();
             try {
-                int pressureRegister = measureService.retrieveLastPressureSecondInterval().getValue();
+                BigDecimal pressureRegister = measureService.retrieveLastPressureSecondInterval().getValue();
                 checkPressureNotification(pressureRegister);
-                int temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
+                BigDecimal temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
                 checkTemperatureNotification(temperatureRegister);
             } catch (Throwable t) {
                 t.printStackTrace();
@@ -134,32 +138,39 @@ public class InitApplication extends Application implements Refresher.RefreshLis
         }
     }
 
-    private void checkPressureNotification(int pressureRegister) {
+    private void checkPressureNotification(BigDecimal pressureRegisterValue) {
         ConfigurationService configurationService = ApplicationServices.getConfigurationService();
-        if(pressureRegister >= configurationService.getPressureAlarmThreshold()) {
-            pressureText = "<center><font color=#FF0000 size=\"5\">La <strong>presi\u00F3n</strong> ha superado el nivel de<br/><strong>alerta</strong></font></center>";
-            updateNotificationLabel();
-        } else if(pressureRegister >= configurationService.getPressureAdviceThreshold()) {
-            pressureText = "<center><font color=#FFAA70 size=\"5\">La <strong>presi\u00F3n</strong> ha superado el nivel de<br/><strong>advertencia</strong></font></center>";
-            updateNotificationLabel();
-        } else {
-            pressureText = "<center><font color=#000000 size=\"5\"></font></center>";
-            updateNotificationLabel();
+        PLCService plcService = ApplicationServices.getPLCService();
+        try {
+            int pressureAlarm = plcService.readRegister(configurationService.getPressureAlarmRegister(), UNIT_ID);
+            BigDecimal pressureAlarmValue = BigDecimal.valueOf(pressureAlarm).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            if (pressureRegisterValue.compareTo(pressureAlarmValue) > 0) {
+                pressureText = "<center><font color=#FF0000 size=\"5\">La <strong>presi\u00F3n</strong> ha superado el nivel de<br/><strong>alerta</strong></font></center>";
+                updateNotificationLabel();
+            } else {
+                pressureText = "<center><font color=#000000 size=\"5\"></font></center>";
+                updateNotificationLabel();
+            }
+        } catch (PLCCommunicationException ex) {
+            pressureText = "<center><font color=#FF0000 size=\"5\"><strong>Ha ocurrido un error conectando con el PLC</strong></font></center>";
         }
-
     }
 
-    private void checkTemperatureNotification(int temperatureRegister) {
+    private void checkTemperatureNotification(BigDecimal temperatureRegisterValue) {
         ConfigurationService configurationService = ApplicationServices.getConfigurationService();
-        if(temperatureRegister >= configurationService.getTemperatureAlarmThreshold()) {
-            temperatureText = "<center><font color=#FF0000 size=\"5\">La <strong>temperatura</strong> ha superado el nivel de<br/><strong>alerta</strong></font></center>";
-            updateNotificationLabel();
-        } else if(temperatureRegister >= configurationService.getTemperatureAdviceThreshold()) {
-            temperatureText = "<center><font color=#FFAA70 size=\"5\">La <strong>temperatura</strong> ha superado el nivel de<br/><strong>advertencia</strong></font></center>";
-            updateNotificationLabel();
-        } else {
-            temperatureText = "<center><font color=#FF0000 size=\"5\"></font></center>";
-            updateNotificationLabel();
+        PLCService plcService = ApplicationServices.getPLCService();
+        try {
+            int pressureAlarm = plcService.readRegister(configurationService.getPressureAlarmRegister(), UNIT_ID);
+            BigDecimal pressureAlarmValue = BigDecimal.valueOf(pressureAlarm).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            if (temperatureRegisterValue.compareTo(pressureAlarmValue) > 0) {
+                temperatureText = "<center><font color=#FF0000 size=\"5\">La <strong>temperatura</strong> ha superado el nivel de<br/><strong>alerta</strong></font></center>";
+                updateNotificationLabel();
+            } else {
+                pressureText = "<center><font color=#000000 size=\"5\"></font></center>";
+                updateNotificationLabel();
+            }
+        } catch (PLCCommunicationException ex) {
+            pressureText = "<center><font color=#FF0000 size=\"5\"><strong>Ha ocurrido un error conectando con el PLC</strong></font></center>";
         }
     }
 

@@ -74,6 +74,14 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 		configurationDao.setTimeout(timeout);
 	}
 
+    public int getMachineTurnOnOff() {
+        return configurationDao.getMachineTurnOnOff();
+    }
+
+    public void setMachineTurnOnOff(int machineTurnOnOff) {
+        configurationDao.setMachineTurnOnOff(machineTurnOnOff);
+    }
+
     public int getPressureRead() {
         return configurationDao.getPressureRead();
     }
@@ -108,44 +116,20 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
     //Notification
 	
-	public int getPressureAdviceThreshold() {
-		return configurationDao.getPressureAdviceThreshold();
-	}
-	
-	public void setPressureAdviceThreshold(int pressureAdviceThreshold) {
-		configurationDao.setPressureAdviceThreshold(pressureAdviceThreshold);
-	}
-	
-	public int getPressureAlarmThreshold() {
-		return configurationDao.getPressureAlarmThreshold();
+	public int getPressureAlarmRegister() {
+		return configurationDao.getPressureAlarmRegister();
 	}
 
-	public void setPressureAlarmThreshold(int pressureAlarmThreshold) {
-		configurationDao.setPressureAlarmThreshold(pressureAlarmThreshold);
+	public void setPressureAlarmRegister(int pressureAlarmRegister) {
+		configurationDao.setPressureAlarmRegister(pressureAlarmRegister);
 	}
 
-	public int getTemperatureAdviceThreshold() {
-		return configurationDao.getTemperatureAdviceThreshold();
+	public int getTemperatureAlarmRegister() {
+		return configurationDao.getTemperatureAlarmRegister();
 	}
 
-	public void setTemperatureAdviceThreshold(int temperatureAdviceThreshold) {
-		configurationDao.setTemperatureAdviceThreshold(temperatureAdviceThreshold);
-	}
-
-	public int getTemperatureAlarmThreshold() {
-		return configurationDao.getTemperatureAlarmThreshold();
-	}
-
-	public void setTemperatureAlarmThreshold(int temperatureAlarmThreshold) {
-		configurationDao.setTemperatureAlarmThreshold(temperatureAlarmThreshold);
-	}
-
-	public int getAdviceTimeBeforeSending() {
-		return configurationDao.getAdviceTimeBeforeSending();
-	}
-
-	public void setAdviceTimeBeforeSending(int adviceTimeBeforeSending) {
-		configurationDao.setAdviceTimeBeforeSending(adviceTimeBeforeSending);
+	public void setTemperatureAlarmRegister(int temperatureAlarmRegister) {
+		configurationDao.setTemperatureAlarmRegister(temperatureAlarmRegister);
 	}
 
 	public int getAlarmTimeBeforeSending() {
@@ -154,14 +138,6 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	public void setAlarmTimeBeforeSending(int alarmTimeBeforeSending) {
 		configurationDao.setAlarmTimeBeforeSending(alarmTimeBeforeSending);
-	}
-
-	public int getAdviceTimeBeforeReply() {
-		return configurationDao.getAdviceTimeBeforeReply();
-	}
-
-	public void setAdviceTimeBeforeReply(int adviceTimeBeforeReply) {
-		configurationDao.setAdviceTimeBeforeReply(adviceTimeBeforeReply);
 	}
 
 	public int getAlarmTimeBeforeReply() {

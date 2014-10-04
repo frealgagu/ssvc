@@ -1,5 +1,6 @@
 package co.edu.udistrital.plc.connection.impl;
 
+import co.edu.udistrital.dao.ConfigurationDao;
 import net.wimpi.modbus.ModbusCoupler;
 import net.wimpi.modbus.ModbusException;
 import net.wimpi.modbus.io.ModbusTransaction;
@@ -19,7 +20,7 @@ import java.awt.*;
 public class DummyPLCConnection implements PLCConnection {
 
 	protected static final DummyProcessImage PROCESS_IMAGE = new DummyProcessImage();
-	
+
 	@Override
 	public void open() throws PLCConnectionException {
 		ModbusCoupler.getReference().setProcessImage(PROCESS_IMAGE);
@@ -93,7 +94,7 @@ public class DummyPLCConnection implements PLCConnection {
     private static JSpinner pressureSpinner;
     private static JSpinner temperatureSpinner;
 
-    public static void startReadingData() {
+    public static void startReadingData(ConfigurationDao configurationDao) {
         stopReadingData();
         readingData = true;
         frame = new JFrame();
@@ -104,15 +105,15 @@ public class DummyPLCConnection implements PLCConnection {
         frame.setResizable(false);
         frame.setLayout(new GridLayout(2, 2));
         pressureSpinner = new JSpinner(new SpinnerNumberModel());
-        pressureSpinner.setValue((int)(Math.random() * 20));
+        pressureSpinner.setValue((int)(Math.random() * 200));
         temperatureSpinner = new JSpinner(new SpinnerNumberModel());
-        temperatureSpinner.setValue((int)(Math.random() * 20 + 10));
+        temperatureSpinner.setValue((int)(Math.random() * 200 + 10));
         frame.add(new JLabel("Nivel de Presi\u00F3n:"), "1");
         frame.add(pressureSpinner, "2");
         frame.add(new JLabel("Nivel de Temperatura"), "3");
         frame.add(temperatureSpinner, "4");
         frame.setVisible(true);
-        PROCESS_IMAGE.fillData();
+        PROCESS_IMAGE.fillData(configurationDao);
     }
 
     public static void stopReadingData() {
@@ -133,25 +134,40 @@ public class DummyPLCConnection implements PLCConnection {
             }
 		}
 		
-		protected void fillData() {
+		protected void fillData(final ConfigurationDao configurationDao) {
 
 			new Thread(new Runnable(){
 
 				@Override
 				public void run() {
 					while(readingData) {
-                        int pressureRegister = (Integer) pressureSpinner.getValue();
-                        int desiredPressureRegister = (int) (pressureRegister * 1.2);
-                        int temperatureRegister = (Integer) temperatureSpinner.getValue();
-                        int desiredTemperatureRegister = (int) (temperatureRegister * 1.2);
-                        setInputRegister(4000, new SimpleInputRegister(pressureRegister));
-                        setRegister(4000, new SimpleRegister(pressureRegister));
-                        setInputRegister(3500, new SimpleInputRegister(desiredPressureRegister));
-                        setRegister(3500, new SimpleRegister(desiredPressureRegister));
-                        setInputRegister(3000, new SimpleInputRegister(temperatureRegister));
-                        setRegister(3000, new SimpleRegister(temperatureRegister));
-                        setInputRegister(2500, new SimpleInputRegister(desiredTemperatureRegister));
-                        setRegister(2500, new SimpleRegister(desiredTemperatureRegister));
+                        int pressureReadRegister = configurationDao.getPressureRead();
+                        int pressureWriteRegister = configurationDao.getPressureWrite();
+                        int pressureAlarmRegister = configurationDao.getPressureAlarmRegister();
+                        int temperatureReadRegister = configurationDao.getTemperatureRead();
+                        int temperatureWriteRegister = configurationDao.getTemperatureWrite();
+                        int temperatureAlarmRegister = configurationDao.getTemperatureAlarmRegister();
+
+                        int pressureRegisterValue = (Integer) pressureSpinner.getValue();
+                        int desiredPressureRegisterValue = (int) (pressureRegisterValue * 1.2);
+                        int pressureAlarmRegisterValue = 500;
+                        int temperatureRegisterValue = (Integer) temperatureSpinner.getValue();
+                        int desiredTemperatureRegisterValue = (int) (temperatureRegisterValue * 1.2);
+                        int temperatureAlarmRegisterValue = 700;
+
+                        setInputRegister(pressureReadRegister, new SimpleInputRegister(pressureRegisterValue));
+                        setRegister(pressureReadRegister, new SimpleRegister(pressureRegisterValue));
+                        setInputRegister(pressureWriteRegister, new SimpleInputRegister(desiredPressureRegisterValue));
+                        setRegister(pressureWriteRegister, new SimpleRegister(desiredPressureRegisterValue));
+                        setRegister(pressureAlarmRegister, new SimpleRegister(pressureAlarmRegisterValue));
+                        setInputRegister(pressureAlarmRegister, new SimpleInputRegister(pressureAlarmRegisterValue));
+
+                        setInputRegister(temperatureReadRegister, new SimpleInputRegister(temperatureRegisterValue));
+                        setRegister(temperatureReadRegister, new SimpleRegister(temperatureRegisterValue));
+                        setInputRegister(temperatureWriteRegister, new SimpleInputRegister(desiredTemperatureRegisterValue));
+                        setRegister(temperatureWriteRegister, new SimpleRegister(desiredTemperatureRegisterValue));
+                        setInputRegister(temperatureAlarmRegister, new SimpleInputRegister(temperatureAlarmRegisterValue));
+                        setRegister(temperatureAlarmRegister, new SimpleRegister(temperatureAlarmRegisterValue));
 					}
 				}
 				

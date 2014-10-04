@@ -29,39 +29,34 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
 	protected static final String PLC_ENCODING = "plc.encoding";
 	protected static final String PLC_TIMEOUT = "plc.receive.timeout";
 
+    protected static final String PLC_MACHINE_TURN_ON_OFF = "plc.machine.turn.on.off";
     protected static final String PLC_PRESSURE_READ = "plc.pressure.read.register";
     protected static final String PLC_PRESSURE_WRITE = "plc.pressure.write.register";
     protected static final String PLC_TEMPERATURE_READ = "plc.temperature.read.register";
     protected static final String PLC_TEMPERATURE_WRITE = "plc.temperature.write.register";
 
+    protected static final String NOTIFICATION_PRESSURE_ALARM_THRESHOLD = "notification.pressure.alarm.register";
+    protected static final String NOTIFICATION_TEMPERATURE_ALARM_THRESHOLD = "notification.temperature.alarm.register";
 
-	protected static final String MAIL_SMTP_HOST = "mail.smtp.host";
-	protected static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
-	protected static final String MAIL_SMTP_PORT = "mail.smtp.port";
-	protected static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
-	protected static final String MAIL_SMTP_FROM = "mail.smtp.from";
-	protected static final String MAIL_SMTP_USERNAME = "mail.smtp.username";
-	protected static final String MAIL_SMTP_PASSWORD = "mail.smtp.password";
-
-    protected static final String SMS_USERNAME = "sms.username";
-    protected static final String SMS_PASSWORD = "sms.password";
-
-	protected static final String NOTIFICATION_PRESSURE_ADVICE_THRESHOLD = "notification.pressure.advice.threshold";
-	protected static final String NOTIFICATION_PRESSURE_ALARM_THRESHOLD = "notification.pressure.alarm.threshold";
-	protected static final String NOTIFICATION_TEMPERATURE_ADVICE_THRESHOLD = "notification.temperature.advice.threshold";
-	protected static final String NOTIFICATION_TEMPERATURE_ALARM_THRESHOLD = "notification.temperature.alarm.threshold";
-
-	protected static final String NOTIFICATION_ADVICE_TIME_BEFORE_SENDING = "notification.advice.time.before.sending";
-	protected static final String NOTIFICATION_ALARM_TIME_BEFORE_SENDING = "notification.alarm.time.before.sending";
-	protected static final String NOTIFICATION_ADVICE_TIME_BEFORE_REPLY = "notification.advice.time.before.reply";
-	protected static final String NOTIFICATION_ALARM_TIME_BEFORE_REPLY = "notification.alarm.time.before.reply";
+    protected static final String NOTIFICATION_ALARM_TIME_BEFORE_SENDING = "notification.alarm.time.before.sending";
+    protected static final String NOTIFICATION_ALARM_TIME_BEFORE_REPLY = "notification.alarm.time.before.reply";
 
 	protected static final String NOTIFICATION_EMAIL_ON_ADVICE = "notification.send.email.on.advice";
 	protected static final String NOTIFICATION_EMAIL_ON_ALARM = "notification.send.email.on.alarm";
 	protected static final String NOTIFICATION_SMS_ON_ADVICE = "notification.send.sms.on.advice";
 	protected static final String NOTIFICATION_SMS_ON_ALARM = "notification.send.sms.on.alarm";
-	
-	
+
+    protected static final String MAIL_SMTP_HOST = "mail.smtp.host";
+    protected static final String MAIL_SMTP_STARTTLS_ENABLE = "mail.smtp.starttls.enable";
+    protected static final String MAIL_SMTP_PORT = "mail.smtp.port";
+    protected static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
+    protected static final String MAIL_SMTP_FROM = "mail.smtp.from";
+    protected static final String MAIL_SMTP_USERNAME = "mail.smtp.username";
+    protected static final String MAIL_SMTP_PASSWORD = "mail.smtp.password";
+
+    protected static final String SMS_USERNAME = "sms.username";
+    protected static final String SMS_PASSWORD = "sms.password";
+
 	protected static final String TABLE_NAME = "configuration";
 	protected static final String KEY_NAME = "c_key";
 	protected static final String VALUE_NAME = "c_value";
@@ -160,6 +155,16 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
     }
 
     @Override
+    public int getMachineTurnOnOff() {
+        return getProperty(PLC_MACHINE_TURN_ON_OFF, Integer.class);
+    }
+
+    @Override
+    public void setMachineTurnOnOff(int machineTurnOnOff) {
+        setProperty(PLC_MACHINE_TURN_ON_OFF, machineTurnOnOff);
+    }
+
+    @Override
     public int getPressureRead() {
         return getProperty(PLC_PRESSURE_READ, Integer.class);
     }
@@ -200,53 +205,23 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
     }
 
 	@Override
-    public int getPressureAdviceThreshold() {
-		return getProperty(NOTIFICATION_PRESSURE_ADVICE_THRESHOLD, Integer.class);
-    }
-
-	@Override
-    public void setPressureAdviceThreshold(int pressureAdviceThreshold) {
-		setProperty(NOTIFICATION_PRESSURE_ADVICE_THRESHOLD, pressureAdviceThreshold);
-    }
-
-	@Override
-    public int getPressureAlarmThreshold() {
+    public int getPressureAlarmRegister() {
 		return getProperty(NOTIFICATION_PRESSURE_ALARM_THRESHOLD, Integer.class);
     }
 
 	@Override
-    public void setPressureAlarmThreshold(int pressureAlarmThreshold) {
-		setProperty(NOTIFICATION_PRESSURE_ALARM_THRESHOLD, pressureAlarmThreshold);
+    public void setPressureAlarmRegister(int pressureAlarmRegister) {
+		setProperty(NOTIFICATION_PRESSURE_ALARM_THRESHOLD, pressureAlarmRegister);
     }
 
 	@Override
-    public int getTemperatureAdviceThreshold() {
-		return getProperty(NOTIFICATION_TEMPERATURE_ADVICE_THRESHOLD, Integer.class);
-    }
-
-	@Override
-    public void setTemperatureAdviceThreshold(int temperatureAdviceThreshold) {
-		setProperty(NOTIFICATION_TEMPERATURE_ADVICE_THRESHOLD, temperatureAdviceThreshold);
-    }
-
-	@Override
-    public int getTemperatureAlarmThreshold() {
+    public int getTemperatureAlarmRegister() {
 		return getProperty(NOTIFICATION_TEMPERATURE_ALARM_THRESHOLD, Integer.class);
     }
 
 	@Override
-    public void setTemperatureAlarmThreshold(int temperatureAlarmThreshold) {
-		setProperty(NOTIFICATION_TEMPERATURE_ALARM_THRESHOLD, temperatureAlarmThreshold);
-    }
-
-	@Override
-    public int getAdviceTimeBeforeSending() {
-		return getProperty(NOTIFICATION_ADVICE_TIME_BEFORE_SENDING, Integer.class);
-    }
-
-	@Override
-    public void setAdviceTimeBeforeSending(int adviceTimeBeforeSending) {
-		setProperty(NOTIFICATION_ADVICE_TIME_BEFORE_SENDING, adviceTimeBeforeSending);
+    public void setTemperatureAlarmRegister(int temperatureAlarmRegister) {
+		setProperty(NOTIFICATION_TEMPERATURE_ALARM_THRESHOLD, temperatureAlarmRegister);
     }
 
 	@Override
@@ -257,16 +232,6 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
 	@Override
     public void setAlarmTimeBeforeSending(int alarmTimeBeforeSending) {
 		setProperty(NOTIFICATION_ALARM_TIME_BEFORE_SENDING, alarmTimeBeforeSending);
-    }
-
-	@Override
-    public int getAdviceTimeBeforeReply() {
-		return getProperty(NOTIFICATION_ADVICE_TIME_BEFORE_REPLY, Integer.class);
-    }
-
-	@Override
-    public void setAdviceTimeBeforeReply(int adviceTimeBeforeReply) {
-		setProperty(NOTIFICATION_ADVICE_TIME_BEFORE_REPLY, adviceTimeBeforeReply);
     }
 
 	@Override

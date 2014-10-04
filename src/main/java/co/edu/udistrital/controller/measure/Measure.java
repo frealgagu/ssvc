@@ -1,5 +1,6 @@
 package co.edu.udistrital.controller.measure;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -15,7 +16,7 @@ public interface Measure {
 	
 	Interval retrieveInterval(DateTime dateTime) throws IntervalNotFoundException;
 	
-	void appendValue(int value);
+	void appendValue(BigDecimal value);
 	
-	void appendValue(DateTime dateTime, int value);
+	void appendValue(DateTime dateTime, BigDecimal value);
 }

@@ -94,6 +94,18 @@ public interface ConfigurationDao {
 	void setTimeout(int timeout);
 
     /**
+     * Returns PLC machine turn on off coil indicator
+     * @return PLC machine turn on off coil indicator
+     */
+    int getMachineTurnOnOff();
+
+    /**
+     * Sets PLC machine turn on off coil indicator
+     * @param machineTurnOnOff PLC machine turn on off coil indicator
+     */
+    void setMachineTurnOnOff(int machineTurnOnOff);
+
+    /**
      * Returns PLC pressure read register number
      * @return PLC pressure read register number
      */
@@ -144,64 +156,28 @@ public interface ConfigurationDao {
 	//Notification
 	
 	/**
-	 * Returns pressure advice threshold
-	 * @return Pressure advice threshold
-	 */
-	int getPressureAdviceThreshold();
-	
-	/**
-	 * Sets pressure advice threshold
-	 * @param pressureAdviceThreshold
-	 */
-	void setPressureAdviceThreshold(int pressureAdviceThreshold);
-	
-	/**
 	 * Returns 
 	 * @return
 	 */
-	public int getPressureAlarmThreshold();
+	public int getPressureAlarmRegister();
 
 	/**
 	 * Sets 
-	 * @param pressureAlarmThreshold
+	 * @param pressureAlarmRegister
 	 */
-	public void setPressureAlarmThreshold(int pressureAlarmThreshold);
+	public void setPressureAlarmRegister(int pressureAlarmRegister);
 
 	/**
 	 * Returns 
 	 * @return
 	 */
-	public int getTemperatureAdviceThreshold();
+	public int getTemperatureAlarmRegister();
 
 	/**
 	 * Sets 
-	 * @param temperatureAdviceThreshold
+	 * @param temperatureAlarmRegister
 	 */
-	public void setTemperatureAdviceThreshold(int temperatureAdviceThreshold);
-
-	/**
-	 * Returns 
-	 * @return
-	 */
-	public int getTemperatureAlarmThreshold();
-
-	/**
-	 * Sets 
-	 * @param temperatureAlarmThreshold
-	 */
-	public void setTemperatureAlarmThreshold(int temperatureAlarmThreshold);
-
-	/**
-	 * Returns 
-	 * @return
-	 */
-	public int getAdviceTimeBeforeSending();
-
-	/**
-	 * Sets 
-	 * @param adviceTimeBeforeSending
-	 */
-	public void setAdviceTimeBeforeSending(int adviceTimeBeforeSending);
+	public void setTemperatureAlarmRegister(int temperatureAlarmRegister);
 
 	/**
 	 * Returns 
@@ -214,18 +190,6 @@ public interface ConfigurationDao {
 	 * @param alarmTimeBeforeSending
 	 */
 	public void setAlarmTimeBeforeSending(int alarmTimeBeforeSending);
-
-	/**
-	 * Returns 
-	 * @return
-	 */
-	public int getAdviceTimeBeforeReply();
-
-	/**
-	 * Sets 
-	 * @param adviceTimeBeforeReply
-	 */
-	public void setAdviceTimeBeforeReply(int adviceTimeBeforeReply);
 
 	/**
 	 * Returns 
