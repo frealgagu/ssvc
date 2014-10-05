@@ -90,7 +90,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         configurationDao.setPressureRead(pressureRead);
     }
 
-    public int getPressureWrite() {
+    public int getPressureWriteRegister() {
         return configurationDao.getPressureWrite();
     }
 
@@ -98,7 +98,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         configurationDao.setPressureWrite(pressureWrite);
     }
 
-    public int getTemperatureRead() {
+    public int getTemperatureReadRegister() {
         return configurationDao.getTemperatureRead();
     }
 
@@ -106,7 +106,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         configurationDao.setTemperatureRead(temperatureRead);
     }
 
-    public int getTemperatureWrite() {
+    public int getTemperatureWriteRegister() {
         return configurationDao.getTemperatureWrite();
     }
 

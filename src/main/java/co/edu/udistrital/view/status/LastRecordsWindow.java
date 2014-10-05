@@ -141,7 +141,9 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
         radioFrequency.setValue(BY_SECONDS);
 
 		chart.setConfiguration(createInitialConfiguration());
-		
+
+        update();
+
 		refresher.setRefreshInterval(1000);
 		refresher.addListener(this);
 	}
@@ -149,119 +151,123 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 	public void refresh(Refresher source) {
 		if(isVisible()) {
 			source.attach();
-			MeasureService measureService = ApplicationServices.getMeasureService();
-			try {
-                Integer value = (Integer)radioFrequency.getValue();
-
-				List<Interval> pressureIntervals;
-                switch(value) {
-                    case BY_SECONDS:
-                        pressureIntervals = new ArrayList<>(measureService.retrieveLastPressureSecondIntervals(5));
-                        break;
-                    case BY_MINUTES:
-                        pressureIntervals = new ArrayList<>(measureService.retrieveLastPressureMinuteIntervals(5));
-                        break;
-                    case BY_HOURS:
-                        pressureIntervals = new ArrayList<>(measureService.retrieveLastPressureHourIntervals(5));
-                        break;
-                    default:
-                        throw new IllegalArgumentException("No frequency selected");
-                }
-				Collections.reverse(pressureIntervals);
-
-				if(pressureIntervals.size() > 0) {
-                    //Remove items which oversize the intervals
-                    while(pressureSeries.size() > pressureIntervals.size()) {
-                        pressureSeries.remove(pressureSeries.get(0));
-                    }
-					Interval pressureInterval = pressureIntervals.get(0);
-					for(DataSeriesItem pressureItem : new ArrayList<>(pressureSeries.getData())) {
-                        //Remove each item whose date is earlier to first interval
-						if(Util.toHighchartsTS(pressureInterval.getDateTime().toDate()) > pressureItem.getX().longValue()) {
-							pressureSeries.remove(pressureItem);
-						}
-					}
-				}
-				for(int i = 0; i < pressureIntervals.size(); i++) {
-					Interval pressureInterval = pressureIntervals.get(i);
-					if(pressureSeries.size() > i) {
-						DataSeriesItem pressureItem = pressureSeries.get(i);
-						boolean update = false;
-						if(Util.toHighchartsTS(pressureInterval.getDateTime().toDate()) != pressureItem.getX().longValue()) {
-							pressureItem.setX(pressureInterval.getDateTime().toDate());
-							update = true;
-						}
-						if(pressureInterval.getValue().compareTo((BigDecimal)pressureItem.getY()) != 0) {
-							pressureItem.setY(pressureInterval.getValue());
-							update = true;
-						}
-						if(update) {
-							pressureSeries.update(pressureItem);
-						}
-					} else {
-						DataSeriesItem pressureItem = new DataSeriesItem(pressureInterval.getDateTime().toDate(), pressureInterval.getValue());
-						pressureSeries.add(pressureItem);
-					}
-				}
-				
-				List<Interval> temperatureIntervals;
-                switch(value) {
-                    case BY_SECONDS:
-                        temperatureIntervals = new ArrayList<>(measureService.retrieveLastTemperatureSecondIntervals(5));
-                        break;
-                    case BY_MINUTES:
-                        temperatureIntervals = new ArrayList<>(measureService.retrieveLastTemperatureMinuteIntervals(5));
-                        break;
-                    case BY_HOURS:
-                        temperatureIntervals = new ArrayList<>(measureService.retrieveLastTemperatureHourIntervals(5));
-                        break;
-                    default:
-                        throw new IllegalArgumentException("No frequency selected");
-                }
-				Collections.reverse(temperatureIntervals);
-
-				if(temperatureIntervals.size() > 0) {
-                    //Remove items which oversize the intervals
-                    while(temperatureSeries.size() > temperatureIntervals.size()) {
-                        temperatureSeries.remove(temperatureSeries.get(0));
-                    }
-					Interval temperatureInterval = temperatureIntervals.get(0);
-					for(DataSeriesItem temperatureItem : new ArrayList<>(temperatureSeries.getData())) {
-                        //Remove each item whose date is earlier to first interval
-						if(Util.toHighchartsTS(temperatureInterval.getDateTime().toDate()) > temperatureItem.getX().longValue()) {
-							temperatureSeries.remove(temperatureItem);
-						}
-					}
-				}
-				for(int i = 0; i < temperatureIntervals.size(); i++) {
-					Interval temperatureInterval = temperatureIntervals.get(i);
-					if(temperatureSeries.size() > i) {
-						DataSeriesItem temperatureItem = temperatureSeries.get(i);
-						boolean update = false;
-						if(Util.toHighchartsTS(temperatureInterval.getDateTime().toDate()) != temperatureItem.getX().longValue()) {
-							temperatureItem.setX(temperatureInterval.getDateTime().toDate());
-							update = true;
-						}
-						if(temperatureInterval.getValue().compareTo((BigDecimal)temperatureItem.getY()) != 0) {
-							temperatureItem.setY(temperatureInterval.getValue());
-							update = true;
-						}
-						if(update) {
-							temperatureSeries.update(temperatureItem);
-						}
-					} else {
-						DataSeriesItem temperatureItem = new DataSeriesItem(temperatureInterval.getDateTime().toDate(), temperatureInterval.getValue());
-						temperatureSeries.add(temperatureItem);
-					}
-				}
-			} catch (Throwable t) {
-				t.printStackTrace();
-			}
-	        //chart.drawChart();
+			update();
 		} else {
 			source.detach();
 		}
 	}
+
+    private void update() {
+        MeasureService measureService = ApplicationServices.getMeasureService();
+        try {
+            Integer value = (Integer)radioFrequency.getValue();
+
+            List<Interval> pressureIntervals;
+            switch(value) {
+                case BY_SECONDS:
+                    pressureIntervals = new ArrayList<>(measureService.retrieveLastPressureSecondIntervals(5));
+                    break;
+                case BY_MINUTES:
+                    pressureIntervals = new ArrayList<>(measureService.retrieveLastPressureMinuteIntervals(5));
+                    break;
+                case BY_HOURS:
+                    pressureIntervals = new ArrayList<>(measureService.retrieveLastPressureHourIntervals(5));
+                    break;
+                default:
+                    throw new IllegalArgumentException("No frequency selected");
+            }
+            Collections.reverse(pressureIntervals);
+
+            if(pressureIntervals.size() > 0) {
+                //Remove items which oversize the intervals
+                while(pressureSeries.size() > pressureIntervals.size()) {
+                    pressureSeries.remove(pressureSeries.get(0));
+                }
+                Interval pressureInterval = pressureIntervals.get(0);
+                for(DataSeriesItem pressureItem : new ArrayList<>(pressureSeries.getData())) {
+                    //Remove each item whose date is earlier to first interval
+                    if(Util.toHighchartsTS(pressureInterval.getDateTime().toDate()) > pressureItem.getX().longValue()) {
+                        pressureSeries.remove(pressureItem);
+                    }
+                }
+            }
+            for(int i = 0; i < pressureIntervals.size(); i++) {
+                Interval pressureInterval = pressureIntervals.get(i);
+                if(pressureSeries.size() > i) {
+                    DataSeriesItem pressureItem = pressureSeries.get(i);
+                    boolean update = false;
+                    if(Util.toHighchartsTS(pressureInterval.getDateTime().toDate()) != pressureItem.getX().longValue()) {
+                        pressureItem.setX(pressureInterval.getDateTime().toDate());
+                        update = true;
+                    }
+                    if(pressureInterval.getValue().compareTo((BigDecimal)pressureItem.getY()) != 0) {
+                        pressureItem.setY(pressureInterval.getValue());
+                        update = true;
+                    }
+                    if(update) {
+                        pressureSeries.update(pressureItem);
+                    }
+                } else {
+                    DataSeriesItem pressureItem = new DataSeriesItem(pressureInterval.getDateTime().toDate(), pressureInterval.getValue());
+                    pressureSeries.add(pressureItem);
+                }
+            }
+
+            List<Interval> temperatureIntervals;
+            switch(value) {
+                case BY_SECONDS:
+                    temperatureIntervals = new ArrayList<>(measureService.retrieveLastTemperatureSecondIntervals(5));
+                    break;
+                case BY_MINUTES:
+                    temperatureIntervals = new ArrayList<>(measureService.retrieveLastTemperatureMinuteIntervals(5));
+                    break;
+                case BY_HOURS:
+                    temperatureIntervals = new ArrayList<>(measureService.retrieveLastTemperatureHourIntervals(5));
+                    break;
+                default:
+                    throw new IllegalArgumentException("No frequency selected");
+            }
+            Collections.reverse(temperatureIntervals);
+
+            if(temperatureIntervals.size() > 0) {
+                //Remove items which oversize the intervals
+                while(temperatureSeries.size() > temperatureIntervals.size()) {
+                    temperatureSeries.remove(temperatureSeries.get(0));
+                }
+                Interval temperatureInterval = temperatureIntervals.get(0);
+                for(DataSeriesItem temperatureItem : new ArrayList<>(temperatureSeries.getData())) {
+                    //Remove each item whose date is earlier to first interval
+                    if(Util.toHighchartsTS(temperatureInterval.getDateTime().toDate()) > temperatureItem.getX().longValue()) {
+                        temperatureSeries.remove(temperatureItem);
+                    }
+                }
+            }
+            for(int i = 0; i < temperatureIntervals.size(); i++) {
+                Interval temperatureInterval = temperatureIntervals.get(i);
+                if(temperatureSeries.size() > i) {
+                    DataSeriesItem temperatureItem = temperatureSeries.get(i);
+                    boolean update = false;
+                    if(Util.toHighchartsTS(temperatureInterval.getDateTime().toDate()) != temperatureItem.getX().longValue()) {
+                        temperatureItem.setX(temperatureInterval.getDateTime().toDate());
+                        update = true;
+                    }
+                    if(temperatureInterval.getValue().compareTo((BigDecimal)temperatureItem.getY()) != 0) {
+                        temperatureItem.setY(temperatureInterval.getValue());
+                        update = true;
+                    }
+                    if(update) {
+                        temperatureSeries.update(temperatureItem);
+                    }
+                } else {
+                    DataSeriesItem temperatureItem = new DataSeriesItem(temperatureInterval.getDateTime().toDate(), temperatureInterval.getValue());
+                    temperatureSeries.add(temperatureItem);
+                }
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        //chart.drawChart();
+    }
 
 	private Configuration createInitialConfiguration() {
 		Configuration configuration = new Configuration();
@@ -353,7 +359,7 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 		btnControl = new NativeButton();
 		btnControl.setCaption("Control PLC");
 		btnControl
-				.setIcon(new ThemeResource("img/plc-settings-Icon-72x72.png"));
+				.setIcon(new ThemeResource("img/plc-registers-settings-icon-72x72.png"));
 		btnControl.setImmediate(true);
 		btnControl.setWidth("86px");
 		btnControl.setHeight("86px");

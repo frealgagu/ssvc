@@ -55,7 +55,7 @@ public class TemperatureControllerImpl implements MeasureController {
 	@Scheduled(fixedRate = 500)
 	public void process() {
 		if(monitoring) {
-			int registerNumber = configurationService.getTemperatureRead();
+			int registerNumber = configurationService.getTemperatureReadRegister();
 			try {
 				int registerValue = plcService.readRegister(registerNumber, UNIT_ID);
                 BigDecimal temperatureRegisterValue = BigDecimal.valueOf(registerValue).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);

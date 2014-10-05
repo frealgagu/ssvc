@@ -177,8 +177,8 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
             }
         });
 
-        final int pressureWrite = ApplicationServices.getConfigurationService().getPressureWrite();
-        final int temperatureWrite = ApplicationServices.getConfigurationService().getTemperatureWrite();
+        final int pressureWrite = ApplicationServices.getConfigurationService().getPressureWriteRegister();
+        final int temperatureWrite = ApplicationServices.getConfigurationService().getTemperatureWriteRegister();
 
         try {
             txtDesiredPressure.setValue(ApplicationServices.getPLCService().readRegister(pressureWrite, PLCCommunication.DEFAULT_UNIT_ID));
@@ -209,6 +209,8 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
             }
         });
 
+        update();
+
         refresher.setRefreshInterval(1000);
         refresher.addListener(this);
 	}
@@ -217,19 +219,23 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
     public void refresh(Refresher source) {
         if(isVisible()) {
             source.attach();
-            try {
-                boolean pressureTurnedOn = ApplicationServices.getPLCService().readCoil(10, PLCCommunication.DEFAULT_UNIT_ID);
-                btnPressureTurnOn.setEnabled(!pressureTurnedOn);
-                btnPressureTurnOff.setEnabled(pressureTurnedOn);
-
-                boolean temperatureTurnedOn = ApplicationServices.getPLCService().readCoil(10, PLCCommunication.DEFAULT_UNIT_ID);
-                btnTemperatureTurnOn.setEnabled(!temperatureTurnedOn);
-                btnTemperatureTurnOff.setEnabled(temperatureTurnedOn);
-            } catch(PLCCommunicationException ex) {
-                ex.printStackTrace();
-            }
+            update();
         } else {
             source.detach();
+        }
+    }
+
+    private void update() {
+        try {
+            boolean pressureTurnedOn = ApplicationServices.getPLCService().readCoil(10, PLCCommunication.DEFAULT_UNIT_ID);
+            btnPressureTurnOn.setEnabled(!pressureTurnedOn);
+            btnPressureTurnOff.setEnabled(pressureTurnedOn);
+
+            boolean temperatureTurnedOn = ApplicationServices.getPLCService().readCoil(10, PLCCommunication.DEFAULT_UNIT_ID);
+            btnTemperatureTurnOn.setEnabled(!temperatureTurnedOn);
+            btnTemperatureTurnOff.setEnabled(temperatureTurnedOn);
+        } catch(PLCCommunicationException ex) {
+            ex.printStackTrace();
         }
     }
 

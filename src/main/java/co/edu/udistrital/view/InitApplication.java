@@ -124,17 +124,21 @@ public class InitApplication extends Application implements Refresher.RefreshLis
     public void refresh(Refresher source) {
         if(mainLayout.isVisible()) {
             source.attach();
-            MeasureService measureService = ApplicationServices.getMeasureService();
-            try {
-                BigDecimal pressureRegister = measureService.retrieveLastPressureSecondInterval().getValue();
-                checkPressureNotification(pressureRegister);
-                BigDecimal temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
-                checkTemperatureNotification(temperatureRegister);
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
+            update();
         } else {
             source.detach();
+        }
+    }
+
+    private void update() {
+        MeasureService measureService = ApplicationServices.getMeasureService();
+        try {
+            BigDecimal pressureRegister = measureService.retrieveLastPressureSecondInterval().getValue();
+            checkPressureNotification(pressureRegister);
+            BigDecimal temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
+            checkTemperatureNotification(temperatureRegister);
+        } catch (Throwable t) {
+            t.printStackTrace();
         }
     }
 

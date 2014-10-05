@@ -157,7 +157,9 @@ public class MemoryMapWindow extends CustomComponent implements RefreshListener 
 				}
 			}
 		});
-        
+
+        update();
+
         refresher.setRefreshInterval(1000);
 		refresher.addListener(this);        
 	}
@@ -231,7 +233,7 @@ public class MemoryMapWindow extends CustomComponent implements RefreshListener 
 		// btnControl
 		btnControl = new NativeButton();
 		btnControl.setCaption("Control PLC");
-		btnControl.setIcon(new ThemeResource("img/plc-settings-Icon-72x72.png"));
+		btnControl.setIcon(new ThemeResource("img/plc-registers-settings-icon-72x72.png"));
 		btnControl.setImmediate(true);
 		btnControl.setWidth("86px");
 		btnControl.setHeight("86px");

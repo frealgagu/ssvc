@@ -121,7 +121,7 @@ public interface ConfigurationService {
      * Returns PLC pressure write register number
      * @return PLC pressure write register number
      */
-    int getPressureWrite();
+    int getPressureWriteRegister();
 
     /**
      * Sets PLC pressure write register number
@@ -133,7 +133,7 @@ public interface ConfigurationService {
      * Returns PLC temperature read register number
      * @return PLC temperature read register number
      */
-    int getTemperatureRead();
+    int getTemperatureReadRegister();
 
     /**
      * Sets PLC temperature read register number
@@ -145,7 +145,7 @@ public interface ConfigurationService {
      * Returns PLC temperature write register number
      * @return PLC temperature write register number
      */
-    int getTemperatureWrite();
+    int getTemperatureWriteRegister();
 
     /**
      * Sets PLC temperature write register number
