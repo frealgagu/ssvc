@@ -159,6 +159,10 @@ public class PLCConnectionConfigurationDialog extends CustomComponent {
                 configurationService.setTimeout(0);
             }
         }
+
+        if(getWindow() != null && getWindow().getParent() != null) {
+            getWindow().getParent().removeWindow(getWindow());
+        }
 	}
 	
 	private void cancel() {

@@ -103,40 +103,19 @@ public class DummyPLCConnection implements PLCConnection {
         readingData = true;
         frame = new JFrame();
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(250, 210));
-        frame.setSize(new Dimension(450, 210));
+        frame.setPreferredSize(new Dimension(250, 70));
+        frame.setSize(new Dimension(450, 70));
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setLayout(new GridLayout(6, 2));
-
-        double randomPressure = (Math.random() * 500);
         currentPressureSpinner = new JSpinner(new SpinnerNumberModel());
-        currentPressureSpinner.setValue((int) (randomPressure * 0.7D));
-        desiredPressureSpinner = new JSpinner(new SpinnerNumberModel());
-        desiredPressureSpinner.setValue((int) (randomPressure * 0.8D));
-        alarmPressureSpinner = new JSpinner(new SpinnerNumberModel());
-        alarmPressureSpinner.setValue((int) (randomPressure * 0.9D));
-
-        int randomTemperature = (int) (Math.random() * 500);
+        currentPressureSpinner.setValue(0);
         currentTemperatureSpinner = new JSpinner(new SpinnerNumberModel());
-        currentTemperatureSpinner.setValue((int) (randomTemperature * 0.7D));
-        desiredTemperatureSpinner = new JSpinner(new SpinnerNumberModel());
-        desiredTemperatureSpinner.setValue((int) (randomTemperature * 0.8D));
-        alarmTemperatureSpinner = new JSpinner(new SpinnerNumberModel());
-        alarmTemperatureSpinner.setValue((int) (randomTemperature * 0.9D));
-
+        currentTemperatureSpinner.setValue(0);
         frame.add(new JLabel("Nivel de Presi\u00F3n Actual:"), "1");
         frame.add(currentPressureSpinner, "2");
-        frame.add(new JLabel("Nivel de Presi\u00F3n Deseada:"), "3");
-        frame.add(desiredPressureSpinner, "4");
-        frame.add(new JLabel("Nivel de Presi\u00F3n de Alarma:"), "5");
-        frame.add(alarmPressureSpinner, "6");
-        frame.add(new JLabel("Nivel de Temperatura Actual"), "7");
-        frame.add(currentTemperatureSpinner, "8");
-        frame.add(new JLabel("Nivel de Temperatura Deseada"), "9");
-        frame.add(desiredTemperatureSpinner, "10");
-        frame.add(new JLabel("Nivel de Temperatura de Alarma"), "11");
-        frame.add(alarmTemperatureSpinner, "12");
+        frame.add(new JLabel("Nivel de Temperatura Actual"), "3");
+        frame.add(currentTemperatureSpinner, "4");
         frame.setVisible(true);
         PROCESS_IMAGE.fillData(configurationDao);
     }
@@ -167,32 +146,14 @@ public class DummyPLCConnection implements PLCConnection {
 				public void run() {
 					while(readingData) {
                         int pressureReadRegister = configurationDao.getPressureReadRegister();
-                        int pressureWriteRegister = configurationDao.getPressureWrite();
-                        int pressureAlarmRegister = configurationDao.getPressureAlarmRegister();
-                        int temperatureReadRegister = configurationDao.getTemperatureRead();
-                        int temperatureWriteRegister = configurationDao.getTemperatureWrite();
-                        int temperatureAlarmRegister = configurationDao.getTemperatureAlarmRegister();
-
                         int pressureRegisterValue = (Integer) currentPressureSpinner.getValue();
-                        int desiredPressureRegisterValue = (Integer) desiredPressureSpinner.getValue();
-                        int pressureAlarmRegisterValue = (Integer) alarmPressureSpinner.getValue();
-                        int temperatureRegisterValue = (Integer) currentTemperatureSpinner.getValue();
-                        int desiredTemperatureRegisterValue = (Integer) desiredTemperatureSpinner.getValue();
-                        int temperatureAlarmRegisterValue = (Integer) alarmTemperatureSpinner.getValue();
-
                         setInputRegister(pressureReadRegister, new SimpleInputRegister(pressureRegisterValue));
                         setRegister(pressureReadRegister, new SimpleRegister(pressureRegisterValue));
-                        setInputRegister(pressureWriteRegister, new SimpleInputRegister(desiredPressureRegisterValue));
-                        setRegister(pressureWriteRegister, new SimpleRegister(desiredPressureRegisterValue));
-                        setRegister(pressureAlarmRegister, new SimpleRegister(pressureAlarmRegisterValue));
-                        setInputRegister(pressureAlarmRegister, new SimpleInputRegister(pressureAlarmRegisterValue));
 
+                        int temperatureReadRegister = configurationDao.getTemperatureRead();
+                        int temperatureRegisterValue = (Integer) currentTemperatureSpinner.getValue();
                         setInputRegister(temperatureReadRegister, new SimpleInputRegister(temperatureRegisterValue));
                         setRegister(temperatureReadRegister, new SimpleRegister(temperatureRegisterValue));
-                        setInputRegister(temperatureWriteRegister, new SimpleInputRegister(desiredTemperatureRegisterValue));
-                        setRegister(temperatureWriteRegister, new SimpleRegister(desiredTemperatureRegisterValue));
-                        setInputRegister(temperatureAlarmRegister, new SimpleInputRegister(temperatureAlarmRegisterValue));
-                        setRegister(temperatureAlarmRegister, new SimpleRegister(temperatureAlarmRegisterValue));
 					}
 				}
 				

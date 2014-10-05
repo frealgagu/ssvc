@@ -126,19 +126,19 @@ public class PLCRegistersConfigurationDialog extends CustomComponent {
             }
         }
         if(txtPressureAlarm.getValue() instanceof Integer) {
-            configurationService.setPressureAlarmRegister((Integer) txtPressureWrite.getValue());
+            configurationService.setPressureAlarmRegister((Integer) txtPressureAlarm.getValue());
         } else {
             try {
-                configurationService.setPressureAlarmRegister(Integer.parseInt(String.valueOf(txtPressureWrite.getValue())));
+                configurationService.setPressureAlarmRegister(Integer.parseInt(String.valueOf(txtPressureAlarm.getValue())));
             } catch(NumberFormatException ignore) {
                 configurationService.setPressureAlarmRegister(0);
             }
         }
         if(txtTemperatureAlarm.getValue() instanceof Integer) {
-            configurationService.setTemperatureAlarmRegister((Integer) txtTemperatureWrite.getValue());
+            configurationService.setTemperatureAlarmRegister((Integer) txtTemperatureAlarm.getValue());
         } else {
             try {
-                configurationService.setTemperatureAlarmRegister(Integer.parseInt(String.valueOf(txtTemperatureWrite.getValue())));
+                configurationService.setTemperatureAlarmRegister(Integer.parseInt(String.valueOf(txtTemperatureAlarm.getValue())));
             } catch(NumberFormatException ignore) {
                 configurationService.setTemperatureAlarmRegister(0);
             }
