@@ -164,17 +164,17 @@ public class InitApplication extends Application implements Refresher.RefreshLis
         ConfigurationService configurationService = ApplicationServices.getConfigurationService();
         PLCService plcService = ApplicationServices.getPLCService();
         try {
-            int pressureAlarm = plcService.readRegister(configurationService.getPressureAlarmRegister(), UNIT_ID);
-            BigDecimal pressureAlarmValue = BigDecimal.valueOf(pressureAlarm).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
-            if (temperatureRegisterValue.compareTo(pressureAlarmValue) > 0) {
+            int temperatureAlarm = plcService.readRegister(configurationService.getTemperatureAlarmRegister(), UNIT_ID);
+            BigDecimal temperatureAlarmValue = BigDecimal.valueOf(temperatureAlarm).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            if (temperatureRegisterValue.compareTo(temperatureAlarmValue) > 0) {
                 temperatureText = "<center><font color=#FF0000 size=\"5\">La <strong>temperatura</strong> ha superado el nivel de<br/><strong>alerta</strong></font></center>";
                 updateNotificationLabel();
             } else {
-                pressureText = "<center><font color=#000000 size=\"5\"></font></center>";
+                temperatureText = "<center><font color=#000000 size=\"5\"></font></center>";
                 updateNotificationLabel();
             }
         } catch (PLCCommunicationException ex) {
-            pressureText = "<center><font color=#FF0000 size=\"5\"><strong>Ha ocurrido un error conectando con el PLC</strong></font></center>";
+            temperatureText = "<center><font color=#FF0000 size=\"5\"><strong>Ha ocurrido un error conectando con el PLC</strong></font></center>";
         }
     }
 

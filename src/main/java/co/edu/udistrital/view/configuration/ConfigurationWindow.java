@@ -123,7 +123,6 @@ public class ConfigurationWindow extends CustomComponent {
                 Window container = new Window();
                 container.setModal(true);
                 container.setResizable(false);
-                container.setPositionY(0);
                 PLCRegistersConfigurationDialog plcRegistersConfigurationDialog = new PLCRegistersConfigurationDialog();
                 container.setContent(plcRegistersConfigurationDialog);
                 getWindow().addWindow(container);
@@ -138,7 +137,6 @@ public class ConfigurationWindow extends CustomComponent {
 				Window container = new Window();
 				container.setModal(true);
 				container.setResizable(false);
-                container.setPositionY(0);
 				EmailConfigurationDialog emailConfigurationDialog = new EmailConfigurationDialog();
 				container.setContent(emailConfigurationDialog);
 				getWindow().addWindow(container);
@@ -153,7 +151,6 @@ public class ConfigurationWindow extends CustomComponent {
 				Window container = new Window();
 				container.setModal(true);
 				container.setResizable(false);
-                container.setPositionY(0);
 				NotificationConfigurationDialog notificationConfigurationDialog = new NotificationConfigurationDialog();
 				container.setContent(notificationConfigurationDialog);
 				getWindow().addWindow(container);
@@ -168,7 +165,6 @@ public class ConfigurationWindow extends CustomComponent {
 				Window container = new Window();
 				container.setModal(true);
 				container.setResizable(false);
-                container.setPositionY(0);
 				UserConfigurationDialog userConfigurationDialog = new UserConfigurationDialog();
 				container.setContent(userConfigurationDialog);
 				getWindow().addWindow(container);

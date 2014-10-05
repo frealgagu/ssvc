@@ -1,9 +1,11 @@
 package co.edu.udistrital.view.status;
 
+import co.edu.udistrital.exception.PLCCommunicationException;
 import co.edu.udistrital.service.ApplicationServices;
 import co.edu.udistrital.service.ConfigurationService;
 import co.edu.udistrital.service.MeasureService;
 
+import co.edu.udistrital.service.PLCService;
 import co.edu.udistrital.view.InitApplication;
 import com.github.wolfie.refresher.Refresher;
 import com.github.wolfie.refresher.Refresher.RefreshListener;
@@ -115,7 +117,7 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 			}
 		});
 
-		chartPressionGauge.setConfiguration(createPressionGaugeConfiguration());
+		chartPressionGauge.setConfiguration(createPressureGaugeConfiguration());
 		chartTemperatureGauge.setConfiguration(createTemperatureGaugeConfiguration());
 
         update();
@@ -136,9 +138,38 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 
     private void update() {
         MeasureService measureService = ApplicationServices.getMeasureService();
+        ConfigurationService configurationService = ApplicationServices.getConfigurationService();
+        PLCService plcService = ApplicationServices.getPLCService();
         try {
+            int pressureAlarm = plcService.readRegister(configurationService.getPressureAlarmRegister(), InitApplication.UNIT_ID);
+            BigDecimal minPressureValue = BigDecimal.ZERO;
+            BigDecimal alertPressureValue = BigDecimal.valueOf(pressureAlarm).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal maxPressureValue = alertPressureValue.multiply(BigDecimal.valueOf(1.5D));
+            YAxis pressureYAxis = chartPressionGauge.getConfiguration().getyAxis();
+            if(maxPressureValue.compareTo((BigDecimal)pressureYAxis.getMax()) != 0) {
+                pressureYAxis.setMax(maxPressureValue);
+                PlotBand[] plotBands = new PlotBand[2];
+                plotBands[0] = new PlotBand(minPressureValue, alertPressureValue, new SolidColor("#55BF3B"));
+                plotBands[1] = new PlotBand(alertPressureValue, maxPressureValue, new SolidColor("#DF5353"));
+                pressureYAxis.setPlotBands(plotBands);
+                chartPressionGauge.requestRepaint();
+            }
             BigDecimal pressureRegisterValue = measureService.retrieveLastPressureSecondInterval().getValue();
             pressionListSeries.updatePoint(0, pressureRegisterValue);
+
+            int temperatureAlarm = plcService.readRegister(configurationService.getTemperatureAlarmRegister(), InitApplication.UNIT_ID);
+            BigDecimal minTemperatureValue = BigDecimal.ZERO;
+            BigDecimal alertTemperatureValue = BigDecimal.valueOf(temperatureAlarm).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal maxTemperatureValue = alertTemperatureValue.multiply(BigDecimal.valueOf(1.5D));
+            YAxis temperatureYAxis = chartTemperatureGauge.getConfiguration().getyAxis();
+            if(maxTemperatureValue.compareTo((BigDecimal)temperatureYAxis.getMax()) != 0) {
+                temperatureYAxis.setMax(maxTemperatureValue);
+                PlotBand[] plotBands = new PlotBand[2];
+                plotBands[0] = new PlotBand(minTemperatureValue, alertTemperatureValue, new SolidColor("#55BF3B"));
+                plotBands[1] = new PlotBand(alertTemperatureValue, maxTemperatureValue, new SolidColor("#DF5353"));
+                temperatureYAxis.setPlotBands(plotBands);
+                chartTemperatureGauge.requestRepaint();
+            }
             BigDecimal temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
             temperatureListSeries.updatePoint(0, temperatureRegister);
         } catch (Throwable t) {
@@ -146,7 +177,7 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
         }
     }
 
-	private Configuration createPressionGaugeConfiguration() {
+	private Configuration createPressureGaugeConfiguration() {
 		Configuration configuration = new Configuration();
         configuration.getChart().setType(ChartType.GAUGE);
         configuration.setTitle("Presi\u00F3n");
@@ -179,16 +210,11 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
         configuration.getPane().setStartAngle(-150);
         configuration.getPane().setEndAngle(150);
         configuration.getPane().setBackground(background);
-        
-        ConfigurationService configurationService = ApplicationServices.getConfigurationService();
-        double minValue = 0;
-        double alertValue = configurationService.getPressureAlarmRegister();
-        double maxValue = 1.5 * alertValue;
 
         YAxis yAxis = configuration.getyAxis();
         yAxis.setTitle(new Title("lpc"));
-        yAxis.setMin(minValue);
-        yAxis.setMax(maxValue);
+        yAxis.setMin(BigDecimal.ZERO);
+        yAxis.setMax(BigDecimal.TEN);
         yAxis.setMinorTickInterval("auto");
         yAxis.setMinorTickWidth(1);
         yAxis.setMinorTickLength(10);
@@ -203,11 +229,6 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 
         yAxis.getLabels().setStep(2);
         yAxis.getLabels().setRotationPerpendicular();
-
-        PlotBand[] plotBands = new PlotBand[2];
-        plotBands[0] = new PlotBand(minValue, alertValue, new SolidColor("#55BF3B"));
-        plotBands[1] = new PlotBand(alertValue, maxValue, new SolidColor("#DF5353"));
-        yAxis.setPlotBands(plotBands);
 
         pressionListSeries = new ListSeries();
         pressionListSeries.setName("Presi\u00F3n");
@@ -254,15 +275,10 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
         configuration.getPane().setEndAngle(150);
         configuration.getPane().setBackground(background);
 
-        ConfigurationService configurationService = ApplicationServices.getConfigurationService();
-        double minValue = 0;
-        double alertValue = configurationService.getTemperatureAlarmRegister();
-        double maxValue = 1.5 * alertValue;
-        
         YAxis yAxis = configuration.getyAxis();
         yAxis.setTitle(new Title("ºC"));
-        yAxis.setMin(minValue);
-        yAxis.setMax(maxValue);
+        yAxis.setMin(BigDecimal.ZERO);
+        yAxis.setMax(BigDecimal.TEN);
         yAxis.setMinorTickInterval("auto");
         yAxis.setMinorTickWidth(1);
         yAxis.setMinorTickLength(10);
@@ -277,11 +293,6 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 
         yAxis.getLabels().setStep(2);
         yAxis.getLabels().setRotationPerpendicular();
-
-        PlotBand[] plotBands = new PlotBand[2];
-        plotBands[0] = new PlotBand(minValue, alertValue, new SolidColor("#55BF3B"));
-        plotBands[1] = new PlotBand(alertValue, maxValue, new SolidColor("#DF5353"));
-        yAxis.setPlotBands(plotBands);
 
         temperatureListSeries = new ListSeries();
         temperatureListSeries.setName("Temperatura");

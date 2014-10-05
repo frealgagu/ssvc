@@ -40,7 +40,7 @@ INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('plc.tem
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.pressure.alarm.register', '4015', '2014-11-08 12:34:56');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.temperature.alarm.register', '4017', '2014-11-08 12:34:56');
 
-INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.alarm.time.before.sending', '10', '2014-11-08 12:34:56');
+INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.alarm.time.before.sending', '20', '2014-11-08 12:34:56');
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.alarm.time.before.reply', '60', '2014-11-08 12:34:56');
 
 INSERT INTO configuration (c_key, c_value, c_last_modification) VALUES ('notification.send.email.on.alarm', 'frealgagu@gmail.com', '2014-11-08 12:34:56');

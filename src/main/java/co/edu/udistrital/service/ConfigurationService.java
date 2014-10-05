@@ -109,7 +109,7 @@ public interface ConfigurationService {
      * Returns PLC pressure read register number
      * @return PLC pressure read register number
      */
-    int getPressureRead();
+    int getPressureReadRegister();
 
     /**
      * Sets PLC pressure read register number

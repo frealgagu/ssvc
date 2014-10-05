@@ -79,7 +79,7 @@ public class PLCRegistersConfigurationDialog extends CustomComponent {
 		});
 		
 		ConfigurationService configurationService = ApplicationServices.getConfigurationService();
-        txtPressureRead.setValue(configurationService.getPressureRead());
+        txtPressureRead.setValue(configurationService.getPressureReadRegister());
         txtTemperatureRead.setValue(configurationService.getTemperatureReadRegister());
         txtPressureWrite.setValue(configurationService.getPressureWriteRegister());
         txtTemperatureWrite.setValue(configurationService.getTemperatureWriteRegister());
@@ -126,7 +126,7 @@ public class PLCRegistersConfigurationDialog extends CustomComponent {
             }
         }
         if(txtPressureAlarm.getValue() instanceof Integer) {
-            configurationService.setPressureAlarmRegister((Integer)txtPressureWrite.getValue());
+            configurationService.setPressureAlarmRegister((Integer) txtPressureWrite.getValue());
         } else {
             try {
                 configurationService.setPressureAlarmRegister(Integer.parseInt(String.valueOf(txtPressureWrite.getValue())));
@@ -135,7 +135,7 @@ public class PLCRegistersConfigurationDialog extends CustomComponent {
             }
         }
         if(txtTemperatureAlarm.getValue() instanceof Integer) {
-            configurationService.setTemperatureAlarmRegister((Integer)txtTemperatureWrite.getValue());
+            configurationService.setTemperatureAlarmRegister((Integer) txtTemperatureWrite.getValue());
         } else {
             try {
                 configurationService.setTemperatureAlarmRegister(Integer.parseInt(String.valueOf(txtTemperatureWrite.getValue())));

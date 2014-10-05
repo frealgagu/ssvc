@@ -3,6 +3,8 @@ package co.edu.udistrital.view.control;
 import co.edu.udistrital.exception.PLCCommunicationException;
 import co.edu.udistrital.plc.communication.PLCCommunication;
 import co.edu.udistrital.service.ApplicationServices;
+import co.edu.udistrital.service.ConfigurationService;
+import co.edu.udistrital.service.PLCService;
 import co.edu.udistrital.view.InitApplication;
 
 import com.github.wolfie.refresher.Refresher;
@@ -16,6 +18,8 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.Panel;
+
+import java.math.BigDecimal;
 
 public class ControlWindow extends CustomComponent implements RefreshListener {
 
@@ -226,6 +230,38 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
             boolean pressureTurnedOn = ApplicationServices.getPLCService().readCoil(10, PLCCommunication.DEFAULT_UNIT_ID);
             btnPressureTurnOn.setEnabled(!pressureTurnedOn);
             btnPressureTurnOff.setEnabled(pressureTurnedOn);
+
+            ConfigurationService configurationService = ApplicationServices.getConfigurationService();
+            int pressureReadRegister = configurationService.getPressureReadRegister();
+            int pressureWriteRegister = configurationService.getPressureWriteRegister();
+            int pressureAlarmRegister = configurationService.getPressureAlarmRegister();
+            int temperatureReadRegister = configurationService.getTemperatureReadRegister();
+            int temperatureWriteRegister = configurationService.getTemperatureWriteRegister();
+            int temperatureAlarmRegister = configurationService.getTemperatureAlarmRegister();
+
+            PLCService plcService = ApplicationServices.getPLCService();
+
+            int currentPressure = plcService.readRegister(pressureReadRegister, InitApplication.UNIT_ID);
+            int desiredPressure = plcService.readRegister(pressureWriteRegister, InitApplication.UNIT_ID);
+            int alarmPressure = plcService.readRegister(pressureAlarmRegister, InitApplication.UNIT_ID);
+            int currentTemperature = plcService.readRegister(temperatureReadRegister, InitApplication.UNIT_ID);
+            int desiredTemperature = plcService.readRegister(temperatureWriteRegister, InitApplication.UNIT_ID);
+            int alarmTemperature = plcService.readRegister(temperatureAlarmRegister, InitApplication.UNIT_ID);
+
+            BigDecimal currentPressureValue = BigDecimal.valueOf(currentPressure).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal desiredPressureValue = BigDecimal.valueOf(desiredPressure).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal alarmPressureValue = BigDecimal.valueOf(alarmPressure).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal currentTemperatureValue = BigDecimal.valueOf(currentTemperature).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal desiredTemperatureValue = BigDecimal.valueOf(desiredTemperature).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+            BigDecimal alarmTemperatureValue = BigDecimal.valueOf(alarmTemperature).divide(BigDecimal.TEN, 1, BigDecimal.ROUND_HALF_UP);
+
+            btnCurrentPressure.setCaption("<center><font color=\"BLUE\" size=\"3\">" + currentPressureValue + "</font></center>");
+            btnDesiredPressure.setCaption("<center><font color=\"GREEN\" size=\"3\">" + desiredPressureValue + "</font></center>");
+            btnAlarmPressure.setCaption("<center><font color=\"RED\" size=\"3\">" + alarmPressureValue + "</font></center>");
+            btnCurrentTemperature.setCaption("<center><font color=\"BLUE\" size=\"3\">" + currentTemperatureValue + "</font></center>");
+            btnDesiredTemperature.setCaption("<center><font color=\"GREEN\" size=\"3\">" + desiredTemperatureValue + "</font></center>");
+            btnAlarmTemperature.setCaption("<center><font color=\"RED\" size=\"3\">" + alarmTemperatureValue + "</font></center>");
+
         } catch(PLCCommunicationException ex) {
             ex.printStackTrace();
         }
@@ -325,8 +361,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 	private Panel buildPnlPressure() {
 		// common part: create layout
 		pnlPressure = new Panel();
-		pnlPressure
-				.setCaption("<center><font size=\"3\">Presión</font></center>");
+		pnlPressure.setCaption("<center><font size=\"3\">Presión</font></center>");
 		pnlPressure.setImmediate(false);
 		pnlPressure.setWidth("220px");
 		pnlPressure.setHeight("260px");
@@ -352,13 +387,14 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 		lblCurrentPressure.setWidth("100.0%");
 		lblCurrentPressure.setHeight("-1px");
 		lblCurrentPressure.setValue("<center><strong>Actual</strong></center>");
-		lblCurrentPressure.setContentMode(3);
+		lblCurrentPressure.setContentMode(Label.CONTENT_XHTML);
 		pressureLayout.addComponent(lblCurrentPressure,
 				"top:15.0px;right:0.0px;left:0.0px;");
 		
 		// btnCurrentPressure
 		btnCurrentPressure = new NativeButton();
 		btnCurrentPressure.setCaption("<strong>Actual</strong>");
+        btnCurrentPressure.setHtmlContentAllowed(true);
 		btnCurrentPressure.setImmediate(true);
 		btnCurrentPressure.setWidth("100.0%");
 		btnCurrentPressure.setHeight("40px");
@@ -370,9 +406,8 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 		lblDesiredPressure.setImmediate(false);
 		lblDesiredPressure.setWidth("100.0%");
 		lblDesiredPressure.setHeight("-1px");
-		lblDesiredPressure
-				.setValue("<center><strong>Deseada</strong></center>");
-		lblDesiredPressure.setContentMode(3);
+		lblDesiredPressure.setValue("<center><strong>Deseada</strong></center>");
+		lblDesiredPressure.setContentMode(Label.CONTENT_XHTML);
 		pressureLayout.addComponent(lblDesiredPressure,
 				"top:120.0px;right:120.0px;left:10.0px;");
 		
@@ -382,13 +417,14 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 		lblAlarmPressure.setWidth("100.0%");
 		lblAlarmPressure.setHeight("-1px");
 		lblAlarmPressure.setValue("<center><strong>Alarma</strong></center>");
-		lblAlarmPressure.setContentMode(3);
+		lblAlarmPressure.setContentMode(Label.CONTENT_XHTML);
 		pressureLayout.addComponent(lblAlarmPressure,
 				"top:120.0px;right:10.0px;left:120.0px;");
 		
 		// btnDesiredPressure
 		btnDesiredPressure = new NativeButton();
 		btnDesiredPressure.setCaption("Deseada");
+        btnDesiredPressure.setHtmlContentAllowed(true);
 		btnDesiredPressure.setImmediate(true);
 		btnDesiredPressure.setWidth("100.0%");
 		btnDesiredPressure.setHeight("40px");
@@ -398,6 +434,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 		// btnAlarmPressure
 		btnAlarmPressure = new NativeButton();
 		btnAlarmPressure.setCaption("Alarma");
+        btnAlarmPressure.setHtmlContentAllowed(true);
 		btnAlarmPressure.setImmediate(true);
 		btnAlarmPressure.setWidth("100.0%");
 		btnAlarmPressure.setHeight("40px");
@@ -437,15 +474,15 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 		lblCurrentTemperature.setImmediate(false);
 		lblCurrentTemperature.setWidth("100.0%");
 		lblCurrentTemperature.setHeight("-1px");
-		lblCurrentTemperature
-				.setValue("<center><strong>Actual</strong></center>");
-		lblCurrentTemperature.setContentMode(3);
+		lblCurrentTemperature.setValue("<center><strong>Actual</strong></center>");
+		lblCurrentTemperature.setContentMode(Label.CONTENT_XHTML);
 		temperatureLayout.addComponent(lblCurrentTemperature,
 				"top:15.0px;right:0.0px;left:0.0px;");
 		
 		// btnCurrentTemperature
 		btnCurrentTemperature = new NativeButton();
 		btnCurrentTemperature.setCaption("<strong>Actual</strong>");
+        btnCurrentTemperature.setHtmlContentAllowed(true);
 		btnCurrentTemperature.setImmediate(true);
 		btnCurrentTemperature.setWidth("100.0%");
 		btnCurrentTemperature.setHeight("40px");
@@ -457,9 +494,8 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 		lblDesiredTemperature.setImmediate(false);
 		lblDesiredTemperature.setWidth("100.0%");
 		lblDesiredTemperature.setHeight("-1px");
-		lblDesiredTemperature
-				.setValue("<center><strong>Deseada</strong></center>");
-		lblDesiredTemperature.setContentMode(3);
+		lblDesiredTemperature.setValue("<center><strong>Deseada</strong></center>");
+		lblDesiredTemperature.setContentMode(Label.CONTENT_XHTML);
 		temperatureLayout.addComponent(lblDesiredTemperature,
 				"top:120.0px;right:120.0px;left:10.0px;");
 		
@@ -468,15 +504,15 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 		lblAlarmTemperature.setImmediate(false);
 		lblAlarmTemperature.setWidth("100.0%");
 		lblAlarmTemperature.setHeight("-1px");
-		lblAlarmTemperature
-				.setValue("<center><strong>Alarma</strong></center>");
-		lblAlarmTemperature.setContentMode(3);
+		lblAlarmTemperature.setValue("<center><strong>Alarma</strong></center>");
+		lblAlarmTemperature.setContentMode(Label.CONTENT_XHTML);
 		temperatureLayout.addComponent(lblAlarmTemperature,
 				"top:120.0px;right:10.0px;left:120.0px;");
 		
 		// btnDesiredTemperature
 		btnDesiredTemperature = new NativeButton();
 		btnDesiredTemperature.setCaption("Deseada");
+        btnDesiredTemperature.setHtmlContentAllowed(true);
 		btnDesiredTemperature.setImmediate(true);
 		btnDesiredTemperature.setWidth("100.0%");
 		btnDesiredTemperature.setHeight("40px");
@@ -486,6 +522,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 		// btnAlarmTemperature
 		btnAlarmTemperature = new NativeButton();
 		btnAlarmTemperature.setCaption("Alarma");
+        btnAlarmTemperature.setHtmlContentAllowed(true);
 		btnAlarmTemperature.setImmediate(true);
 		btnAlarmTemperature.setWidth("100.0%");
 		btnAlarmTemperature.setHeight("40px");

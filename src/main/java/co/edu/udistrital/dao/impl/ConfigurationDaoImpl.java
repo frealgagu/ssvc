@@ -165,7 +165,7 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
     }
 
     @Override
-    public int getPressureRead() {
+    public int getPressureReadRegister() {
         return getProperty(PLC_PRESSURE_READ, Integer.class);
     }
 

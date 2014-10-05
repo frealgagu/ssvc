@@ -82,8 +82,8 @@ public class ConfigurationServiceImpl implements ConfigurationService {
         configurationDao.setMachineTurnOnOff(machineTurnOnOff);
     }
 
-    public int getPressureRead() {
-        return configurationDao.getPressureRead();
+    public int getPressureReadRegister() {
+        return configurationDao.getPressureReadRegister();
     }
 
     public void setPressureRead(int pressureRead) {
