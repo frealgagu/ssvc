@@ -98,6 +98,8 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
 	private static final long serialVersionUID = -4124516563611187464L;
 
 	private final InitApplication initApplication;
+
+    private boolean printingError;
 	
 	/**
 	 * The constructor should first build the main layout, set the
@@ -160,7 +162,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
                 try {
                     ApplicationServices.getPLCService().writeCoil(machineTurnOnOff, true, PLCCommunication.DEFAULT_UNIT_ID);
                 } catch (PLCCommunicationException ex) {
-                    ex.printStackTrace();
+                    logger.error(ex);
                 }
             }
         });
@@ -170,7 +172,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
                 try {
                     ApplicationServices.getPLCService().writeCoil(machineTurnOnOff, false, PLCCommunication.DEFAULT_UNIT_ID);
                 } catch (PLCCommunicationException ex) {
-                    ex.printStackTrace();
+                    logger.error(ex);
                 }
             }
         });
@@ -284,9 +286,12 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
             btnCurrentTemperature.setCaption("<center><font color=\"BLUE\" size=\"3\">" + currentTemperatureValue + "</font></center>");
             btnDesiredTemperature.setCaption("<center><font color=\"GREEN\" size=\"3\">" + desiredTemperatureValue + "</font></center>");
             btnAlarmTemperature.setCaption("<center><font color=\"RED\" size=\"3\">" + alarmTemperatureValue + "</font></center>");
-
-        } catch(PLCCommunicationException ex) {
-            ex.printStackTrace();
+            printingError = false;
+        } catch (PLCCommunicationException ex) {
+            if(!printingError) {
+                logger.error(ex);
+            }
+            printingError = true;
         }
     }
 

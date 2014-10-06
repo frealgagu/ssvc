@@ -11,6 +11,7 @@ import co.edu.udistrital.view.memory.MemoryMapWindow;
 import co.edu.udistrital.view.status.CurrentStatusWindow;
 import co.edu.udistrital.view.status.LastRecordsWindow;
 import com.github.wolfie.refresher.Refresher;
+import com.spinn3r.log5j.Logger;
 import com.vaadin.Application;
 import com.vaadin.ui.*;
 import org.apache.commons.lang.ObjectUtils;
@@ -25,6 +26,7 @@ public class InitApplication extends Application implements Refresher.RefreshLis
 	private static final long serialVersionUID = -2298393757220300723L;
 	
 	public static final int UNIT_ID = 1;
+    protected static final Logger logger = Logger.getLogger();
 
 	private Window main;
 	private VerticalLayout mainLayout;
@@ -43,6 +45,8 @@ public class InitApplication extends Application implements Refresher.RefreshLis
     private Label notificationLabel;
 
     private Refresher refresher;
+
+    private boolean printingError;
 
 	@Override
 	public void init() {
@@ -138,7 +142,10 @@ public class InitApplication extends Application implements Refresher.RefreshLis
             BigDecimal temperatureRegister = measureService.retrieveLastTemperatureSecondInterval().getValue();
             checkTemperatureNotification(temperatureRegister);
         } catch (Throwable t) {
-            t.printStackTrace();
+            if(!printingError) {
+                logger.error(t);
+            }
+            showConnectionError();
         }
     }
 
@@ -191,6 +198,16 @@ public class InitApplication extends Application implements Refresher.RefreshLis
             }
         }
         notificationLabel.setValue("<table width=\"100%\"><tr><td width=\"50%\">" + pressureText + "</td><td width=\"50%\">" + temperatureText + "</td></tr></table>");
+        printingError = false;
+    }
+
+    private void showConnectionError() {
+        if(ObjectUtils.equals(loginWindow, currentComponent)) {
+            notificationLabel.setValue("<table width=\"100%\"><tr><td width=\"50%\"><center><font color=#000000 size=\"5\"><br/></font></center></td><td width=\"50%\"><center><font color=#FF0000 size=\"5\"><br/></font></center></td></tr></table>");
+        } else {
+            notificationLabel.setValue("<table width=\"100%\"><tr><td width=\"50%\"><center><font color=#FF0000 size=\"5\"><strong>Ha ocurrido un error conectando con el PLC</strong></font></center></td></tr></table>");
+        }
+        printingError = true;
     }
 
 }
