@@ -81,8 +81,8 @@ public class PLCRegistersConfigurationDialog extends CustomComponent {
 		ConfigurationService configurationService = ApplicationServices.getConfigurationService();
         txtPressureRead.setValue(configurationService.getPressureReadRegister());
         txtTemperatureRead.setValue(configurationService.getTemperatureReadRegister());
-        txtPressureWrite.setValue(configurationService.getPressureWriteRegister());
-        txtTemperatureWrite.setValue(configurationService.getTemperatureWriteRegister());
+        txtPressureWrite.setValue(configurationService.getPressureDesiredRegister());
+        txtTemperatureWrite.setValue(configurationService.getTemperatureDesiredRegister());
         txtPressureAlarm.setValue(configurationService.getPressureAlarmRegister());
         txtTemperatureAlarm.setValue(configurationService.getTemperatureAlarmRegister());
 	}
@@ -90,39 +90,39 @@ public class PLCRegistersConfigurationDialog extends CustomComponent {
 	private void ok() {
 		ConfigurationService configurationService = ApplicationServices.getConfigurationService();
         if(txtPressureRead.getValue() instanceof Integer) {
-            configurationService.setPressureRead((Integer)txtPressureRead.getValue());
+            configurationService.setPressureReadRegister((Integer) txtPressureRead.getValue());
         } else {
             try {
-                configurationService.setPressureRead(Integer.parseInt(String.valueOf(txtPressureRead.getValue())));
+                configurationService.setPressureReadRegister(Integer.parseInt(String.valueOf(txtPressureRead.getValue())));
             } catch(NumberFormatException ignore) {
-                configurationService.setPressureRead(0);
+                configurationService.setPressureReadRegister(0);
             }
         }
         if(txtTemperatureRead.getValue() instanceof Integer) {
-            configurationService.setTemperatureRead((Integer)txtTemperatureRead.getValue());
+            configurationService.setTemperatureReadRegister((Integer) txtTemperatureRead.getValue());
         } else {
             try {
-                configurationService.setTemperatureRead(Integer.parseInt(String.valueOf(txtTemperatureRead.getValue())));
+                configurationService.setTemperatureReadRegister(Integer.parseInt(String.valueOf(txtTemperatureRead.getValue())));
             } catch(NumberFormatException ignore) {
-                configurationService.setTemperatureRead(0);
+                configurationService.setTemperatureReadRegister(0);
             }
         }
         if(txtPressureWrite.getValue() instanceof Integer) {
-            configurationService.setPressureWrite((Integer)txtPressureWrite.getValue());
+            configurationService.setPressureDesiredRegister((Integer) txtPressureWrite.getValue());
         } else {
             try {
-                configurationService.setPressureWrite(Integer.parseInt(String.valueOf(txtPressureWrite.getValue())));
+                configurationService.setPressureDesiredRegister(Integer.parseInt(String.valueOf(txtPressureWrite.getValue())));
             } catch(NumberFormatException ignore) {
-                configurationService.setPressureWrite(0);
+                configurationService.setPressureDesiredRegister(0);
             }
         }
         if(txtTemperatureWrite.getValue() instanceof Integer) {
-            configurationService.setTemperatureWrite((Integer)txtTemperatureWrite.getValue());
+            configurationService.setTemperatureDesiredRegister((Integer) txtTemperatureWrite.getValue());
         } else {
             try {
-                configurationService.setTemperatureWrite(Integer.parseInt(String.valueOf(txtTemperatureWrite.getValue())));
+                configurationService.setTemperatureDesiredRegister(Integer.parseInt(String.valueOf(txtTemperatureWrite.getValue())));
             } catch(NumberFormatException ignore) {
-                configurationService.setTemperatureWrite(0);
+                configurationService.setTemperatureDesiredRegister(0);
             }
         }
         if(txtPressureAlarm.getValue() instanceof Integer) {

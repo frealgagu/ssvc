@@ -31,12 +31,12 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
 
     protected static final String PLC_MACHINE_TURN_ON_OFF = "plc.machine.turn.on.off";
     protected static final String PLC_PRESSURE_READ = "plc.pressure.read.register";
-    protected static final String PLC_PRESSURE_WRITE = "plc.pressure.write.register";
+    protected static final String PLC_PRESSURE_DESIRED = "plc.pressure.write.register";
     protected static final String PLC_TEMPERATURE_READ = "plc.temperature.read.register";
-    protected static final String PLC_TEMPERATURE_WRITE = "plc.temperature.write.register";
+    protected static final String PLC_TEMPERATURE_DESIRED = "plc.temperature.write.register";
 
-    protected static final String NOTIFICATION_PRESSURE_ALARM_THRESHOLD = "notification.pressure.alarm.register";
-    protected static final String NOTIFICATION_TEMPERATURE_ALARM_THRESHOLD = "notification.temperature.alarm.register";
+    protected static final String NOTIFICATION_PRESSURE_ALARM_REGISTER = "notification.pressure.alarm.register";
+    protected static final String NOTIFICATION_TEMPERATURE_ALARM_REGISTER = "notification.temperature.alarm.register";
 
     protected static final String NOTIFICATION_ALARM_TIME_BEFORE_SENDING = "notification.alarm.time.before.sending";
     protected static final String NOTIFICATION_ALARM_TIME_BEFORE_REPLY = "notification.alarm.time.before.reply";
@@ -170,58 +170,58 @@ public class ConfigurationDaoImpl extends JdbcDaoSupport implements Configuratio
     }
 
     @Override
-    public void setPressureRead(int pressureRead) {
-        setProperty(PLC_PRESSURE_READ, pressureRead);
+    public void setPressureReadRegister(int pressureReadRegister) {
+        setProperty(PLC_PRESSURE_READ, pressureReadRegister);
     }
 
     @Override
-    public int getPressureWrite() {
-        return getProperty(PLC_PRESSURE_WRITE, Integer.class);
+    public int getPressureDesiredRegister() {
+        return getProperty(PLC_PRESSURE_DESIRED, Integer.class);
     }
 
     @Override
-    public void setPressureWrite(int pressureWrite) {
-        setProperty(PLC_PRESSURE_WRITE, pressureWrite);
+    public void setPressureDesiredRegister(int pressureDesiredRegister) {
+        setProperty(PLC_PRESSURE_DESIRED, pressureDesiredRegister);
     }
 
     @Override
-    public int getTemperatureRead() {
+    public int getTemperatureReadRegister() {
         return getProperty(PLC_TEMPERATURE_READ, Integer.class);
     }
 
     @Override
-    public void setTemperatureRead(int temperatureRead) {
-        setProperty(PLC_TEMPERATURE_READ, temperatureRead);
+    public void setTemperatureReadRegister(int temperatureReadRegister) {
+        setProperty(PLC_TEMPERATURE_READ, temperatureReadRegister);
     }
 
     @Override
-    public int getTemperatureWrite() {
-        return getProperty(PLC_TEMPERATURE_WRITE, Integer.class);
+    public int getTemperatureDesiredRegister() {
+        return getProperty(PLC_TEMPERATURE_DESIRED, Integer.class);
     }
 
     @Override
-    public void setTemperatureWrite(int temperatureWrite) {
-        setProperty(PLC_TEMPERATURE_WRITE, temperatureWrite);
+    public void setTemperatureDesiredRegister(int temperatureDesiredRegister) {
+        setProperty(PLC_TEMPERATURE_DESIRED, temperatureDesiredRegister);
     }
 
 	@Override
     public int getPressureAlarmRegister() {
-		return getProperty(NOTIFICATION_PRESSURE_ALARM_THRESHOLD, Integer.class);
+		return getProperty(NOTIFICATION_PRESSURE_ALARM_REGISTER, Integer.class);
     }
 
 	@Override
     public void setPressureAlarmRegister(int pressureAlarmRegister) {
-		setProperty(NOTIFICATION_PRESSURE_ALARM_THRESHOLD, pressureAlarmRegister);
+		setProperty(NOTIFICATION_PRESSURE_ALARM_REGISTER, pressureAlarmRegister);
     }
 
 	@Override
     public int getTemperatureAlarmRegister() {
-		return getProperty(NOTIFICATION_TEMPERATURE_ALARM_THRESHOLD, Integer.class);
+		return getProperty(NOTIFICATION_TEMPERATURE_ALARM_REGISTER, Integer.class);
     }
 
 	@Override
     public void setTemperatureAlarmRegister(int temperatureAlarmRegister) {
-		setProperty(NOTIFICATION_TEMPERATURE_ALARM_THRESHOLD, temperatureAlarmRegister);
+		setProperty(NOTIFICATION_TEMPERATURE_ALARM_REGISTER, temperatureAlarmRegister);
     }
 
 	@Override

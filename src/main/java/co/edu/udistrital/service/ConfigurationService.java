@@ -113,21 +113,21 @@ public interface ConfigurationService {
 
     /**
      * Sets PLC pressure read register number
-     * @param pressureRead PLC pressure read register number
+     * @param pressureReadRegister PLC pressure read register number
      */
-    void setPressureRead(int pressureRead);
+    void setPressureReadRegister(int pressureReadRegister);
 
     /**
-     * Returns PLC pressure write register number
-     * @return PLC pressure write register number
+     * Returns PLC pressure desired register number
+     * @return PLC pressure desired register number
      */
-    int getPressureWriteRegister();
+    int getPressureDesiredRegister();
 
     /**
-     * Sets PLC pressure write register number
-     * @param pressureWrite PLC pressure write register number
+     * Sets PLC pressure desired register number
+     * @param pressureDesiredRegister PLC pressure desired register number
      */
-    void setPressureWrite(int pressureWrite);
+    void setPressureDesiredRegister(int pressureDesiredRegister);
 
     /**
      * Returns PLC temperature read register number
@@ -137,21 +137,21 @@ public interface ConfigurationService {
 
     /**
      * Sets PLC temperature read register number
-     * @param temperatureRead PLC temperature read register number
+     * @param temperatureReadRegister PLC temperature read register number
      */
-    void setTemperatureRead(int temperatureRead);
+    void setTemperatureReadRegister(int temperatureReadRegister);
 
     /**
-     * Returns PLC temperature write register number
-     * @return PLC temperature write register number
+     * Returns PLC temperature desired register number
+     * @return PLC temperature desired register number
      */
-    int getTemperatureWriteRegister();
+    int getTemperatureDesiredRegister();
 
     /**
-     * Sets PLC temperature write register number
-     * @param temperatureWrite PLC temperature write register number
+     * Sets PLC temperature desired register number
+     * @param temperatureDesiredRegister PLC temperature desired register number
      */
-    void setTemperatureWrite(int temperatureWrite);
+    void setTemperatureDesiredRegister(int temperatureDesiredRegister);
 
 	//Notification
 	
