@@ -212,7 +212,7 @@ public class ControlWindow extends CustomComponent implements RefreshListener {
                 container.setModal(true);
                 container.setResizable(false);
                 ChangeRegisterValueDialog changeRegisterValueDialog = new ChangeRegisterValueDialog(
-                        "Cambiar Alarma Deseada",
+                        "Cambiar Temperatura Deseada",
                         ApplicationServices.getConfigurationService().getTemperatureDesiredRegister()
                 );
                 container.setContent(changeRegisterValueDialog);
