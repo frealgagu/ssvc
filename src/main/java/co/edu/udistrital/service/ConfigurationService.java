@@ -250,4 +250,8 @@ public interface ConfigurationService {
     String getSMSSenderPassword();
 
     void getSMSSenderPassword(String password);
+
+    int getGeneralRefresherInterval();
+
+    int getWindowRefresherInterval();
 }

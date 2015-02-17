@@ -165,7 +165,7 @@ public class MemoryMapWindow extends CustomComponent implements RefreshListener 
 
         update();
 
-        refresher.setRefreshInterval(1000);
+        refresher.setRefreshInterval(ApplicationServices.getConfigurationService().getWindowRefresherInterval());
 		refresher.addListener(this);        
 	}
 

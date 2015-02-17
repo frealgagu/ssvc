@@ -119,7 +119,7 @@ public class CurrentStatusWindow extends CustomComponent implements RefreshListe
 
         update();
 
-		refresher.setRefreshInterval(1000);
+		refresher.setRefreshInterval(ApplicationServices.getConfigurationService().getWindowRefresherInterval());
 		refresher.addListener(this);
 	}
 	

@@ -69,7 +69,7 @@ public class InitApplication extends Application implements Refresher.RefreshLis
         refresher.setImmediate(false);
         refresher.setWidth("-1px");
         refresher.setHeight("-1px");
-        refresher.setRefreshInterval(2000);
+        refresher.setRefreshInterval(ApplicationServices.getConfigurationService().getGeneralRefresherInterval());
         refresher.addListener(this);
 
         mainLayout.addComponent(refresher);

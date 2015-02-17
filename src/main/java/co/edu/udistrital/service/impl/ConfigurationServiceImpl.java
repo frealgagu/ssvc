@@ -1,6 +1,7 @@
 package co.edu.udistrital.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import co.edu.udistrital.dao.ConfigurationDao;
@@ -15,6 +16,12 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Autowired
 	private ConfigurationDao configurationDao;
+
+    @Value("${general.refresher.interval}")
+    private int generalRefresherInterval;
+
+    @Value("${window.refresher.interval}")
+    private int windowRefresherInterval;
 
 	//PLC Communication
 	
@@ -268,5 +275,15 @@ public class ConfigurationServiceImpl implements ConfigurationService {
     @Override
     public void getSMSSenderPassword(String password) {
         configurationDao.setSMSSenderPassword(password);
+    }
+
+    @Override
+    public int getGeneralRefresherInterval() {
+        return generalRefresherInterval;
+    }
+
+    @Override
+    public int getWindowRefresherInterval() {
+        return windowRefresherInterval;
     }
 }

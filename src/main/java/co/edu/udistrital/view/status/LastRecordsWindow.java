@@ -142,7 +142,7 @@ public class LastRecordsWindow extends CustomComponent implements RefreshListene
 
         update();
 
-		refresher.setRefreshInterval(1000);
+		refresher.setRefreshInterval(ApplicationServices.getConfigurationService().getWindowRefresherInterval());
 		refresher.addListener(this);
 	}
 	
