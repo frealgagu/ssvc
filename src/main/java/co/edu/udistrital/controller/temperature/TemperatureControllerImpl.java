@@ -94,7 +94,7 @@ public class TemperatureControllerImpl implements MeasureController {
                     if (startAlarmThresholdExceeded.plusSeconds(secondsBeforeSend).isBeforeNow()) {
                         if (lastAlarmSend == null) {
                             String subject = "La temperatura ha superado el l\u00EDmite de alarma";
-                            String message = "La temperatura ha superado el l\u00EDmite de alarma. Por favor ingrese a http://ssvc.frealgagu.com/ssvc/ para corregirlo.";
+                            String message = "La temperatura ha superado el l\u00EDmite de alarma. Por favor ingrese a http://ssvc.frealgagu.com:7171/ssvc/ para corregirlo.";
                             String emailOnAlarm = configurationService.getEmailOnAlarm();
                             String smsOnAlarm = configurationService.getSmsOnAlarm();
                             emailNotificationSender.sendNotification(subject, message, emailOnAlarm);
@@ -105,7 +105,7 @@ public class TemperatureControllerImpl implements MeasureController {
                             if(lastAlarmSend.plusSeconds(secondsBeforeReplay).isBeforeNow()) {
                                 if(!alarmReplied) {
                                     String subject = "La temperatura ha superado el l\u00EDmite de alarma y no se ha corregido";
-                                    String message = "La temperatura ha superado el l\u00EDmite de alarma y no se ha corregido. Por favor ingrese a http://ssvc.frealgagu.com/ssvc/ para corregirlo.";
+                                    String message = "La temperatura ha superado el l\u00EDmite de alarma y no se ha corregido. Por favor ingrese a http://ssvc.frealgagu.com:7171/ssvc/ para corregirlo.";
                                     String emailOnAlarm = configurationService.getEmailOnAlarm();
                                     String smsOnAlarm = configurationService.getSmsOnAlarm();
                                     emailNotificationSender.sendNotification(subject, message, emailOnAlarm);

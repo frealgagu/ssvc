@@ -185,6 +185,7 @@ public class SMSNotificationSender implements NotificationSender {
                     parameters.put("password", configurationService.getSMSSenderPassword());
                     parameters.put("msisdn", destination);
                     parameters.put("sender", BULK_SMS_FROM);
+                    parameters.put("routing_group", "3");//FASTEST
                     parameters.put("repliable", "0");
                     parameters.put("message", URLEncoder.encode(replaceAccents(message), BULK_SMS_ENCODING));
                     //parameters.put("test_always_succeed", "1");
