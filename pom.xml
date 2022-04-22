@@ -33,7 +33,7 @@
     <maven.compiler.target>1.7</maven.compiler.target>
 
     <vaadin.version>6.8.13</vaadin.version>
-    <spring.version>5.3.14</spring.version>
+    <spring.version>5.3.19</spring.version>
     <aspectj.version>1.7.1</aspectj.version>
     
     <!-- Plugin versions -->
